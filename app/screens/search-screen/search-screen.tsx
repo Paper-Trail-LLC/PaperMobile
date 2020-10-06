@@ -5,7 +5,8 @@ import { Screen, Button, BookListItem } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
-import { TextInput, TouchableOpacity } from "react-native-gesture-handler"
+import { TextInput } from "react-native-gesture-handler"
+import { TouchableHighlight } from "react-native"
 
 export const whiteMagnifying = require("./selected_search.png")
 export const person = require("./unselected_profile.png")
@@ -38,14 +39,14 @@ const BACKGROUND: ImageStyle = {
 const BLUESEARCH: ImageStyle = {
   position: "absolute",
   top: 68, //will change later to cover other devices
-  left: "8%", //will change later to cover other devices
+  left: 50, //will change later to cover other devices
   zIndex: 1
 }
 
 const SCANCODE: ImageStyle = {
   position: "absolute",
-  top: "7.5%", //will change later to cover other devices
-  right: "8.5%", //will change later to cover other devices
+  top: 0,
+  right: 40,
   zIndex: 1
 }
 
@@ -57,9 +58,9 @@ const BOTTOM_BAR_ITEM: ViewStyle = {
 
 const TEXTFIELD: ViewStyle = {
   padding: 15,
-  paddingLeft: "11%",
-  paddingRight: "12%",
-  margin: "5%",
+  paddingLeft: 50,
+  paddingRight: 55,
+  margin: 20,
   marginTop: 55,
   marginBottom: -20,
   borderColor: "#390099",
@@ -104,36 +105,33 @@ export const SearchScreen = observer(function SearchScreen() {
   return (
     <View style={FULL}>
       <Image
-        style={BACKGROUND}
-        source={background}
-      ></Image>
-      <Image
-        style={BLUESEARCH}
-        source={blueMagnifying}
-      ></Image>
-      <TouchableOpacity
-        onPress={() => Alert.alert('Scan code pressed!') }
-        style={{ zIndex: 1, top: 66 }}>
-        <View>
-          <Image
-            style={SCANCODE}
-            source={scan}
-          ></Image>
-        </View>
-      </TouchableOpacity>
-      <TextInput
-        style={TEXTFIELD}
-        placeholderTextColor="#390099"
-        placeholder="Search Book"
-      ></TextInput>
+          style={BACKGROUND}
+          source={background}/>
+      <View style={CONTAINER}>
+        <Image
+          style={BLUESEARCH}
+          source={blueMagnifying}/>
+        <TouchableHighlight
+          onPress={() => Alert.alert("Scan barcode is pressed!")}
+          style={{ top: 67 }}>
+          <View style={[{ backgroundColor: "#FFFFFF", width: 27, height: 27 }, SCANCODE]}>
+            <Image source={scan}/>
+            {/* <Text>Hello</Text> */}
+          </View>
+        </TouchableHighlight>
+        <TextInput
+          style={TEXTFIELD}
+          placeholderTextColor="#390099"
+          placeholder="Search Book"
+        ></TextInput>
+      </View>
       <Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
         <BookListItem
           style={BOOK_LIST_ITEM}
-          bookImage="../../screens/search-screen/book_image.png"
+          bookImage="https://kbimages1-a.akamaihd.net/d47f06aa-0e2c-4d49-9e32-85e4901a6d8f/1200/1200/False/artemis-fowl-and-the-time-paradox.jpg"
           title="Artemis Fowl, The Time Paradox"
           author="Eoin Colfer"
           releaseDate="July 2019"
-          isBookmarked={false}
         ></BookListItem>
         <BookListItem
           style={BOOK_LIST_ITEM}

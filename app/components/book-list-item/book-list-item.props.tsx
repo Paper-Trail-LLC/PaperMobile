@@ -8,7 +8,7 @@ export interface BookListItemProps {
     style?: ViewStyle
 
     /**
-     * Book cover image, if any
+     * Book cover image url
      */
     bookImage?: string,
 
@@ -30,5 +30,5 @@ export interface BookListItemProps {
     /**
      * Book is bookmarked
      */
-    isBookmarked: boolean
+    isBookmarked?: boolean
 }

@@ -56,7 +56,7 @@ export function BookListItem(props: BookListItemProps) {
       <View style={[CONTAINER, props.style]}>
         <View style={IMAGE_COLUMN}>
           <Image
-            source={require("../../screens/search-screen/book_image.png")}
+            source={{uri: props.bookImage}}
             style={{height: "100%", resizeMode: "contain"}}/>
         </View>
         <View style={INFO_COLUMN}>
