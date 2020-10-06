@@ -3,7 +3,7 @@ import { ViewStyle } from "react-native"
 export interface BookListItemProps {
 
     /**
-     * Book list item style
+     * Book list item style. Only the box dimensions, margins, and padding
      */
     style?: ViewStyle
 
@@ -11,6 +11,11 @@ export interface BookListItemProps {
      * Book cover image, if any
      */
     bookImage?: string,
+
+    /**
+     * Book title
+     */
+    title?: string,
 
     /**
      * Book author

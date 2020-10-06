@@ -1,7 +1,7 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
 import { ViewStyle, SafeAreaView, View, Image, ImageStyle, Alert } from "react-native"
-import { Screen, Button } from "../../components"
+import { Screen, Button, BookListItem } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
@@ -61,13 +61,14 @@ const TEXTFIELD: ViewStyle = {
   paddingRight: "12%",
   margin: "5%",
   marginTop: 55,
+  marginBottom: -20,
   borderColor: "#390099",
   borderWidth: 2,
   borderTopLeftRadius: 100,
   borderBottomLeftRadius: 100,
   borderTopRightRadius: 100,
   borderBottomRightRadius: 100,
-  backgroundColor: "#FFFFFF",
+  backgroundColor: "#FFFCFC",
   zIndex: -1
 }
 
@@ -76,6 +77,20 @@ const BOTTOM_BUTTON_COLOR: ViewStyle = {
   backgroundColor: "#FF0054"
 }
 
+const BOOK_LIST_ITEM: ViewStyle = {
+  margin: 5,
+
+  backgroundColor: "#FFFCFC",
+  borderRadius: 8,
+
+  shadowColor: "#390099",
+  shadowOffset: {
+    width: 0,
+    height: 4
+  },
+  shadowOpacity: 0.5,
+  shadowRadius: 1
+}
 
 export const SearchScreen = observer(function SearchScreen() {
   // Pull in one of our MST stores
@@ -85,6 +100,7 @@ export const SearchScreen = observer(function SearchScreen() {
 
   // Pull in navigation via hook
   // const navigation = useNavigation()
+
   return (
     <View style={FULL}>
       <Image
@@ -96,13 +112,14 @@ export const SearchScreen = observer(function SearchScreen() {
         source={blueMagnifying}
       ></Image>
       <TouchableOpacity
-        activeOpacity={1}
-        onPress={() => { Alert.alert('Scan code pressed!') }}
+        onPress={() => Alert.alert('Scan code pressed!') }
         style={{ zIndex: 1, top: 66 }}>
-        <Image
-          style={SCANCODE}
-          source={scan}
-        ></Image>
+        <View>
+          <Image
+            style={SCANCODE}
+            source={scan}
+          ></Image>
+        </View>
       </TouchableOpacity>
       <TextInput
         style={TEXTFIELD}
@@ -110,6 +127,22 @@ export const SearchScreen = observer(function SearchScreen() {
         placeholder="Search Book"
       ></TextInput>
       <Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
+        <BookListItem
+          style={BOOK_LIST_ITEM}
+          bookImage="../../screens/search-screen/book_image.png"
+          title="Artemis Fowl, The Time Paradox"
+          author="Eoin Colfer"
+          releaseDate="July 2019"
+          isBookmarked={false}
+        ></BookListItem>
+        <BookListItem
+          style={BOOK_LIST_ITEM}
+          bookImage="../../screens/search-screen/book_image.png"
+          title="Artemis Fowl, The Time Paradox"
+          author="Eoin Colfer"
+          releaseDate="July 2019"
+          isBookmarked={false}
+        ></BookListItem>
       </Screen>
       <SafeAreaView style={FOOTER}>
         <View style={FOOTER_CONTENT}>
