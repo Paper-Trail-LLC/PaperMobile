@@ -32,14 +32,14 @@ const FOOTER_CONTENT: ViewStyle = {
 const BACKGROUND: ImageStyle = {
   position: "absolute",
   right: "0%",
-  bottom: "18%", //will change later to cover other devices
+  bottom: "18%",
   zIndex: -1
 }
 
 const BLUESEARCH: ImageStyle = {
   position: "absolute",
-  top: 68, //will change later to cover other devices
-  left: 50, //will change later to cover other devices
+  top: 68,
+  left: 50,
   zIndex: 1
 }
 
@@ -62,7 +62,7 @@ const TEXTFIELD: ViewStyle = {
   paddingRight: 55,
   margin: 20,
   marginTop: 55,
-  marginBottom: -20,
+  marginBottom: -15,
   borderColor: "#390099",
   borderWidth: 2,
   borderTopLeftRadius: 100,
@@ -116,7 +116,6 @@ export const SearchScreen = observer(function SearchScreen() {
           style={{ top: 67 }}>
           <View style={[{ backgroundColor: "#FFFFFF", width: 27, height: 27 }, SCANCODE]}>
             <Image source={scan}/>
-            {/* <Text>Hello</Text> */}
           </View>
         </TouchableHighlight>
         <TextInput
@@ -131,14 +130,14 @@ export const SearchScreen = observer(function SearchScreen() {
           bookImage="https://kbimages1-a.akamaihd.net/d47f06aa-0e2c-4d49-9e32-85e4901a6d8f/1200/1200/False/artemis-fowl-and-the-time-paradox.jpg"
           title="Artemis Fowl, The Time Paradox"
           author="Eoin Colfer"
-          releaseDate="July 2019"
+          releaseDate="July 2008"
         ></BookListItem>
         <BookListItem
           style={BOOK_LIST_ITEM}
           bookImage="../../screens/search-screen/book_image.png"
           title="Artemis Fowl, The Time Paradox"
           author="Eoin Colfer"
-          releaseDate="July 2019"
+          releaseDate="July 2008"
           isBookmarked={false}
         ></BookListItem>
       </Screen>

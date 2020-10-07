@@ -1,9 +1,10 @@
 import * as React from "react"
-import { Alert, Image, TextStyle, View, ViewStyle } from "react-native"
+import { Image, TextStyle, View, ViewStyle } from "react-native"
 import { typography } from "../../theme"
 import { Text } from "../"
 import { BookListItemProps } from "./book-list-item.props"
 import { TouchableOpacity } from "react-native-gesture-handler"
+import { useNavigation } from "@react-navigation/native"
 
 const CONTAINER: ViewStyle = {
   justifyContent: "center",
@@ -50,9 +51,12 @@ export function BookListItem(props: BookListItemProps) {
   const author: string = "Author: " + props.author;
   const releaseDate: string = "Release Date: " + props.releaseDate;
 
+  const navigation = useNavigation()
+  const nextScreen = () => navigation.navigate("detail", {title: props.title, author: props.author, releaseDate: props.releaseDate})
+
   return (
     <TouchableOpacity
-      onPress={() => Alert.alert("Book list item pressed!")}>
+      onPress={nextScreen}>
       <View style={[CONTAINER, props.style]}>
         <View style={IMAGE_COLUMN}>
           <Image
