@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite"
 import { ViewStyle, SafeAreaView, View, Image, ImageStyle, Alert } from "react-native"
 import { Screen, Button, BookListItem } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "../../models"
+import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
 import { TextInput } from "react-native-gesture-handler"
 import { TouchableHighlight } from "react-native"
@@ -98,10 +98,13 @@ export const SearchScreen = observer(function SearchScreen() {
   // const { someStore, anotherStore } = useStores()
   // OR
   // const rootStore = useStores()
-
+  const {bookStore} = useStores();
   // Pull in navigation via hook
   // const navigation = useNavigation()
-
+  bookStore.addBook({
+    id:"123",
+    title: "Funciona :')"
+  });
   return (
     <View style={FULL}>
       <Image

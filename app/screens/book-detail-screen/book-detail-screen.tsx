@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite"
 import { Image, TextStyle, View, ViewStyle, TouchableHighlight } from "react-native"
 import { Button, Screen, Text } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "../../models"
+import { Book, useStores } from "../../models"
 import { color, spacing, typography } from "../../theme"
 import { useNavigation } from "@react-navigation/native"
 
@@ -47,6 +47,9 @@ const DESC_TEXT: TextStyle = {
 export const BookDetailScreen = observer(function BookDetailScreen() {
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
+  const {bookStore} = useStores();
+
+  const bookInfo:Book = bookStore.getBook("123");
   // OR
   // const rootStore = useStores()
 
@@ -66,7 +69,7 @@ export const BookDetailScreen = observer(function BookDetailScreen() {
       </View>
       <Screen style={CONTAINER} preset="scroll">
         <Image source={bookPicTemp}></Image>
-        <Text style={TITLE_TEXT}>{}</Text>
+        <Text style={TITLE_TEXT}>{bookInfo.title}</Text>
         <Text style={REG_TEXT}>{}</Text>
         <Text style={REG_TEXT}>{}</Text>
         <Text style={DESCRIPTION}>Description:</Text>

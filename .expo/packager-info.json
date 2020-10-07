@@ -1,10 +1,10 @@
 {
   "webpackServerPort": null,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 20104,
-  "expoServerNgrokUrl": "https://wp-dw3.anonymous.papermobile.exp.direct",
-  "packagerNgrokUrl": "https://packager.wp-dw3.anonymous.papermobile.exp.direct",
-  "ngrokPid": 16508,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
   "devToolsPort": 19002
 }
