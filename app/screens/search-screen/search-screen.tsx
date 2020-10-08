@@ -63,7 +63,6 @@ const TEXTFIELD: ViewStyle = {
   paddingRight: 55,
   margin: 20,
   marginTop: 55,
-  marginBottom: -15,
   borderColor: "#390099",
   borderWidth: 2,
   borderTopLeftRadius: 100,

@@ -17,17 +17,17 @@ export const profile = require("./unselected_profile.png")
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
-  backgroundColor: color.transparent,
+  // backgroundColor: color.transparent,
   paddingHorizontal: spacing[4],
-  marginTop: Platform.OS === 'ios' ? 0 : 0
+  paddingTop: spacing[2]
 }
 
 const HEADER: TextStyle = {
   position: "relative",
   backgroundColor: "white",
-  paddingTop: Platform.OS === 'ios' ? spacing[7] : spacing[4],
+  paddingTop: Platform.OS === 'ios' ? spacing[6] : spacing[4],
   paddingLeft: spacing[6],
-  paddingBottom: Platform.OS === 'ios' ? 0 : spacing[5] - 1,
+  paddingBottom: spacing[4] - 1,
   paddingHorizontal: 0,
 }
 
@@ -136,11 +136,6 @@ export const BookDetailScreen = observer(function BookDetailScreen() {
       {/* <Image
           style={BACKGROUND}
           source={bground}/> */}
-      {/* <Header
-          leftIcon="back"
-          onLeftPress={goBack}
-          style={HEADER}
-        /> */}
       <View style={HEADER}>
         <TouchableOpacity
           onPress={goBack}
