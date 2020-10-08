@@ -5,6 +5,7 @@ import { Text } from "../"
 import { BookListItemProps } from "./book-list-item.props"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import { useNavigation } from "@react-navigation/native"
+import { useStores } from "../../models"
 
 const CONTAINER: ViewStyle = {
   justifyContent: "center",
@@ -51,8 +52,13 @@ export function BookListItem(props: BookListItemProps) {
   const author: string = "Author: " + props.author;
   const releaseDate: string = "Release Date: " + props.releaseDate;
 
+  const {bookStore} = useStores();
+
   const navigation = useNavigation()
-  const nextScreen = () => navigation.navigate("detail", {title: props.title, author: props.author, releaseDate: props.releaseDate})
+  const nextScreen = () => {
+    bookStore.setChoice(props.id);
+    navigation.navigate("detail");
+  }
 
   return (
     <TouchableOpacity

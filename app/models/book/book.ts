@@ -7,7 +7,10 @@ export const BookModel = types
   .model("Book")
   .props({ 
     id: types.string,
-    title : types.string
+    bookImage: types.string,
+    title: types.string,
+    author: types.string,
+    releaseDate: types.string
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars

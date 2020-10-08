@@ -1,10 +1,10 @@
 {
   "webpackServerPort": null,
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 12000,
+  "expoServerNgrokUrl": "https://vg-3jb.anonymous.papermobile.exp.direct",
+  "packagerNgrokUrl": "https://packager.vg-3jb.anonymous.papermobile.exp.direct",
+  "ngrokPid": 1828,
   "devToolsPort": 19002
 }

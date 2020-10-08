@@ -5,7 +5,9 @@ export interface BookListItemProps {
     /**
      * Book list item style. Only the box dimensions, margins, and padding
      */
-    style?: ViewStyle
+    style?: ViewStyle,
+
+    id: string,
 
     /**
      * Book cover image url

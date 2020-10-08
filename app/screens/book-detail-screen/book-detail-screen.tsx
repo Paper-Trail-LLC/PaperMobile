@@ -49,9 +49,8 @@ export const BookDetailScreen = observer(function BookDetailScreen() {
   // const { someStore, anotherStore } = useStores()
   const {bookStore} = useStores();
 
-  const bookInfo:Book = bookStore.getBook("123");
-  // OR
-  // const rootStore = useStores()
+  const selectedIndex: string = bookStore.choice;
+  const bookInfo: Book = bookStore.getBook(selectedIndex);
 
   // Pull in navigation via hook
   const navigation = useNavigation()
@@ -70,13 +69,11 @@ export const BookDetailScreen = observer(function BookDetailScreen() {
       <Screen style={CONTAINER} preset="scroll">
         <Image source={bookPicTemp}></Image>
         <Text style={TITLE_TEXT}>{bookInfo.title}</Text>
-        <Text style={REG_TEXT}>{}</Text>
-        <Text style={REG_TEXT}>{}</Text>
+        <Text style={REG_TEXT}>{"Author: " + bookInfo.author}</Text>
+        <Text style={REG_TEXT}>{"Published on: " + bookInfo.releaseDate}</Text>
         <Text style={DESCRIPTION}>Description:</Text>
         <Text style={DESC_TEXT}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</Text>
-        <Button
-        
-        ></Button>
+        <Button></Button>
       </Screen>
     </View>
   )

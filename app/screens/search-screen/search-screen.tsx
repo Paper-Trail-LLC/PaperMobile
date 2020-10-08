@@ -101,10 +101,37 @@ export const SearchScreen = observer(function SearchScreen() {
   const {bookStore} = useStores();
   // Pull in navigation via hook
   // const navigation = useNavigation()
+
+  bookStore.clear();
   bookStore.addBook({
     id:"123",
-    title: "Funciona :')"
+    bookImage: "https://kbimages1-a.akamaihd.net/d47f06aa-0e2c-4d49-9e32-85e4901a6d8f/1200/1200/False/artemis-fowl-and-the-time-paradox.jpg",
+    title: "Artemis Fowl, The Time Paradox",
+    author: "Eoin Colfer",
+    releaseDate: "July 2008"
   });
+  bookStore.addBook({
+    id:"124",
+    bookImage: "https://kbimages1-a.akamaihd.net/d47f06aa-0e2c-4d49-9e32-85e4901a6d8f/1200/1200/False/artemis-fowl-and-the-time-paradox.jpg",
+    title: "Artemis Fowl, The Time Paradox 2",
+    author: "Eoin Colfer",
+    releaseDate: "July 2009"
+  });
+
+  const bookList = [];
+  for(let i=0; i<bookStore.books.length; i++) {
+    bookList.push(
+      <BookListItem
+          style={BOOK_LIST_ITEM}
+          id={bookStore.books[i].id}
+          bookImage={bookStore.books[i].bookImage}
+          title={bookStore.books[i].title}
+          author={bookStore.books[i].author}
+          releaseDate={bookStore.books[i].releaseDate}
+        ></BookListItem>
+    )
+  }
+
   return (
     <View style={FULL}>
       <Image
@@ -128,21 +155,7 @@ export const SearchScreen = observer(function SearchScreen() {
         ></TextInput>
       </View>
       <Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
-        <BookListItem
-          style={BOOK_LIST_ITEM}
-          bookImage="https://kbimages1-a.akamaihd.net/d47f06aa-0e2c-4d49-9e32-85e4901a6d8f/1200/1200/False/artemis-fowl-and-the-time-paradox.jpg"
-          title="Artemis Fowl, The Time Paradox"
-          author="Eoin Colfer"
-          releaseDate="July 2008"
-        ></BookListItem>
-        <BookListItem
-          style={BOOK_LIST_ITEM}
-          bookImage="../../screens/search-screen/book_image.png"
-          title="Artemis Fowl, The Time Paradox"
-          author="Eoin Colfer"
-          releaseDate="July 2008"
-          isBookmarked={false}
-        ></BookListItem>
+        {bookList}
       </Screen>
       <SafeAreaView style={FOOTER}>
         <View style={FOOTER_CONTENT}>
