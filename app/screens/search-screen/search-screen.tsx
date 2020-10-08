@@ -8,7 +8,7 @@ import { color, spacing } from "../../theme"
 import { TextInput } from "react-native-gesture-handler"
 import { TouchableHighlight } from "react-native"
 
-export const whiteMagnifying = require("./selected_search.png")
+export const selectedMagnifying = require("./selected_search.png")
 export const person = require("./unselected_profile.png")
 export const background = require("./book_stack.png")
 export const blueMagnifying = require("./blue_magnifying.png")
@@ -53,6 +53,7 @@ const SCANCODE: ImageStyle = {
 const BOTTOM_BAR_ITEM: ViewStyle = {
   paddingVertical: spacing[4],
   paddingHorizontal: spacing[4],
+  backgroundColor: "#FF0054",
   width: "50%",
 }
 
@@ -71,11 +72,6 @@ const TEXTFIELD: ViewStyle = {
   borderBottomRightRadius: 100,
   backgroundColor: "#FFFCFC",
   zIndex: -1
-}
-
-const BOTTOM_BUTTON_COLOR: ViewStyle = {
-  ...BOTTOM_BAR_ITEM,
-  backgroundColor: "#FF0054"
 }
 
 const BOOK_LIST_ITEM: ViewStyle = {
@@ -102,21 +98,21 @@ export const SearchScreen = observer(function SearchScreen() {
   // Pull in navigation via hook
   // const navigation = useNavigation()
 
-  bookStore.clear();
-  bookStore.addBook({
-    id:"123",
-    bookImage: "https://kbimages1-a.akamaihd.net/d47f06aa-0e2c-4d49-9e32-85e4901a6d8f/1200/1200/False/artemis-fowl-and-the-time-paradox.jpg",
-    title: "Artemis Fowl, The Time Paradox",
-    author: "Eoin Colfer",
-    releaseDate: "July 2008"
-  });
-  bookStore.addBook({
-    id:"124",
-    bookImage: "https://kbimages1-a.akamaihd.net/d47f06aa-0e2c-4d49-9e32-85e4901a6d8f/1200/1200/False/artemis-fowl-and-the-time-paradox.jpg",
-    title: "Artemis Fowl, The Time Paradox 2",
-    author: "Eoin Colfer",
-    releaseDate: "July 2009"
-  });
+  // bookStore.clear();
+  // bookStore.addBook({
+  //   id:"123",
+  //   bookImage: "https://kbimages1-a.akamaihd.net/d47f06aa-0e2c-4d49-9e32-85e4901a6d8f/1200/1200/False/artemis-fowl-and-the-time-paradox.jpg",
+  //   title: "Artemis Fowl, The Time Paradox",
+  //   author: "Eoin Colfer",
+  //   releaseDate: "July 2008"
+  // });
+  // bookStore.addBook({
+  //   id:"124",
+  //   bookImage: "https://kbimages1-a.akamaihd.net/d47f06aa-0e2c-4d49-9e32-85e4901a6d8f/1200/1200/False/artemis-fowl-and-the-time-paradox.jpg",
+  //   title: "Artemis Fowl, The Time Paradox 2",
+  //   author: "Eoin Colfer",
+  //   releaseDate: "July 2009"
+  // });
 
   const bookList = [];
   for(let i=0; i<bookStore.books.length; i++) {
@@ -160,14 +156,14 @@ export const SearchScreen = observer(function SearchScreen() {
       <SafeAreaView style={FOOTER}>
         <View style={FOOTER_CONTENT}>
           <Button
-            style={BOTTOM_BUTTON_COLOR}
+            style={BOTTOM_BAR_ITEM}
           >
             <Image
-              source={whiteMagnifying}
+              source={selectedMagnifying}
             ></Image>
           </Button>
           <Button
-            style={BOTTOM_BUTTON_COLOR}
+            style={BOTTOM_BAR_ITEM}
           >
             <Image
               source={person}
