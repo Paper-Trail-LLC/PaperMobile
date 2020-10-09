@@ -1,10 +1,10 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { Image, TextStyle, View, ViewStyle, SafeAreaView, ImageStyle, Platform } from "react-native"
+import { Image, TextStyle, View, ViewStyle, ImageStyle, Platform } from "react-native"
 import { Button, Screen, Text } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 import { Book, useStores } from "../../models"
-import { color, spacing, typography } from "../../theme"
+import { spacing, typography } from "../../theme"
 import { useNavigation } from "@react-navigation/native"
 import { TouchableOpacity } from "react-native-gesture-handler"
 
@@ -12,8 +12,6 @@ export const backButton = require("./back_arrow.png")
 export const bookPicTemp = require("./book_image.png")
 
 export const bground = require("./book_stack.png")
-export const sMagnifying = require("./selected_search.png")
-export const profile = require("./unselected_profile.png")
 
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
@@ -25,19 +23,10 @@ const CONTAINER: ViewStyle = {
 const HEADER: TextStyle = {
   position: "relative",
   backgroundColor: "white",
-  paddingTop: Platform.OS === 'ios' ? spacing[6] : spacing[4],
+  paddingTop: Platform.OS === 'ios' ? spacing[6] + 10 : spacing[4],
   paddingLeft: spacing[6],
   paddingBottom: spacing[4] - 1,
   paddingHorizontal: 0,
-}
-
-const FOOTER: ViewStyle = { backgroundColor: "#FF0054" }
-const FOOTER_CONTENT: ViewStyle = {
-  paddingVertical: spacing[0],
-  paddingHorizontal: spacing[0],
-  flexWrap: 'wrap',
-  alignItems: 'flex-start',
-  flexDirection: 'row',
 }
 
 // const BACKGROUND: ImageStyle = {
@@ -46,13 +35,6 @@ const FOOTER_CONTENT: ViewStyle = {
 //   bottom: "18%",
 //   zIndex: -1
 // }
-
-const BOTTOM_BAR_ITEM: ViewStyle = {
-  paddingVertical: spacing[4],
-  paddingHorizontal: spacing[4],
-  backgroundColor: "#FF0054",
-  width: "50%",
-}
 
 const TEXT: TextStyle = {
   fontFamily: typography.primary,
@@ -155,24 +137,6 @@ export const BookDetailScreen = observer(function BookDetailScreen() {
           <Button style={ADD_TO_LIBRARY} textStyle={BUTTON_TEXT} text={"Add to Library"}></Button>
         </View>
       </Screen>
-      <SafeAreaView style={FOOTER}>
-        <View style={FOOTER_CONTENT}>
-          <Button
-            style={BOTTOM_BAR_ITEM}
-          >
-            <Image
-              source={sMagnifying}
-            ></Image>
-          </Button>
-          <Button
-            style={BOTTOM_BAR_ITEM}
-          >
-            <Image
-              source={profile}
-            ></Image>
-          </Button>
-        </View>
-      </SafeAreaView>
     </View>
   )
 })

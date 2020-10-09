@@ -6,9 +6,16 @@
  */
 import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 // import { WelcomeScreen, DemoScreen } from "../screens"
 import { SearchScreen } from "../screens/search-screen/search-screen"
 import { BookDetailScreen } from "../screens"
+import { Image } from "react-native"
+
+export const sMagnifying = require("../../assets/selected_search.png")
+export const uProfile = require("../../assets/unselected_profile.png")
+export const uMagnifying = require("../../assets/unselected_search.png")
+export const sProfile = require("../../assets/selected_profile.png")
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -31,8 +38,38 @@ export type PrimaryParamList = {
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createStackNavigator<PrimaryParamList>()
+const Tab = createBottomTabNavigator();
 
 export function PrimaryNavigator() {
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({focused, color, size}) => {
+          let icon;
+
+          if(route.name === "searchTab") {
+            icon = focused ? sMagnifying : uMagnifying;
+          }
+          if(route.name === "profileTab") {
+            icon = focused ? sProfile : uProfile;
+          }
+
+          return <Image source={icon} style={{width:25, height:25}}></Image>
+        }
+      })}
+      tabBarOptions={{
+        showLabel: false,
+        style: {
+          backgroundColor: "#FF0054"
+        }
+      }}
+    >
+      <Tab.Screen name="searchTab" component={BookSearchTab}></Tab.Screen>
+    </Tab.Navigator>
+  )
+}
+
+function BookSearchTab() {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -44,7 +81,7 @@ export function PrimaryNavigator() {
       <Stack.Screen name="detail" component={BookDetailScreen} />
       {/* <Stack.Screen name="demo" component={DemoScreen} /> */}
     </Stack.Navigator>
-  )
+  );
 }
 
 /**
