@@ -68,3 +68,7 @@ buck-out/
 # Configurations
 app/config/env.*.js
 !env.js
+
+# Expo
+# .expo
+# .expo-shared

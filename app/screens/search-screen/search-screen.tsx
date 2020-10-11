@@ -21,7 +21,7 @@ const CONTAINER: ViewStyle = {
 const BACKGROUND: ImageStyle = {
   position: "absolute",
   right: "0%",
-  bottom: "18%",
+  bottom: "7%",
   zIndex: -1
 }
 
