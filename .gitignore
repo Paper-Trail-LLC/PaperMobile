@@ -70,5 +70,5 @@ app/config/env.*.js
 !env.js
 
 # Expo
-# .expo
-# .expo-shared
+.expo
+.expo-shared
