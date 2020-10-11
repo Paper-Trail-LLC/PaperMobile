@@ -26,11 +26,11 @@ function ScreenWithoutScrolling(props: ScreenProps) {
 }
 
 function ScreenWithScrolling(props: ScreenProps) {
-  const insets = useSafeArea()
+  // const insets = useSafeArea()
   const preset = presets.scroll
   const style = props.style || {}
   const backgroundStyle = props.backgroundColor ? { backgroundColor: props.backgroundColor } : {}
-  const insetStyle = { paddingTop: props.unsafe ? 0 : insets.top }
+  // const insetStyle = { paddingTop: props.unsafe ? 0 : insets.top }
 
   return (
     <KeyboardAvoidingView
@@ -39,7 +39,7 @@ function ScreenWithScrolling(props: ScreenProps) {
       keyboardVerticalOffset={offsets[props.keyboardOffset || "none"]}
     >
       <StatusBar barStyle={props.statusBar || "light-content"} />
-      <View style={[preset.outer, backgroundStyle, insetStyle]}>
+      <View style={[preset.outer, backgroundStyle]}>
         <ScrollView
           style={[preset.outer, backgroundStyle]}
           contentContainerStyle={[preset.inner, style]}

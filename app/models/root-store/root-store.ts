@@ -1,3 +1,4 @@
+import { BookStoreModel } from "../book-store/book-store"
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
 
 /**
@@ -5,6 +6,7 @@ import { Instance, SnapshotOut, types } from "mobx-state-tree"
  */
 // prettier-ignore
 export const RootStoreModel = types.model("RootStore").props({
+  bookStore: types.optional(BookStoreModel, {}),
 
 })
 
