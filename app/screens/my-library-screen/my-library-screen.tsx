@@ -1,17 +1,17 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { Alert, Image, ImageStyle, Platform, View, ViewStyle } from "react-native"
-import { Screen, Text } from "../../components"
+import { Alert, Image, ImageStyle, Platform, View, ViewStyle, TouchableOpacity } from "react-native"
+import { MyBookItem, Screen, Text } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
-import { TouchableOpacity } from "react-native-gesture-handler"
 
-export const background = require("../../../assets/book_stack.png")
+export const background2 = require("../../../assets/book_stack.png")
 export const add = require("../../../assets/add_icon.png")
 
 
 const FULL: ViewStyle = { flex: 1 }
+
 const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
   paddingHorizontal: spacing[4],
@@ -24,27 +24,11 @@ const BACKGROUND: ImageStyle = {
   zIndex: -1
 }
 
-const SCANCODE: ImageStyle = {
+const ADD: ImageStyle = {
   position: "absolute",
   top: 0,
-  right: 40,
+  left: 35,
   zIndex: 1
-}
-
-const TEXTFIELD: ViewStyle = {
-  padding: 15,
-  paddingLeft: 50,
-  paddingRight: 55,
-  margin: 20,
-  marginTop: Platform.OS === 'ios' ? 55 : 50,
-  borderColor: "#E14A00",
-  borderWidth: 2,
-  borderTopLeftRadius: 100,
-  borderBottomLeftRadius: 100,
-  borderTopRightRadius: 100,
-  borderBottomRightRadius: 100,
-  backgroundColor: "#FFFCFC",
-  zIndex: -1
 }
 
 const BOOK_LIST_ITEM: ViewStyle = {
@@ -74,18 +58,25 @@ export const MyLibraryScreen = observer(function MyLibraryScreen() {
     <View style={FULL}>
       <Image
           style={BACKGROUND}
-          source={background}/>
+          source={background2}/>
       <View style={CONTAINER}>
         <TouchableOpacity
-          onPress={() => Alert.alert("Scan barcode is pressed!")}
-          style={{ top: 67 }}>
-          <View style={[{ backgroundColor: "#FFFFFF", width: 27, height: 27 }, SCANCODE]}>
+          onPress={() => Alert.alert("Add book is pressed!")}
+          style={{ top: 65, marginBottom: 110 }}>
+          <View style={[{ width: 30, height: 30, zIndex: 1 }, ADD]}>
             <Image source={add}/>
           </View>
         </TouchableOpacity>
       </View>
       <Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
-        
+        <MyBookItem
+         style={BOOK_LIST_ITEM}
+         bookImage={"https://kbimages1-a.akamaihd.net/d47f06aa-0e2c-4d49-9e32-85e4901a6d8f/1200/1200/False/artemis-fowl-and-the-time-paradox.jpg"}
+         id={"123"}
+         title={"Artemis Fowl: The Time Paradox"}
+         status={"available"}
+        >
+        </MyBookItem>
       </Screen>
     </View>
   )
