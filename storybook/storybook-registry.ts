@@ -1,3 +1,4 @@
+require("../app/components/book-scan-component/book-scan-component.story")
 require("../app/components/book-list-item/book-list-item.story")
 require("../app/components/text/text.story")
 require("../app/components/button/button.story")
