@@ -8,7 +8,7 @@ import { color, spacing } from "../../theme"
 import { TextInput } from "react-native-gesture-handler"
 import { TouchableHighlight } from "react-native"
 
-export const background = require("./book_stack.png")
+export const background = require("../../../assets/book_stack.png")
 export const blueMagnifying = require("./blue_magnifying.png")
 export const scan = require("./scan.png")
 

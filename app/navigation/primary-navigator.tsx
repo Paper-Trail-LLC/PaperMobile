@@ -11,11 +11,14 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { SearchScreen } from "../screens/search-screen/search-screen"
 import { BookDetailScreen } from "../screens"
 import { Image } from "react-native"
+import { MyLibraryScreen } from "../screens/my-library-screen/my-library-screen"
 
 export const sMagnifying = require("../../assets/selected_search.png")
 export const uProfile = require("../../assets/unselected_profile.png")
 export const uMagnifying = require("../../assets/unselected_search.png")
 export const sProfile = require("../../assets/selected_profile.png")
+export const sLibrary = require("../../assets/selected_library.png")
+export const uLibrary = require("../../assets/unselected_library.png")
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -34,6 +37,7 @@ export type PrimaryParamList = {
   demo: undefined
   search: undefined
   detail: undefined
+  my_library: undefined
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
@@ -53,6 +57,9 @@ export function PrimaryNavigator() {
           if(route.name === "profileTab") {
             icon = focused ? sProfile : uProfile;
           }
+          if(route.name === "myLibraryTab") {
+            icon = focused ? sLibrary : uLibrary
+          }
 
           return <Image source={icon} style={{width:25, height:25}}></Image>
         }
@@ -65,6 +72,7 @@ export function PrimaryNavigator() {
       }}
     >
       <Tab.Screen name="searchTab" component={BookSearchTab}></Tab.Screen>
+      <Tab.Screen name="myLibraryTab" component={MyLibraryTab}></Tab.Screen>
     </Tab.Navigator>
   )
 }
@@ -79,7 +87,19 @@ function BookSearchTab() {
     >
       <Stack.Screen name="search" component={SearchScreen} />
       <Stack.Screen name="detail" component={BookDetailScreen} />
-      {/* <Stack.Screen name="demo" component={DemoScreen} /> */}
+    </Stack.Navigator>
+  );
+}
+
+function MyLibraryTab() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        gestureEnabled: true,
+      }}
+    >
+      <Stack.Screen name="my_library" component={MyLibraryScreen} />
     </Stack.Navigator>
   );
 }
