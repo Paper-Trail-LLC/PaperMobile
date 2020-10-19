@@ -59,6 +59,10 @@ export const color = {
 
   primaryOrange: palette.orange,
 
+  accepted: palette.green,
+
+  warning: palette.mustard,
+
   /**
    * Storybook background for Text stories, or any stories where
    * the text color is color.text, which is white by default, and does not show

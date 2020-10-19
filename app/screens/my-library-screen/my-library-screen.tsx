@@ -5,7 +5,7 @@ import { MyBookItem, Screen, Text } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons}  from '@expo/vector-icons/MaterialCommunityIcons';
 
 export const background2 = require("../../../assets/book_stack.png")
 

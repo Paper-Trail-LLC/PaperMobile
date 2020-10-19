@@ -6,13 +6,16 @@
  */
 import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs"
+// import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 // import { WelcomeScreen, DemoScreen } from "../screens"
 import { SearchScreen } from "../screens/search-screen/search-screen"
 import { BookDetailScreen } from "../screens"
 import { MyLibraryScreen } from "../screens/my-library-screen/my-library-screen"
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-
+// import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons}  from '@expo/vector-icons/MaterialCommunityIcons';
+import { BottomNavigation, Text } from 'react-native-paper';
+import { color } from "../theme";
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
  * as well as what properties (if any) they might take when navigating to them.
@@ -26,8 +29,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
  *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
  */
 export type PrimaryParamList = {
-  welcome: undefined
-  demo: undefined
   search: undefined
   detail: undefined
   my_library: undefined
@@ -35,13 +36,25 @@ export type PrimaryParamList = {
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createStackNavigator<PrimaryParamList>()
-const Tab = createBottomTabNavigator();
+// const Tab = createMaterialBottomTabNavigator({
+//   Search: { screen: BookSearchTab },
+//   Library: { screen: MyLibraryTab }
+// }, {
+//   initialRouteName: "Search",
+//   activeColor: color.selected
+// });
+const Tab = createMaterialBottomTabNavigator();
 
 export function PrimaryNavigator() {
   return (
+    // <BottomNavigation
+    //   navigationState={{ index, routes }}
+    //   onIndexChange={setIndex}
+    //   renderScene={renderScene}
+    // />
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({focused, color, size}) => {
+        tabBarIcon: ({focused, color}) => {
           let icon;
 
           if(route.name === "searchTab") {
@@ -54,14 +67,12 @@ export function PrimaryNavigator() {
             icon = 'library';
           }
 
-          return <MaterialCommunityIcons name={icon} size={size} color={color} />
+          return <MaterialCommunityIcons name={icon} size={24} color={color} />
         }
       })}
-      tabBarOptions={{
-        showLabel: false,
-        style: {
-          backgroundColor: "#FF0054"
-        }
+      labeled={false}
+      style={{
+        backgroundColor: color.bottomBar
       }}
     >
       <Tab.Screen name="searchTab" component={BookSearchTab}></Tab.Screen>
