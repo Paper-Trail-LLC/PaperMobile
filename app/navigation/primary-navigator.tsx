@@ -12,6 +12,7 @@ import { SearchScreen } from "../screens/search-screen/search-screen"
 import { BookDetailScreen } from "../screens"
 import { Image } from "react-native"
 import { MyLibraryScreen } from "../screens/my-library-screen/my-library-screen"
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export const sMagnifying = require("../../assets/selected_search.png")
 export const uProfile = require("../../assets/unselected_profile.png")
@@ -52,16 +53,16 @@ export function PrimaryNavigator() {
           let icon;
 
           if(route.name === "searchTab") {
-            icon = focused ? sMagnifying : uMagnifying;
+            icon = 'book-search';
           }
-          if(route.name === "profileTab") {
-            icon = focused ? sProfile : uProfile;
+          else if(route.name === "profileTab") {
+            icon = 'account';
           }
-          if(route.name === "myLibraryTab") {
-            icon = focused ? sLibrary : uLibrary
+          else if(route.name === "myLibraryTab") {
+            icon = 'library';
           }
 
-          return <Image source={icon} style={{width:25, height:25}}></Image>
+          return <MaterialCommunityIcons name={icon} size={size} color={color} />
         }
       })}
       tabBarOptions={{

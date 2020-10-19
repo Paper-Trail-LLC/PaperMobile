@@ -7,13 +7,37 @@ import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
 import { TextInput } from "react-native-gesture-handler"
 import { TouchableHighlight } from "react-native"
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 
 export const background = require("../../../assets/book_stack.png")
 export const blueMagnifying = require("./blue_magnifying.png")
 export const scan = require("./scan.png")
 
-const FULL: ViewStyle = { flex: 1 }
+const FULL: ViewStyle = { 
+  flex: 1,
+  flexDirection: 'column',
+  justifyContent: 'space-around',
+  alignItems: 'center'
+ }
 const CONTAINER: ViewStyle = {
+  // flex: 1,
+  // flexDirection: 'row',
+  // justifyContent: 'center',
+  // alignItems: 'center',
+  backgroundColor: color.transparent,
+  paddingHorizontal: spacing[4],
+}
+
+const SEARCHCONTAINER: ViewStyle = {
+  flex: 1,
+  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: '#fff',
+  marginTop: 20
+}
+const CONTAINERLIST: ViewStyle = {
   backgroundColor: color.transparent,
   paddingHorizontal: spacing[4],
 }
@@ -44,7 +68,7 @@ const TEXTFIELD: ViewStyle = {
   paddingLeft: 50,
   paddingRight: 55,
   margin: 20,
-  marginTop: Platform.OS === 'ios' ? 55 : 50,
+  // marginTop: Platform.OS === 'ios' ? 55 : 50,
   borderColor: "#390099",
   borderWidth: 2,
   borderTopLeftRadius: 100,
@@ -115,23 +139,24 @@ export const SearchScreen = observer(function SearchScreen() {
           style={BACKGROUND}
           source={background}/>
       <View style={CONTAINER}>
-        <Image
-          style={BLUESEARCH}
-          source={blueMagnifying}/>
-        <TouchableHighlight
-          onPress={() => Alert.alert("Scan barcode is pressed!")}
-          style={{ top: 67 }}>
-          <View style={[{ backgroundColor: "#FFFFFF", width: 27, height: 27 }, SCANCODE]}>
-            <Image source={scan}/>
-          </View>
-        </TouchableHighlight>
+        
+        <View style={SEARCHCONTAINER}>
+        <MaterialCommunityIcons name="magnify" size={24} color="black" />
         <TextInput
           style={TEXTFIELD}
           placeholderTextColor="#390099"
           placeholder="Search Book"
         ></TextInput>
+        <TouchableHighlight
+          onPress={() => Alert.alert("Scan barcode is pressed!")}
+          style={{ top: 67 }}>
+          <View style={[{ backgroundColor: "#FFFFFF", width: 27, height: 27 }, SCANCODE]}>
+            <MaterialCommunityIcons name="barcode-scan" size={24} color="black" />
+          </View>
+        </TouchableHighlight>
+        </View>
       </View>
-      <Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
+      <Screen style={CONTAINERLIST} preset="scroll" backgroundColor={color.transparent}>
         {bookList}
       </Screen>
     </View>
