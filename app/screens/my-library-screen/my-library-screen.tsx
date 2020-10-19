@@ -5,9 +5,9 @@ import { MyBookItem, Screen, Text } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export const background2 = require("../../../assets/book_stack.png")
-export const add = require("../../../assets/add_icon.png")
 
 
 const FULL: ViewStyle = { flex: 1 }
@@ -63,9 +63,7 @@ export const MyLibraryScreen = observer(function MyLibraryScreen() {
         <TouchableOpacity
           onPress={() => Alert.alert("Add book is pressed!")}
           style={{ top: 65, marginBottom: 110 }}>
-          <View style={[{ width: 30, height: 30, zIndex: 1 }, ADD]}>
-            <Image source={add}/>
-          </View>
+          <MaterialCommunityIcons name="plus" size={24} color="black" />
         </TouchableOpacity>
       </View>
       <Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>

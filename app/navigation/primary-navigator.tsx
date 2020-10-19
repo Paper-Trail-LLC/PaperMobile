@@ -10,16 +10,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 // import { WelcomeScreen, DemoScreen } from "../screens"
 import { SearchScreen } from "../screens/search-screen/search-screen"
 import { BookDetailScreen } from "../screens"
-import { Image } from "react-native"
 import { MyLibraryScreen } from "../screens/my-library-screen/my-library-screen"
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
-export const sMagnifying = require("../../assets/selected_search.png")
-export const uProfile = require("../../assets/unselected_profile.png")
-export const uMagnifying = require("../../assets/unselected_search.png")
-export const sProfile = require("../../assets/selected_profile.png")
-export const sLibrary = require("../../assets/selected_library.png")
-export const uLibrary = require("../../assets/unselected_library.png")
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
