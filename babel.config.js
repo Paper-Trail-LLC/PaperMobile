@@ -1,17 +1,27 @@
 module.exports = {
-  presets: ["module:metro-react-native-babel-preset", "expo"],
+  presets: ['babel-preset-expo'],
   env: {
     production: {
       plugins: ['react-native-paper/babel'],
     },
+    // development: {
+    //   plugins: ['transform-react-jsx-source']
+    // }
   },
   plugins: [
     [
-      "@babel/plugin-proposal-decorators",
+      '@babel/plugin-proposal-decorators',
       {
         legacy: true,
       },
     ],
-    ["@babel/plugin-proposal-optional-catch-binding"],
+    ['@babel/plugin-proposal-optional-catch-binding'],
+    ['module-resolver',
+      {
+        alias: {
+          'react-native-vector-icons': '@expo/vector-icons',
+        },
+      },
+    ],
   ],
 }

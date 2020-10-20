@@ -7,14 +7,10 @@
 import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs"
-// import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 // import { WelcomeScreen, DemoScreen } from "../screens"
 import { SearchScreen } from "../screens/search-screen/search-screen"
 import { BookDetailScreen } from "../screens"
 import { MyLibraryScreen } from "../screens/my-library-screen/my-library-screen"
-// import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { MaterialCommunityIcons}  from '@expo/vector-icons/MaterialCommunityIcons';
-import { BottomNavigation, Text } from 'react-native-paper';
 import { color } from "../theme";
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -36,47 +32,18 @@ export type PrimaryParamList = {
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createStackNavigator<PrimaryParamList>()
-// const Tab = createMaterialBottomTabNavigator({
-//   Search: { screen: BookSearchTab },
-//   Library: { screen: MyLibraryTab }
-// }, {
-//   initialRouteName: "Search",
-//   activeColor: color.selected
-// });
 const Tab = createMaterialBottomTabNavigator();
 
 export function PrimaryNavigator() {
   return (
-    // <BottomNavigation
-    //   navigationState={{ index, routes }}
-    //   onIndexChange={setIndex}
-    //   renderScene={renderScene}
-    // />
     <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({focused, color}) => {
-          let icon;
-
-          if(route.name === "searchTab") {
-            icon = 'book-search';
-          }
-          else if(route.name === "profileTab") {
-            icon = 'account';
-          }
-          else if(route.name === "myLibraryTab") {
-            icon = 'library';
-          }
-
-          return <MaterialCommunityIcons name={icon} size={24} color={color} />
-        }
-      })}
       labeled={false}
       style={{
-        backgroundColor: color.bottomBar
+        backgroundColor: color.primaryBlue
       }}
     >
-      <Tab.Screen name="searchTab" component={BookSearchTab}></Tab.Screen>
-      <Tab.Screen name="myLibraryTab" component={MyLibraryTab}></Tab.Screen>
+      <Tab.Screen name="searchTab" component={BookSearchTab} options={{tabBarIcon:'book-search'}}></Tab.Screen>
+      <Tab.Screen name="myLibraryTab" component={MyLibraryTab} options={{tabBarIcon:'library'}}></Tab.Screen>
     </Tab.Navigator>
   )
 }

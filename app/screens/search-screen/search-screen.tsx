@@ -5,10 +5,10 @@ import { Screen, BookListItem } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
-import { TextInput } from "react-native-gesture-handler"
+// import { TextInput } from "react-native-gesture-handler"
 import { TouchableHighlight } from "react-native"
-import { MaterialCommunityIcons}  from '@expo/vector-icons/MaterialCommunityIcons';
-import { Searchbar } from 'react-native-paper';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { IconButton, Searchbar, TextInput } from 'react-native-paper';
 
 export const background = require("../../../assets/book_stack.png")
 export const blueMagnifying = require("./blue_magnifying.png")
@@ -24,30 +24,26 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-around',
-    // alignContent:'space-around'
+    alignContent:'space-around'
   },
   container: {
-    // flex: 1,
-    // flexDirection: 'row',
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    backgroundColor: color.transparent,
-    paddingHorizontal: spacing[4]
-  },
-  searchContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    // justifyContent: 'space-around',
+    // alignItems: 'stretch',
+    
     padding: 8
+  },
+  search: {
+    flex:1
   },
   containerList: {
     backgroundColor: color.transparent,
     paddingHorizontal: spacing[4]
   },
   background: {
-    position: "absolute",
-    right: "0%",
-    bottom: "7%",
+    position: 'absolute',
+    right: '0%',
+    bottom: '7%',
     zIndex: -1
   },
   textField: {
@@ -128,27 +124,17 @@ export const SearchScreen = observer(function SearchScreen() {
         style={styles.background}
         source={background} />
       <View style={styles.container}>
-      <Searchbar
-      placeholder="Search"
-      onChangeText={onChangeSearch}
+      <TextInput
+      left={<TextInput.Icon name="magnify" color={color.primaryBlue}/>}
+      right={<TextInput.Icon name="barcode-scan" color={color.primaryBlue}
+        onPress={() => console.log('Pressed')}/>}
+      label="Search Book"
       value={searchQuery}
+      onChangeText={onChangeSearch}
+      mode="outlined"
       showSoftInputOnFocus={true}
-      accessibilityValue={0}
       focusable={true}
-      />
-        {/* <View style={styles.searchContainer}>
-          <MaterialCommunityIcons name="magnify" size={24} color={color.primaryBlue} />
-          <TextInput
-            style={styles.textField}
-            placeholderTextColor={color.primaryBlue}
-            placeholder="Search Book"
-          ></TextInput>
-          <TouchableHighlight
-            onPress={() => Alert.alert("Scan barcode is pressed!")}
-          >
-            <MaterialCommunityIcons name="barcode-scan" size={24} color={color.primaryBlue} />
-          </TouchableHighlight>
-        </View> */}
+      style={styles.search}/>
       </View>
       <Screen style={styles.containerList} preset="scroll" backgroundColor={color.transparent}>
         {bookList}
