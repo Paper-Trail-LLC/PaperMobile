@@ -1,11 +1,10 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { Alert, Image, ImageStyle, Platform, View, ViewStyle, TouchableOpacity, StyleSheet } from "react-native"
-import { MyBookItem, Screen, Text } from "../../components"
+import { Image, View, StyleSheet } from "react-native"
+import { MyBookItem, Screen } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FAB } from 'react-native-paper';
 import { useStores } from "../../models"
 
