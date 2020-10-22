@@ -1,14 +1,12 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { ViewStyle, View, Image, ImageStyle, Alert, Platform, StyleSheet } from "react-native"
+import { View, Image, Alert, StyleSheet, Keyboard } from "react-native"
 import { Screen, BookListItem } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
 // import { TextInput } from "react-native-gesture-handler"
-import { TouchableHighlight } from "react-native"
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { IconButton, Searchbar, TextInput } from 'react-native-paper';
+import { TextInput } from 'react-native-paper';
 
 export const background = require("../../../assets/book_stack.png")
 export const blueMagnifying = require("./blue_magnifying.png")
@@ -24,17 +22,19 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-around',
-    alignContent:'space-around'
+    alignContent:'space-around',
+    paddingTop: spacing[6]
   },
   container: {
     flexDirection: 'row',
     // justifyContent: 'space-around',
     // alignItems: 'stretch',
-    
     padding: 8
   },
   search: {
-    flex:1
+    flex:1,
+    backgroundColor: color.transparent,
+    color: color.primaryBlue
   },
   containerList: {
     backgroundColor: color.transparent,
@@ -84,7 +84,7 @@ export const SearchScreen = observer(function SearchScreen() {
   // const { someStore, anotherStore } = useStores()
   // OR
   // const rootStore = useStores()
-  const { bookStore } = useStores();
+  const bookStore  = useStores().bookStore;
   // Pull in navigation via hook
   // const navigation = useNavigation()
 
@@ -112,7 +112,6 @@ export const SearchScreen = observer(function SearchScreen() {
         id={bookStore.books[i].id}
         bookImage={bookStore.books[i].bookImage}
         title={bookStore.books[i].title}
-        author={bookStore.books[i].author}
         releaseDate={bookStore.books[i].releaseDate}
       ></BookListItem>
     )
@@ -127,10 +126,13 @@ export const SearchScreen = observer(function SearchScreen() {
       <TextInput
       left={<TextInput.Icon name="magnify" color={color.primaryBlue}/>}
       right={<TextInput.Icon name="barcode-scan" color={color.primaryBlue}
-        onPress={() => console.log('Pressed')}/>}
+        onPress={() => {
+          console.log('Pressed');
+          Keyboard.dismiss();
+        }}/>}
       label="Search Book"
-      value={searchQuery}
-      onChangeText={onChangeSearch}
+      // value={searchQuery}
+      // onChangeText={onChangeSearch}
       mode="outlined"
       showSoftInputOnFocus={true}
       focusable={true}

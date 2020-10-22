@@ -1,6 +1,6 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { Image, TextStyle, View, ViewStyle, ImageStyle, Platform, StyleSheet } from "react-native"
+import { Image, View, Platform, StyleSheet } from "react-native"
 import { Button, Screen, Text } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 import { Book, useStores } from "../../models"
@@ -18,6 +18,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-around',
+    paddingTop: Platform.OS === 'ios' ? spacing[7] : spacing[6],
+    backgroundColor: color.background
     // alignContent:'space-around'
   },
   container: {
@@ -25,7 +27,7 @@ const styles = StyleSheet.create({
     // flexDirection: 'row',
     // justifyContent: 'center',
     // alignItems: 'center',
-    backgroundColor: color.transparent,
+    // backgroundColor: color.transparent,
     paddingHorizontal: spacing[4]
   },
   header: {

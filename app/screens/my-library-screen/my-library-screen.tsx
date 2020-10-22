@@ -7,6 +7,7 @@ import { MyBookItem, Screen, Text } from "../../components"
 import { color, spacing } from "../../theme"
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FAB } from 'react-native-paper';
+import { useStores } from "../../models"
 
 export const background2 = require("../../../assets/book_stack.png")
 
@@ -15,7 +16,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-around',
-    alignContent: 'space-around'
+    alignContent: 'space-around',
+    paddingTop: spacing[7]
   },
   container: {
     // flex: 1,
@@ -37,6 +39,7 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     backgroundColor: color.primaryOrange,
+    zIndex: 1
   },
   bookListItem: {
     margin: 5,
@@ -55,13 +58,33 @@ const styles = StyleSheet.create({
 })
 
 export const MyLibraryScreen = observer(function MyLibraryScreen() {
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
-  // OR
-  // const rootStore = useStores()
 
-  // Pull in navigation via hook
-  // const navigation = useNavigation()
+  const myBookStore = useStores().myBookStore;
+
+  // myBookStore.addToLibrary({
+  //   id: "123",
+  //   bookImage: "https://kbimages1-a.akamaihd.net/d47f06aa-0e2c-4d49-9e32-85e4901a6d8f/1200/1200/False/artemis-fowl-and-the-time-paradox.jpg",
+  //   title: "Artemis Fowl, The Time Paradox",
+  //   author: "Eoin Colfer",
+  //   releaseDate: "July 2008",
+  //   status: "available",
+  //   lending: true,
+  //   selling: false
+  // });
+
+  const myBooks = [];
+  for (let i = 0; i < myBookStore.myBooks.length; i++) {
+    myBooks.push(
+      <MyBookItem
+        style={styles.bookListItem}
+        id={myBookStore.myBooks[i].id}
+        bookImage={myBookStore.myBooks[i].bookImage}
+        title={myBookStore.myBooks[i].title}
+        status={myBookStore.myBooks[i].status}
+      ></MyBookItem>
+    )
+  }
+
   return (
     <View style={styles.full}>
       <Image
@@ -71,19 +94,13 @@ export const MyLibraryScreen = observer(function MyLibraryScreen() {
 
       </View>
       <FAB
-          style={styles.fabAdd}
-          icon="plus"
-          onPress={() => console.log('Pressed')}
-        />
+        focusable={true}
+        style={styles.fabAdd}
+        icon="plus"
+        onPress={() => console.log('Pressed')}
+      />
       <Screen style={styles.container} preset="scroll" backgroundColor={color.transparent}>
-        <MyBookItem
-          style={styles.bookListItem}
-          bookImage={"https://kbimages1-a.akamaihd.net/d47f06aa-0e2c-4d49-9e32-85e4901a6d8f/1200/1200/False/artemis-fowl-and-the-time-paradox.jpg"}
-          id={"123"}
-          title={"Artemis Fowl: The Time Paradox"}
-          status={"available"}
-        >
-        </MyBookItem>
+        {myBooks}
       </Screen>
     </View>
   )

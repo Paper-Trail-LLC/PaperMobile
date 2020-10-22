@@ -75,6 +75,17 @@ export const MyBookItem = observer(function MyBookItem(props: MyBookItemProps) {
     // navigation.navigate("detail");
   }
 
+  let availabilityStyle;
+  if(props.status === 'available') {
+    availabilityStyle = AVAILABLE;
+  }
+  else if(props.status === 'unavailable') {
+    availabilityStyle = UNAVAILABLE;
+  }
+  else {
+    availabilityStyle = LENDED;
+  }
+
   return (
     <TouchableOpacity
       onPress={nextScreen}>
@@ -88,7 +99,7 @@ export const MyBookItem = observer(function MyBookItem(props: MyBookItemProps) {
           <Text style={TITLE_TEXT}>{props.title}</Text>
           <View style={STATUS_TEXT}>
             <Text style={REG_TEXT} text={"Status: "}></Text>
-            <Text style={AVAILABLE} text={"available"}></Text>
+            <Text style={availabilityStyle} text={props.status}></Text>
           </View>
         </View>
       </View>
