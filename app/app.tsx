@@ -14,6 +14,7 @@ import "./utils/ignore-warnings"
 import React, { useState, useEffect, useRef } from "react"
 import { NavigationContainerRef } from "@react-navigation/native"
 import { SafeAreaProvider, initialWindowSafeAreaInsets } from "react-native-safe-area-context"
+import { Provider as PaperProvider } from 'react-native-paper';
 import { initFonts } from "./theme/fonts"
 import * as storage from "./utils/storage"
 import {
@@ -65,11 +66,13 @@ function App() {
   return (
     <RootStoreProvider value={rootStore}>
       <SafeAreaProvider initialSafeAreaInsets={initialWindowSafeAreaInsets}>
-        <RootNavigator
-          ref={navigationRef}
-          initialState={initialNavigationState}
-          onStateChange={onNavigationStateChange}
-        />
+        <PaperProvider>
+          <RootNavigator
+            ref={navigationRef}
+            initialState={initialNavigationState}
+            onStateChange={onNavigationStateChange}
+          />
+        </PaperProvider>
       </SafeAreaProvider>
     </RootStoreProvider>
   )

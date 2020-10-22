@@ -1,81 +1,90 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { ViewStyle, View, Image, ImageStyle, Alert, Platform } from "react-native"
+import { ViewStyle, View, Image, ImageStyle, Alert, Platform, StyleSheet } from "react-native"
 import { Screen, BookListItem } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
-import { TextInput } from "react-native-gesture-handler"
+// import { TextInput } from "react-native-gesture-handler"
 import { TouchableHighlight } from "react-native"
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { IconButton, Searchbar, TextInput } from 'react-native-paper';
 
-export const background = require("./book_stack.png")
+export const background = require("../../../assets/book_stack.png")
 export const blueMagnifying = require("./blue_magnifying.png")
 export const scan = require("./scan.png")
 
-const FULL: ViewStyle = { flex: 1 }
-const CONTAINER: ViewStyle = {
-  backgroundColor: color.transparent,
-  paddingHorizontal: spacing[4],
+let searchQuery = '';
+let setSearchQuery = function (query:string)  {
+  Alert.alert(query);
 }
-
-const BACKGROUND: ImageStyle = {
-  position: "absolute",
-  right: "0%",
-  bottom: "7%",
-  zIndex: -1
-}
-
-const BLUESEARCH: ImageStyle = {
-  position: "absolute",
-  top: 68,
-  left: 50,
-  zIndex: 1
-}
-
-const SCANCODE: ImageStyle = {
-  position: "absolute",
-  top: 0,
-  right: 40,
-  zIndex: 1
-}
-
-const TEXTFIELD: ViewStyle = {
-  padding: 15,
-  paddingLeft: 50,
-  paddingRight: 55,
-  margin: 20,
-  marginTop: Platform.OS === 'ios' ? 55 : 50,
-  borderColor: "#390099",
-  borderWidth: 2,
-  borderTopLeftRadius: 100,
-  borderBottomLeftRadius: 100,
-  borderTopRightRadius: 100,
-  borderBottomRightRadius: 100,
-  backgroundColor: "#FFFCFC",
-  zIndex: -1
-}
-
-const BOOK_LIST_ITEM: ViewStyle = {
-  margin: 5,
-
-  backgroundColor: "#FFFCFC",
-  borderRadius: 8,
-
-  shadowColor: "#390099",
-  shadowOffset: {
-    width: 0,
-    height: 4
+const onChangeSearch = query => setSearchQuery(query);
+const styles = StyleSheet.create({
+  full: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    alignContent:'space-around'
   },
-  shadowOpacity: 0.5,
-  shadowRadius: 1
-}
+  container: {
+    flexDirection: 'row',
+    // justifyContent: 'space-around',
+    // alignItems: 'stretch',
+    
+    padding: 8
+  },
+  search: {
+    flex:1
+  },
+  containerList: {
+    backgroundColor: color.transparent,
+    paddingHorizontal: spacing[4]
+  },
+  background: {
+    position: 'absolute',
+    right: '0%',
+    bottom: '7%',
+    zIndex: -1
+  },
+  textField: {
+    flex: 1,
+    textAlign: 'center',
+    padding: 8,
+    fontSize: 18,
+    paddingLeft: 50,
+    paddingRight: 50,
+    borderColor: color.primaryBlue,
+    borderWidth: 2,
+    borderRadius: 100,
+    backgroundColor: color.background,
+    zIndex: -1,
+    alignSelf: 'center'
+  },
+  bookListItem: {
+    margin: 5,
+
+    backgroundColor: color.background,
+    borderRadius: 8,
+  
+    shadowColor: color.primaryBlue,
+    shadowOffset: {
+      width: 0,
+      height: 4
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 1
+  },
+  textIcon: {
+
+  }
+});
 
 export const SearchScreen = observer(function SearchScreen() {
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
   // OR
   // const rootStore = useStores()
-  const {bookStore} = useStores();
+  const { bookStore } = useStores();
   // Pull in navigation via hook
   // const navigation = useNavigation()
 
@@ -96,42 +105,38 @@ export const SearchScreen = observer(function SearchScreen() {
   // });
 
   const bookList = [];
-  for(let i=0; i<bookStore.books.length; i++) {
+  for (let i = 0; i < bookStore.books.length; i++) {
     bookList.push(
       <BookListItem
-          style={BOOK_LIST_ITEM}
-          id={bookStore.books[i].id}
-          bookImage={bookStore.books[i].bookImage}
-          title={bookStore.books[i].title}
-          author={bookStore.books[i].author}
-          releaseDate={bookStore.books[i].releaseDate}
-        ></BookListItem>
+        style={styles.bookListItem}
+        id={bookStore.books[i].id}
+        bookImage={bookStore.books[i].bookImage}
+        title={bookStore.books[i].title}
+        author={bookStore.books[i].author}
+        releaseDate={bookStore.books[i].releaseDate}
+      ></BookListItem>
     )
   }
 
   return (
-    <View style={FULL}>
+    <View style={styles.full}>
       <Image
-          style={BACKGROUND}
-          source={background}/>
-      <View style={CONTAINER}>
-        <Image
-          style={BLUESEARCH}
-          source={blueMagnifying}/>
-        <TouchableHighlight
-          onPress={() => Alert.alert("Scan barcode is pressed!")}
-          style={{ top: 67 }}>
-          <View style={[{ backgroundColor: "#FFFFFF", width: 27, height: 27 }, SCANCODE]}>
-            <Image source={scan}/>
-          </View>
-        </TouchableHighlight>
-        <TextInput
-          style={TEXTFIELD}
-          placeholderTextColor="#390099"
-          placeholder="Search Book"
-        ></TextInput>
+        style={styles.background}
+        source={background} />
+      <View style={styles.container}>
+      <TextInput
+      left={<TextInput.Icon name="magnify" color={color.primaryBlue}/>}
+      right={<TextInput.Icon name="barcode-scan" color={color.primaryBlue}
+        onPress={() => console.log('Pressed')}/>}
+      label="Search Book"
+      value={searchQuery}
+      onChangeText={onChangeSearch}
+      mode="outlined"
+      showSoftInputOnFocus={true}
+      focusable={true}
+      style={styles.search}/>
       </View>
-      <Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
+      <Screen style={styles.containerList} preset="scroll" backgroundColor={color.transparent}>
         {bookList}
       </Screen>
     </View>
