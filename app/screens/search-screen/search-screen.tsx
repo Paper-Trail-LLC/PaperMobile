@@ -7,6 +7,7 @@ import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
 // import { TextInput } from "react-native-gesture-handler"
 import { TextInput } from 'react-native-paper';
+import { useNavigation } from "@react-navigation/native"
 
 export const background = require("../../../assets/book_stack.png")
 export const blueMagnifying = require("./blue_magnifying.png")
@@ -14,8 +15,13 @@ export const scan = require("./scan.png")
 
 let searchQuery = '';
 let setSearchQuery = function (query:string)  {
-  Alert.alert(query);
+  // Alert.alert(query);
 }
+const navigation = useNavigation();
+const goToScanScreen = () => {
+  navigation.navigate("scan");
+};
+
 const onChangeSearch = query => setSearchQuery(query);
 const styles = StyleSheet.create({
   full: {
@@ -127,7 +133,7 @@ export const SearchScreen = observer(function SearchScreen() {
       left={<TextInput.Icon name="magnify" color={color.primaryBlue}/>}
       right={<TextInput.Icon name="barcode-scan" color={color.primaryBlue}
         onPress={() => {
-          console.log('Pressed');
+          goToScanScreen();
           Keyboard.dismiss();
         }}/>}
       label="Search Book"

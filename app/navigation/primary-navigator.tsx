@@ -11,6 +11,7 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import { SearchScreen } from "../screens/search-screen/search-screen"
 import { BookDetailScreen } from "../screens"
 import { MyLibraryScreen } from "../screens/my-library-screen/my-library-screen"
+import { BookScanComponent } from "../components/book-scan-component/book-scan-component";
 import { color } from "../theme";
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -28,6 +29,7 @@ export type PrimaryParamList = {
   search: undefined
   detail: undefined
   my_library: undefined
+  scan: undefined
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
@@ -58,6 +60,7 @@ function BookSearchTab() {
     >
       <Stack.Screen name="search" component={SearchScreen} />
       <Stack.Screen name="detail" component={BookDetailScreen} />
+      <Stack.Screen name="scan" component={BookScanComponent}/>
     </Stack.Navigator>
   );
 }
