@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-around',
-    paddingTop: Platform.OS === 'ios' ? spacing[7] : spacing[6],
+    paddingTop: Platform.OS === 'ios' ? spacing[7] : spacing[2],
     backgroundColor: color.background
     // alignContent:'space-around'
   },
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     // alignItems: 'center',
     // backgroundColor: color.transparent,
-    paddingHorizontal: spacing[4]
+    paddingHorizontal: spacing[2]
   },
   header: {
     position: 'relative',

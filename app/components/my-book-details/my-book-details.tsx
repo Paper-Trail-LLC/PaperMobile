@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-around',
     backgroundColor: color.background,
-    paddingHorizontal: spacing[4]
   },
   regText: {
     fontFamily: typography.primary,
@@ -66,7 +65,7 @@ export const MyBookDetails = observer(function MyBookDetails(props: MyBookDetail
                 value={selectedSelling}
                 onValueChange={() => {
                   setSelling(!selectedSelling);
-                  console.log(selectedSelling);
+                  console.log(!selectedSelling);
                 }}
                 style={[{ width: 24, height: 24, zIndex: 1, marginLeft: spacing[2] }, props.style]}
               />
@@ -77,7 +76,7 @@ export const MyBookDetails = observer(function MyBookDetails(props: MyBookDetail
                 value={selectedLending}
                 onValueChange={() => {
                   setLending(!selectedLending);
-                  console.log(selectedLending);
+                  console.log(!selectedLending);
                 }}
                 style={[{ width: 24, height: 24, zIndex: 1, marginLeft: spacing[2] }, props.style]}
               />

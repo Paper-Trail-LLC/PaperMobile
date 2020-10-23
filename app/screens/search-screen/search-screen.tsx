@@ -1,6 +1,6 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { View, Image, Alert, StyleSheet, Keyboard } from "react-native"
+import { View, Image, Alert, StyleSheet, Keyboard, Platform } from "react-native"
 import { Screen, BookListItem } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 import { useStores } from "../../models"
@@ -23,13 +23,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-around',
     alignContent:'space-around',
-    paddingTop: spacing[6]
+    paddingTop: Platform.OS === 'ios' ? spacing[6] : spacing[2]
   },
   container: {
     flexDirection: 'row',
     // justifyContent: 'space-around',
     // alignItems: 'stretch',
-    padding: 8
+    padding: spacing[2]
   },
   search: {
     flex:1,
@@ -132,7 +132,7 @@ export const SearchScreen = observer(function SearchScreen() {
         }}/>}
       label="Search Book"
       // value={searchQuery}
-      // onChangeText={onChangeSearch}
+      onChangeText={onChangeSearch}
       mode="outlined"
       showSoftInputOnFocus={true}
       focusable={true}

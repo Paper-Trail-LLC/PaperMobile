@@ -1,7 +1,7 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
 import { Platform, StyleSheet, View } from "react-native"
-import { Screen, Text } from "../../components"
+import { Screen } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-around',
-    paddingTop: Platform.OS === 'ios' ? spacing[7] : spacing[6],
+    paddingTop: Platform.OS === 'ios' ? spacing[6] : spacing[2],
     backgroundColor: color.background
     // alignContent:'space-around'
   },
