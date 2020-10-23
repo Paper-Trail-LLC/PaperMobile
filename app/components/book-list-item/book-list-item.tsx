@@ -9,33 +9,33 @@ import { useStores } from "../../models"
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
+    justifyContent: 'center',
     flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "flex-start"
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start'
   },
   regText: {
     fontFamily: typography.primary,
-    fontStyle: "italic",
-    color: "#390099",
+    fontStyle: 'italic',
+    color: '#390099',
     fontSize: 16
   },
   titleText: {
     fontFamily: typography.primary,
-    fontStyle: "italic",
-    color: "#390099",
-    fontWeight: "bold",
+    fontStyle: 'italic',
+    color: '#390099',
+    fontWeight: 'bold',
     fontSize: 20,
     marginBottom: 10
   },
   imageColumn: {
-    width: "25%",
+    width: '25%',
     alignItems: 'center',
     padding: 5
   },
   infoColumn: {
-    width: "75%",
+    width: '75%',
     padding: 10
   }
 })
@@ -65,7 +65,7 @@ export function BookListItem(props: BookListItemProps) {
             source={{ uri: props.bookImage }}
             style={{ height: "100%", resizeMode: "contain" }} />
         </View>
-        <View style={styles.imageColumn}>
+        <View style={styles.infoColumn}>
           <Text style={styles.titleText}>{props.title}</Text>
           <Text style={styles.regText}>{author}</Text>
           <Text style={styles.regText}>{releaseDate}</Text>

@@ -102,6 +102,7 @@ export const BookDetailScreen = observer(function BookDetailScreen() {
   // Pull in navigation via hook
   const navigation = useNavigation()
   const goBack = () => navigation.goBack()
+  const nextScreen = () => navigation.navigate("add_book");
 
 
   return (
@@ -125,7 +126,7 @@ export const BookDetailScreen = observer(function BookDetailScreen() {
         <Text style={styles.descText}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</Text>
         <View style={styles.buttonContainer}>
           <Button style={styles.searchNearby} textStyle={styles.buttonText} text={"Search Nearby"}></Button>
-          <Button style={styles.addToLibrary} textStyle={styles.buttonText} text={"Add to Library"}></Button>
+          <Button style={styles.addToLibrary} textStyle={styles.buttonText} text={"Add to Library"} onPress={nextScreen}></Button>
         </View>
       </Screen>
     </View>
