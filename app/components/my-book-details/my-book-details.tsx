@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Picker, StyleSheet, View, CheckBox } from "react-native"
+import { Picker, StyleSheet, View, Switch, Platform } from "react-native"
 import { observer } from "mobx-react-lite"
 import { color, spacing, typography } from "../../theme"
 import { Text } from "../"
@@ -61,24 +61,22 @@ export const MyBookDetails = observer(function MyBookDetails(props: MyBookDetail
           <View style={styles.row}>
             <Text style={[styles.regText, props.style]} text={'for selling'}></Text>
             <View style={styles.item}>
-              <CheckBox
+              <Switch
                 value={selectedSelling}
                 onValueChange={() => {
                   setSelling(!selectedSelling);
                   console.log(!selectedSelling);
                 }}
-                style={[{ width: 24, height: 24, zIndex: 1, marginLeft: spacing[2] }, props.style]}
               />
             </View>
             <Text style={[styles.regText, props.style]} text={'for lending'}></Text>
             <View style={styles.item}>
-              <CheckBox
+              <Switch
                 value={selectedLending}
                 onValueChange={() => {
                   setLending(!selectedLending);
                   console.log(!selectedLending);
                 }}
-                style={[{ width: 24, height: 24, zIndex: 1, marginLeft: spacing[2] }, props.style]}
               />
             </View>
           </View>

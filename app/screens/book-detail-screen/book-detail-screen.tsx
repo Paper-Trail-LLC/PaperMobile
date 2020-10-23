@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
   header: {
     position: 'relative',
     backgroundColor: '#FFFFFF',
-    // paddingTop: Platform.OS === 'ios' ? spacing[6] + 10 : spacing[4],
     paddingLeft: spacing[6],
     paddingBottom: spacing[4] - 1,
     paddingHorizontal: 0,

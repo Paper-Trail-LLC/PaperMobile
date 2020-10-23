@@ -9,12 +9,10 @@ import { color, spacing } from "../../theme"
 import { TextInput } from 'react-native-paper';
 
 export const background = require("../../../assets/book_stack.png")
-export const blueMagnifying = require("./blue_magnifying.png")
-export const scan = require("./scan.png")
 
 let searchQuery = '';
 let setSearchQuery = function (query:string)  {
-  Alert.alert(query);
+  // Alert.alert(query);
 }
 const onChangeSearch = query => setSearchQuery(query);
 const styles = StyleSheet.create({
