@@ -1,9 +1,13 @@
 import * as React from "react"
-import { Picker, StyleSheet, View, Switch, Platform } from "react-native"
+import { Picker, StyleSheet, View, Switch, Alert } from "react-native"
+import { Button } from "../../components"
 import { observer } from "mobx-react-lite"
 import { color, spacing, typography } from "../../theme"
 import { Text } from "../"
 import { MyBookDetailProps } from "./my-book-details.props"
+import { TextInput } from 'react-native-paper'
+import * as Permissions from 'expo-permissions'
+import * as Location from 'expo-location'
 // import { Checkbox } from "react-native-paper"
 
 const styles = StyleSheet.create({
@@ -26,6 +30,23 @@ const styles = StyleSheet.create({
     padding: spacing[3],
     width: '50%'
   },
+  buttonText: {
+    fontSize: 18
+  },
+  locateMeButtonStyle: {
+    margin: spacing[3],
+    borderRadius: 13,
+    backgroundColor: color.warning
+  },
+  addImageButtonStyle: {
+    borderRadius: 13,
+    backgroundColor: color.primaryBlue
+  },
+  locationInput: {
+    flex: 1,
+    backgroundColor: color.transparent
+  },
+
 })
 
 /**
@@ -36,6 +57,22 @@ export const MyBookDetails = observer(function MyBookDetails(props: MyBookDetail
   const [selectedValue, setSelectedValue] = React.useState('available');
   const [selectedSelling, setSelling] = React.useState(false);
   const [selectedLending, setLending] = React.useState(false);
+  const [locationPermission, askLocationPermission, getLocationPermission] = Permissions.usePermissions(Permissions.LOCATION, {ask: true});
+  const [location, setLocation] = React.useState(null);
+
+  async function getLocation() {
+    console.log('test');
+    if (!locationPermission || locationPermission.status !== 'granted') {
+      askLocationPermission();
+    }
+    if (!getLocationPermission()) {
+      Alert.alert('Location permission not granted');
+    }
+    else {
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location.coords.latitude + ", " + location.coords.longitude);
+    }
+  }
 
   return (
     <View style={[styles.container, style]}>
@@ -82,6 +119,20 @@ export const MyBookDetails = observer(function MyBookDetails(props: MyBookDetail
           </View>
         </View>
       </View>
+      <View style={styles.row}>
+        <Text text={'location:'} style={[styles.regText, props.style, { marginLeft: spacing[3] }]}></Text>
+        <Button onPress={getLocation} text={'locate me!'} style={styles.locateMeButtonStyle} textStyle={styles.buttonText}></Button>
+      </View>
+      <View style={styles.row}>
+        <TextInput
+          // onChangeText={}
+          mode="outlined"
+          showSoftInputOnFocus={true}
+          focusable={false}
+          value={location}
+          style={[styles.locationInput, props.style, { marginTop: -spacing[7] }]} />
+      </View>
+
     </View>
   )
 })
