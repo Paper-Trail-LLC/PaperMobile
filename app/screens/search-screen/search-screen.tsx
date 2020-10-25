@@ -14,13 +14,10 @@ export const blueMagnifying = require("./blue_magnifying.png")
 export const scan = require("./scan.png")
 
 let searchQuery = '';
-let setSearchQuery = function (query:string)  {
+let setSearchQuery = function (query: string) {
   // Alert.alert(query);
 }
-const navigation = useNavigation();
-const goToScanScreen = () => {
-  navigation.navigate("scan");
-};
+
 
 const onChangeSearch = query => setSearchQuery(query);
 const styles = StyleSheet.create({
@@ -28,7 +25,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-around',
-    alignContent:'space-around',
+    alignContent: 'space-around',
     paddingTop: spacing[6]
   },
   container: {
@@ -38,7 +35,7 @@ const styles = StyleSheet.create({
     padding: 8
   },
   search: {
-    flex:1,
+    flex: 1,
     backgroundColor: color.transparent,
     color: color.primaryBlue
   },
@@ -71,7 +68,7 @@ const styles = StyleSheet.create({
 
     backgroundColor: color.background,
     borderRadius: 8,
-  
+
     shadowColor: color.primaryBlue,
     shadowOffset: {
       width: 0,
@@ -90,9 +87,13 @@ export const SearchScreen = observer(function SearchScreen() {
   // const { someStore, anotherStore } = useStores()
   // OR
   // const rootStore = useStores()
-  const bookStore  = useStores().bookStore;
+  const bookStore = useStores().bookStore;
   // Pull in navigation via hook
-  // const navigation = useNavigation()
+  const navigation = useNavigation()
+  const goToScanScreen = () => {
+    navigation.navigate("scan");
+  };
+
 
   // bookStore.clear();
   // bookStore.addBook({
@@ -129,20 +130,20 @@ export const SearchScreen = observer(function SearchScreen() {
         style={styles.background}
         source={background} />
       <View style={styles.container}>
-      <TextInput
-      left={<TextInput.Icon name="magnify" color={color.primaryBlue}/>}
-      right={<TextInput.Icon name="barcode-scan" color={color.primaryBlue}
-        onPress={() => {
-          goToScanScreen();
-          Keyboard.dismiss();
-        }}/>}
-      label="Search Book"
-      // value={searchQuery}
-      // onChangeText={onChangeSearch}
-      mode="outlined"
-      showSoftInputOnFocus={true}
-      focusable={true}
-      style={styles.search}/>
+        <TextInput
+          left={<TextInput.Icon name="magnify" color={color.primaryBlue} />}
+          right={<TextInput.Icon name="barcode-scan" color={color.primaryBlue}
+            onPress={() => {
+              goToScanScreen();
+              Keyboard.dismiss();
+            }} />}
+          label="Search Book"
+          // value={searchQuery}
+          // onChangeText={onChangeSearch}
+          mode="outlined"
+          showSoftInputOnFocus={true}
+          focusable={true}
+          style={styles.search} />
       </View>
       <Screen style={styles.containerList} preset="scroll" backgroundColor={color.transparent}>
         {bookList}
