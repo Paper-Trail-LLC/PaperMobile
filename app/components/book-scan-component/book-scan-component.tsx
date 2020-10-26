@@ -5,6 +5,7 @@ import { color, typography } from "../../theme";
 import { Text } from "../";
 import { Camera, BarCodeScanningResult } from 'expo-camera';
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { Book, useStores } from "../../models";
 
 const { FlashMode: CameraFlashModes, Type: CameraTypes } = Camera.Constants;
 const { width: winWidth, height: winHeight } = Dimensions.get('window');
@@ -24,10 +25,15 @@ export const BookScanComponent = observer(function BookScanComponent(props: Book
   const [scanned, setScanned] = React.useState(false);
   const [type, setType] = React.useState(Camera.Constants.Type.back);
   let camera = null;
+  let scannedBook: Book;
+  const bookStore = useStores().bookStore;
 
-  const onBarcodeRead = (barcode: BarCodeScanningResult) => {
+  
+  const onBarcodeRead = async (barcode: BarCodeScanningResult) => {
     setScanned(true);
-    Alert.alert("Barcode value is" + e.data, "Barcode type is" + e.type);
+    scannedBook = await bookStore.getBookByISBN(barcode.data);
+    console.log(scannedBook);
+    Alert.alert("Barcode value is" + barcode.data, "Barcode type is" + barcode.type);
     console.log(barcode);
     Vibration.vibrate(1000);
   }
@@ -100,7 +106,8 @@ const styles = StyleSheet.create({
   },
   TEXT: {
     fontFamily: typography.primary,
-    fontSize: 16,
-    color: 'white',
+    fontSize: 18,
+    marginBottom: 10,
+    color: "white",
   }
 });

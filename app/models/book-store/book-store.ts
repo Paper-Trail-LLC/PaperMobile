@@ -1,5 +1,7 @@
-import { Instance, SnapshotOut, types } from "mobx-state-tree"
+import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
+import { GetBookByISBNResult } from "../../services/api";
 import { BookModel } from "../book/book"
+import { withEnvironment } from "../extensions/with-environment";
 /**
  * Model description here for TypeScript hints.
  */
@@ -9,6 +11,7 @@ export const BookStoreModel = types
     books: types.optional(types.array(BookModel), []),
     choice: types.optional(types.string, "")
   })
+  .extend(withEnvironment)
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
     addBook: (b) => {
@@ -28,6 +31,19 @@ export const BookStoreModel = types
     setChoice: (id: string) => {
       self.choice = id;
     }
+  }))
+  .actions(self => ({
+    getBookByISBN: flow(function*(isbn:string) {
+      const result: GetBookByISBNResult = yield self.environment.api.Books.searchBook(isbn);
+      console.log(result);
+      if (result.kind === "ok"){
+        self.addBook(result.book);
+        return result.book;
+      } else {
+        __DEV__ && console.tron.log(result.kind);
+      }
+      
+    }),
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
   /**
