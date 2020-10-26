@@ -1,19 +1,24 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { Platform, StyleSheet, View } from "react-native"
-import { Screen } from "../../components"
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { Button, Screen } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
-import { color, spacing } from "../../theme"
+import { color, spacing, typography } from "../../theme"
 import { AddBookProps } from "./add-book.props"
 import { MyBookDetails } from "../../components/my-book-details/my-book-details"
+import { Book, useStores } from "../../models"
+import { useNavigation } from "@react-navigation/native"
+
+export const bookPicTmp = require("../book-detail-screen/book_image.png")
+export const backBttn = require("../book-detail-screen/back_arrow.png")
 
 const styles = StyleSheet.create({
   full: {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-around',
-    paddingTop: Platform.OS === 'ios' ? spacing[6] : spacing[2],
+    paddingTop: Platform.OS === 'ios' ? spacing[7] : spacing[2],
     backgroundColor: color.background
     // alignContent:'space-around'
   },
@@ -24,23 +29,76 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // backgroundColor: color.transparent,
     paddingHorizontal: spacing[4]
-  }
+  },
+  header: {
+    position: 'relative',
+    backgroundColor: '#FFFFFF',
+    paddingLeft: spacing[6],
+    paddingBottom: spacing[4] - 1,
+    paddingHorizontal: 0,
+  },
+  regText: {
+    fontFamily: typography.primary,
+    color: color.primaryBlue,
+    fontSize: 20
+  },
+  titleText: {
+    fontFamily: typography.primary,
+    color: color.primaryBlue,
+    fontWeight: 'bold',
+    fontSize: 24,
+    marginBottom: 10
+  },
+  bigImage: {
+    alignSelf: 'center',
+    marginBottom: spacing[5]
+  },
+  buttonText: {
+    fontSize: 18,
+    marginVertical: spacing[3],
+    marginHorizontal: -5
+  },
+  addButtonStyle: {
+    margin: spacing[3],
+    borderRadius: 13,
+    backgroundColor: color.primaryBlue
+  },
 })
 
 export const AddBookScreen = observer(function AddBookScreen(props: AddBookProps) {
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
   // OR
-  // const rootStore = useStores()
+  
+  const bookStore = useStores().bookStore;
+  const myBookDetails = useStores().userBookStore;
+  const selectedIndex: string = bookStore.choice;
+  const bookInfo: Book = bookStore.getBook(selectedIndex);
+
+  // Pull in navigation via hook
+  const navigation = useNavigation();
+  const goBack = () => navigation.goBack();
 
   // Pull in navigation via hook
   // const navigation = useNavigation()
   return (
     <View style={styles.full}>
+      <View style={styles.header}>
+        <TouchableOpacity
+          onPress={goBack}
+        >
+          <Image source={backBttn}></Image>
+        </TouchableOpacity>
+      </View>
       <Screen style={styles.container} preset="scroll">
+      <Image source={bookPicTmp} style={styles.bigImage}></Image>
+        <Text style={styles.titleText}>{bookInfo.title}</Text>
+        <Text style={styles.regText}>{"Author: " + bookInfo.author}</Text>
+        <Text style={[styles.regText, { marginBottom: spacing[6] }]}>{"Published on: " + bookInfo.releaseDate}</Text>
         <MyBookDetails
           style={{color: color.primaryBlue, borderColor: color.primaryBlue}}
         />
+      <Button onPress={() => {console.log(myBookDetails.selling); console.log(myBookDetails.location)}} style={styles.addButtonStyle} textStyle={styles.buttonText} text={'Add'}></Button>
       </Screen>
     </View>
   )

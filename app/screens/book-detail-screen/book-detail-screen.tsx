@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
 export const BookDetailScreen = observer(function BookDetailScreen() {
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
-  const { bookStore } = useStores();
+  const bookStore = useStores().bookStore;
 
   const selectedIndex: string = bookStore.choice;
   const bookInfo: Book = bookStore.getBook(selectedIndex);
