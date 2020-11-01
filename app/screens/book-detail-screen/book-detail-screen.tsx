@@ -1,6 +1,6 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { Image, View, Platform, StyleSheet } from "react-native"
+import { Image, View, StyleSheet, SafeAreaView } from "react-native"
 import { Button, Screen, Text } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 import { Book, useStores } from "../../models"
@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-around',
-    paddingTop: Platform.OS === 'ios' ? spacing[7] : spacing[2],
     backgroundColor: color.background
     // alignContent:'space-around'
   },
@@ -31,7 +30,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing[2]
   },
   header: {
-    position: 'relative',
     backgroundColor: '#FFFFFF',
     paddingLeft: spacing[6],
     paddingBottom: spacing[4] - 1,
@@ -105,7 +103,7 @@ export const BookDetailScreen = observer(function BookDetailScreen() {
 
 
   return (
-    <View style={styles.full}>
+    <SafeAreaView style={styles.full}>
       {/* <Image
           style={BACKGROUND}
           source={bground}/> */}
@@ -128,6 +126,6 @@ export const BookDetailScreen = observer(function BookDetailScreen() {
           <Button style={styles.addToLibrary} textStyle={styles.buttonText} text={"Add to Library"} onPress={nextScreen}></Button>
         </View>
       </Screen>
-    </View>
+    </SafeAreaView>
   )
 })

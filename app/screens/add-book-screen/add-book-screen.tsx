@@ -1,6 +1,6 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import { Button, Screen } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
@@ -9,6 +9,7 @@ import { AddBookProps } from "./add-book.props"
 import { MyBookDetails } from "../../components/my-book-details/my-book-details"
 import { Book, useStores } from "../../models"
 import { useNavigation } from "@react-navigation/native"
+import { SafeAreaView } from "react-native-safe-area-context"
 
 export const bookPicTmp = require("../book-detail-screen/book_image.png")
 export const backBttn = require("../book-detail-screen/back_arrow.png")
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-around',
-    paddingTop: Platform.OS === 'ios' ? spacing[7] : spacing[2],
+    // paddingTop: Platform.OS === 'ios' ? spacing[7] : spacing[2],
     backgroundColor: color.background
     // alignContent:'space-around'
   },
@@ -31,7 +32,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing[4]
   },
   header: {
-    position: 'relative',
     backgroundColor: '#FFFFFF',
     paddingLeft: spacing[6],
     paddingBottom: spacing[4] - 1,
@@ -69,7 +69,7 @@ export const AddBookScreen = observer(function AddBookScreen(props: AddBookProps
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
   // OR
-  
+
   const bookStore = useStores().bookStore;
   const myBookDetails = useStores().userBookStore;
   const selectedIndex: string = bookStore.choice;
@@ -82,24 +82,24 @@ export const AddBookScreen = observer(function AddBookScreen(props: AddBookProps
   // Pull in navigation via hook
   // const navigation = useNavigation()
   return (
-    <View style={styles.full}>
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={goBack}
-        >
-          <Image source={backBttn}></Image>
-        </TouchableOpacity>
-      </View>
-      <Screen style={styles.container} preset="scroll">
-      <Image source={bookPicTmp} style={styles.bigImage}></Image>
-        <Text style={styles.titleText}>{bookInfo.title}</Text>
-        <Text style={styles.regText}>{"Author: " + bookInfo.author}</Text>
-        <Text style={[styles.regText, { marginBottom: spacing[6] }]}>{"Published on: " + bookInfo.releaseDate}</Text>
-        <MyBookDetails
-          style={{color: color.primaryBlue, borderColor: color.primaryBlue}}
-        />
-      <Button onPress={() => {console.log(myBookDetails.selling); console.log(myBookDetails.location)}} style={styles.addButtonStyle} textStyle={styles.buttonText} text={'Add'}></Button>
-      </Screen>
-    </View>
+    <SafeAreaView style={styles.full}>
+        <View style={styles.header}>
+          <TouchableOpacity
+            onPress={goBack}
+          >
+            <Image source={backBttn}></Image>
+          </TouchableOpacity>
+        </View>
+        <Screen style={styles.container} preset="scroll">
+          <Image source={bookPicTmp} style={styles.bigImage}></Image>
+          <Text style={styles.titleText}>{bookInfo.title}</Text>
+          <Text style={styles.regText}>{"Author: " + bookInfo.author}</Text>
+          <Text style={[styles.regText, { marginBottom: spacing[6] }]}>{"Published on: " + bookInfo.releaseDate}</Text>
+          <MyBookDetails
+            style={{ color: color.primaryBlue, borderColor: color.primaryBlue }}
+          />
+          <Button onPress={() => { console.log(myBookDetails.selling); console.log(myBookDetails.location) }} style={styles.addButtonStyle} textStyle={styles.buttonText} text={'Add'}></Button>
+        </Screen>
+    </SafeAreaView>
   )
 })

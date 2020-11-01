@@ -1,6 +1,6 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { View, Image, Alert, StyleSheet, Keyboard, Platform } from "react-native"
+import { View, Image, StyleSheet, Keyboard, SafeAreaView } from "react-native"
 import { Screen, BookListItem } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 import { useStores } from "../../models"
@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-around',
     alignContent:'space-around',
-    paddingTop: Platform.OS === 'ios' ? spacing[6] : spacing[2]
   },
   container: {
     flexDirection: 'row',
@@ -43,20 +42,6 @@ const styles = StyleSheet.create({
     right: '0%',
     bottom: '7%',
     zIndex: -1
-  },
-  textField: {
-    flex: 1,
-    textAlign: 'center',
-    padding: 8,
-    fontSize: 18,
-    paddingLeft: 50,
-    paddingRight: 50,
-    borderColor: color.primaryBlue,
-    borderWidth: 2,
-    borderRadius: 100,
-    backgroundColor: color.background,
-    zIndex: -1,
-    alignSelf: 'center'
   },
   bookListItem: {
     margin: 5,
@@ -116,7 +101,7 @@ export const SearchScreen = observer(function SearchScreen() {
   }
 
   return (
-    <View style={styles.full}>
+    <SafeAreaView style={styles.full}>
       <Image
         style={styles.background}
         source={background} />
@@ -139,6 +124,6 @@ export const SearchScreen = observer(function SearchScreen() {
       <Screen style={styles.containerList} preset="scroll" backgroundColor={color.transparent}>
         {bookList}
       </Screen>
-    </View>
+    </SafeAreaView>
   )
 })
