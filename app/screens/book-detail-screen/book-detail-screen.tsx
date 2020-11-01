@@ -1,6 +1,6 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { Image, View, Platform, StyleSheet } from "react-native"
+import { Image, View, StyleSheet, SafeAreaView } from "react-native"
 import { Button, Screen, Text } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 import { Book, useStores } from "../../models"
@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-around',
-    paddingTop: Platform.OS === 'ios' ? spacing[7] : spacing[6],
     backgroundColor: color.background
     // alignContent:'space-around'
   },
@@ -28,12 +27,10 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     // alignItems: 'center',
     // backgroundColor: color.transparent,
-    paddingHorizontal: spacing[4]
+    paddingHorizontal: spacing[2]
   },
   header: {
-    position: 'relative',
     backgroundColor: '#FFFFFF',
-    // paddingTop: Platform.OS === 'ios' ? spacing[6] + 10 : spacing[4],
     paddingLeft: spacing[6],
     paddingBottom: spacing[4] - 1,
     paddingHorizontal: 0,
@@ -94,7 +91,7 @@ const styles = StyleSheet.create({
 export const BookDetailScreen = observer(function BookDetailScreen() {
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
-  const { bookStore } = useStores();
+  const bookStore = useStores().bookStore;
 
   const selectedIndex: string = bookStore.choice;
   const bookInfo: Book = bookStore.getBook(selectedIndex);
@@ -102,10 +99,11 @@ export const BookDetailScreen = observer(function BookDetailScreen() {
   // Pull in navigation via hook
   const navigation = useNavigation()
   const goBack = () => navigation.goBack()
+  const nextScreen = () => navigation.navigate("add_book");
 
 
   return (
-    <View style={styles.full}>
+    <SafeAreaView style={styles.full}>
       {/* <Image
           style={BACKGROUND}
           source={bground}/> */}
@@ -125,9 +123,9 @@ export const BookDetailScreen = observer(function BookDetailScreen() {
         <Text style={styles.descText}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</Text>
         <View style={styles.buttonContainer}>
           <Button style={styles.searchNearby} textStyle={styles.buttonText} text={"Search Nearby"}></Button>
-          <Button style={styles.addToLibrary} textStyle={styles.buttonText} text={"Add to Library"}></Button>
+          <Button style={styles.addToLibrary} textStyle={styles.buttonText} text={"Add to Library"} onPress={nextScreen}></Button>
         </View>
       </Screen>
-    </View>
+    </SafeAreaView>
   )
 })
