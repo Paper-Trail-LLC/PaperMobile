@@ -7,7 +7,7 @@ export const BookModel = types
   .model("Book")
   .props({ 
     id: types.optional(types.string,''),
-    coverURI: types.string,
+    coverURI: types.optional(types.string, ''),
     title: types.string,
     authors: types.array(types.string),
     releaseDate: types.string,
