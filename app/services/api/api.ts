@@ -2,6 +2,7 @@ import { ApisauceInstance, create, ApiResponse } from "apisauce"
 import { getGeneralApiProblem } from "./api-problem"
 import { ApiConfig, DEFAULT_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
+import { ApiBooks } from "./api.books"
 
 /**
  * Manages all requests to the API.
@@ -16,6 +17,11 @@ export class Api {
    * Configurable options.
    */
   config: ApiConfig
+
+  /**
+   * Routes.
+   */
+  Books: ApiBooks
 
   /**
    * Creates the api.
@@ -34,6 +40,7 @@ export class Api {
    * Be as quick as possible in here.
    */
   setup() {
+    console.log(this.config.url);
     // construct the apisauce instance
     this.apisauce = create({
       baseURL: this.config.url,
@@ -41,7 +48,9 @@ export class Api {
       headers: {
         Accept: "application/json",
       },
-    })
+    });
+
+    this.Books = new ApiBooks(this.apisauce);
   }
 
   /**

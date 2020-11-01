@@ -3,7 +3,7 @@ export interface BookDetailProps {
     /**
      * Book cover image url
      */
-    bookImage: string,
+    coverUri: string,
 
     /**
      * Book title
@@ -13,7 +13,7 @@ export interface BookDetailProps {
     /**
      * Book author
      */
-    author: string,
+    authors: [string],
 
     /** 
      * Book release date

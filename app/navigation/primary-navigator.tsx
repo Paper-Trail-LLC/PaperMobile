@@ -11,6 +11,7 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import { SearchScreen } from "../screens/search-screen/search-screen"
 import { BookDetailScreen } from "../screens"
 import { MyLibraryScreen } from "../screens/my-library-screen/my-library-screen"
+import { BookScanComponent } from "../components/book-scan-component/book-scan-component";
 import { color } from "../theme";
 import { AddBookScreen } from "../screens/add-book-screen/add-book-screen"
 /**
@@ -29,6 +30,7 @@ export type PrimaryParamList = {
   search: undefined
   detail: undefined
   my_library: undefined
+  scan: undefined
   add_book: undefined
 }
 
@@ -60,6 +62,7 @@ function BookSearchTab() {
     >
       <Stack.Screen name="search" component={SearchScreen} />
       <Stack.Screen name="detail" component={BookDetailScreen} />
+      <Stack.Screen name="scan" component={BookScanComponent}/>
       <Stack.Screen name="add_book" component={AddBookScreen} />
     </Stack.Navigator>
   );
