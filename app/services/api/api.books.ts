@@ -28,22 +28,24 @@ export class ApiBooks {
     async searchBook(isbn: string): Promise<Types.GetBookByISBNResult> {
         // make the api call
         const response: ApiResponse<any> = await this.apisauce.get(`/books/isbn/${isbn}`)
-
         // the typical ways to die when calling an api
         if (!response.ok) {
             const problem = getGeneralApiProblem(response)
             if (problem) return problem
         }
-
         // transform the data into the format we are expecting
         try {
             const resultBook: Book = {
-                id: response.data.bookId,
-                bookImage: response.data.coverURI,
-                title: response.data.title,
-                author: response.data.authors[0],
-                releaseDate: response.data.releaseDate,
-                // edition : response.data.edition,
+                id: response.data.data.id,
+                title: response.data.data.title,
+                authors: response.data.data.authors,
+                isbn: response.data.data.isbn,
+                isbn13: response.data.data.isbn13,
+                releaseDate: response.data.data.releaseDate,
+                edition : response.data.data.edition,
+                coverURI: response.data.data.coverURI,
+                synopsis: response.data.data.synopsys
+                
             }
             return { kind: "ok", book: resultBook }
         } catch {

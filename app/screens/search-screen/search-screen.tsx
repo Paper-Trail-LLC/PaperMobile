@@ -96,29 +96,18 @@ export const SearchScreen = observer(function SearchScreen() {
 
 
   // bookStore.clear();
-  // bookStore.addBook({
-  //   id:"123",
-  //   bookImage: "https://kbimages1-a.akamaihd.net/d47f06aa-0e2c-4d49-9e32-85e4901a6d8f/1200/1200/False/artemis-fowl-and-the-time-paradox.jpg",
-  //   title: "Artemis Fowl, The Time Paradox",
-  //   author: "Eoin Colfer",
-  //   releaseDate: "July 2008"
-  // });
-  // bookStore.addBook({
-  //   id:"124",
-  //   bookImage: "https://kbimages1-a.akamaihd.net/d47f06aa-0e2c-4d49-9e32-85e4901a6d8f/1200/1200/False/artemis-fowl-and-the-time-paradox.jpg",
-  //   title: "Artemis Fowl, The Time Paradox 2",
-  //   author: "Eoin Colfer",
-  //   releaseDate: "July 2009"
-  // });
+  
 
   const bookList = [];
   for (let i = 0; i < bookStore.books.length; i++) {
     bookList.push(
       <BookListItem
-        style={styles.bookListItem}
-        id={bookStore.books[i].id}
-        bookImage={bookStore.books[i].bookImage}
+      style={styles.bookListItem}
+      isbn13={bookStore.books[i].isbn13}
+        id={bookStore.books[i].id? bookStore.books[i].id:i.toString()}
+        coverURI={bookStore.books[i].coverURI}
         title={bookStore.books[i].title}
+        authors={bookStore.books[i].authors}
         releaseDate={bookStore.books[i].releaseDate}
       ></BookListItem>
     )

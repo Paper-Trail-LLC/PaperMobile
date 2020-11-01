@@ -9,10 +9,11 @@ export interface BookListItemProps {
 
     id: string,
 
+    isbn13: string,
     /**
      * Book cover image url
      */
-    bookImage?: string,
+    coverURI?: string,
 
     /**
      * Book title
@@ -22,7 +23,7 @@ export interface BookListItemProps {
     /**
      * Book author
      */
-    author?: string,
+    authors?: [string],
 
     /** 
      * Book release date

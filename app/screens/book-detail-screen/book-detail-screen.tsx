@@ -10,8 +10,50 @@ import { TouchableOpacity } from "react-native-gesture-handler"
 
 export const backButton = require("./back_arrow.png")
 export const bookPicTemp = require("./book_image.png")
-
 export const bground = require("./book_stack.png")
+
+export const BookDetailScreen = observer(function BookDetailScreen() {
+  // Pull in one of our MST stores
+  // const { someStore, anotherStore } = useStores()
+  const { bookStore } = useStores();
+
+  const isbn13: string = bookStore.choice;
+  const bookInfo: Book = bookStore.getBook(isbn13);
+
+  // Pull in navigation via hook
+  const navigation = useNavigation()
+  const goBack = () => navigation.goBack()
+
+
+  return (
+    <View style={styles.full}>
+      {/* <Image
+          style={BACKGROUND}
+          source={bground}/> */}
+      <View style={styles.header}>
+        <TouchableOpacity
+          onPress={goBack}
+        >
+          <Image source={backButton}></Image>
+        </TouchableOpacity>
+      </View>
+      <Screen style={styles.container} preset="scroll">
+        <Image source={{ uri: bookInfo.coverURI }} style={styles.bigImage}></Image>
+        <Text style={styles.titleText}>{bookInfo.title}</Text>
+        <Text style={styles.regText}>{"Author: " + bookInfo.authors[0]}</Text>
+        <Text style={[styles.regText, { marginBottom: spacing[6] }]}>{"Published on: " + bookInfo.releaseDate}</Text>
+        <Text style={styles.description}>Description:</Text>
+        {bookInfo.synopsis === '' && <Text style={styles.descText}>No description.</Text>}
+        {bookInfo.synopsis !== '' && <Text style={styles.descText}>{bookInfo.synopsis}</Text>}
+        <View style={styles.buttonContainer}>
+          <Button style={styles.searchNearby} textStyle={styles.buttonText} text={"Search Nearby"}></Button>
+          <Button style={styles.addToLibrary} textStyle={styles.buttonText} text={"Add to Library"}></Button>
+        </View>
+      </Screen>
+    </View>
+  )
+})
+
 
 const styles = StyleSheet.create({
   full: {
@@ -63,7 +105,10 @@ const styles = StyleSheet.create({
   },
   bigImage: {
     alignSelf: 'center',
-    marginBottom: spacing[5]
+    marginBottom: spacing[5],
+    width: 107,
+    height: 165,
+    padding: 10
   },
   buttonContainer: {
     width: '100%',
@@ -89,45 +134,4 @@ const styles = StyleSheet.create({
     borderRadius: 13,
     backgroundColor: color.warning
   }
-})
-
-export const BookDetailScreen = observer(function BookDetailScreen() {
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
-  const { bookStore } = useStores();
-
-  const selectedIndex: string = bookStore.choice;
-  const bookInfo: Book = bookStore.getBook(selectedIndex);
-
-  // Pull in navigation via hook
-  const navigation = useNavigation()
-  const goBack = () => navigation.goBack()
-
-
-  return (
-    <View style={styles.full}>
-      {/* <Image
-          style={BACKGROUND}
-          source={bground}/> */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={goBack}
-        >
-          <Image source={backButton}></Image>
-        </TouchableOpacity>
-      </View>
-      <Screen style={styles.container} preset="scroll">
-        <Image source={bookPicTemp} style={styles.bigImage}></Image>
-        <Text style={styles.titleText}>{bookInfo.title}</Text>
-        <Text style={styles.regText}>{"Author: " + bookInfo.author}</Text>
-        <Text style={[styles.regText, { marginBottom: spacing[6] }]}>{"Published on: " + bookInfo.releaseDate}</Text>
-        <Text style={styles.description}>Description:</Text>
-        <Text style={styles.descText}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</Text>
-        <View style={styles.buttonContainer}>
-          <Button style={styles.searchNearby} textStyle={styles.buttonText} text={"Search Nearby"}></Button>
-          <Button style={styles.addToLibrary} textStyle={styles.buttonText} text={"Add to Library"}></Button>
-        </View>
-      </Screen>
-    </View>
-  )
 })

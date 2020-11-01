@@ -20,16 +20,16 @@ export const BookStoreModel = types
     clear: function () {
       self.books.clear();
     },
-    getBook: function (id:string) {
+    getBook: function (isbn13:string) {
       for (let i=0; i< self.books.length; i++){
-        if (self.books[i].id == id){
+        if (self.books[i].isbn13 == isbn13){
           return self.books[i];
         }
       }
       return BookModel.create({});
     },
-    setChoice: (id: string) => {
-      self.choice = id;
+    setChoice: (isbn13: string) => {
+      self.choice = isbn13;
     }
   }))
   .actions(self => ({
