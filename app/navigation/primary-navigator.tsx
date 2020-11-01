@@ -13,6 +13,7 @@ import { BookDetailScreen } from "../screens"
 import { MyLibraryScreen } from "../screens/my-library-screen/my-library-screen"
 import { BookScanComponent } from "../components/book-scan-component/book-scan-component";
 import { color } from "../theme";
+import { AddBookScreen } from "../screens/add-book-screen/add-book-screen"
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
  * as well as what properties (if any) they might take when navigating to them.
@@ -30,6 +31,7 @@ export type PrimaryParamList = {
   detail: undefined
   my_library: undefined
   scan: undefined
+  add_book: undefined
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
@@ -61,6 +63,7 @@ function BookSearchTab() {
       <Stack.Screen name="search" component={SearchScreen} />
       <Stack.Screen name="detail" component={BookDetailScreen} />
       <Stack.Screen name="scan" component={BookScanComponent}/>
+      <Stack.Screen name="add_book" component={AddBookScreen} />
     </Stack.Navigator>
   );
 }

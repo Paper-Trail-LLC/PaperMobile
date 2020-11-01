@@ -1,6 +1,7 @@
 import { MyBookStoreModel } from "../my-book-store/my-book-store"
 import { BookStoreModel } from "../book-store/book-store"
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
+import { UserBookModel } from "../user-book/user-book"
 
 /**
  * A RootStore model.
@@ -9,7 +10,7 @@ import { Instance, SnapshotOut, types } from "mobx-state-tree"
 export const RootStoreModel = types.model("RootStore").props({
   myBookStore: types.optional(MyBookStoreModel, {}),
   bookStore: types.optional(BookStoreModel, {}),
-
+  userBookStore: types.optional(UserBookModel, {}),
 })
 
 /**
