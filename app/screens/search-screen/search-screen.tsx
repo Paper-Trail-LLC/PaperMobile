@@ -16,8 +16,68 @@ let setSearchQuery = function (query: string) {
   // Alert.alert(query);
 }
 
-
 const onChangeSearch = query => setSearchQuery(query);
+
+export const SearchScreen = observer(function SearchScreen() {
+  // Pull in one of our MST stores
+  // const { someStore, anotherStore } = useStores()
+  // OR
+  // const rootStore = useStores()
+  const bookStore = useStores().bookStore;
+  // Pull in navigation via hook
+  const navigation = useNavigation()
+  const goToScanScreen = () => {
+    navigation.navigate("scan");
+  };
+
+
+  // bookStore.clear();
+  
+
+  const bookList = [];
+  for (let i = 0; i < bookStore.books.length; i++) {
+    bookList.push(
+      <BookListItem
+      key={bookStore.books[i].id}
+      style={styles.bookListItem}
+      isbn13={bookStore.books[i].isbn13}
+        id={bookStore.books[i].id? bookStore.books[i].id:i.toString()}
+        coverURI={bookStore.books[i].coverURI}
+        title={bookStore.books[i].title}
+        authors={bookStore.books[i].authors}
+        releaseDate={bookStore.books[i].releaseDate}
+      ></BookListItem>
+    )
+  }
+
+  return (
+    <SafeAreaView style={styles.full}>
+      <Image
+        style={styles.background}
+        source={background} />
+      <View style={styles.container}>
+        <TextInput
+          left={<TextInput.Icon name="magnify" color={color.primaryBlue} />}
+          right={<TextInput.Icon name="barcode-scan" color={color.primaryBlue}
+            onPress={() => {
+              goToScanScreen();
+              Keyboard.dismiss();
+            }} />}
+          label="Search Book"
+          // value={searchQuery}
+          // onChangeText={onChangeSearch}
+          mode="outlined"
+          showSoftInputOnFocus={true}
+          focusable={true}
+          style={styles.search} />
+      </View>
+      <Screen style={styles.containerList} preset="scroll" backgroundColor={color.transparent}>
+        {bookList}
+      </Screen>
+    </SafeAreaView>
+  )
+})
+
 const styles = StyleSheet.create({
   full: {
     flex: 1,
@@ -65,62 +125,3 @@ const styles = StyleSheet.create({
 
   }
 });
-
-export const SearchScreen = observer(function SearchScreen() {
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
-  // OR
-  // const rootStore = useStores()
-  const bookStore = useStores().bookStore;
-  // Pull in navigation via hook
-  const navigation = useNavigation()
-  const goToScanScreen = () => {
-    navigation.navigate("scan");
-  };
-
-
-  // bookStore.clear();
-  
-
-  const bookList = [];
-  for (let i = 0; i < bookStore.books.length; i++) {
-    bookList.push(
-      <BookListItem
-      style={styles.bookListItem}
-      isbn13={bookStore.books[i].isbn13}
-        id={bookStore.books[i].id? bookStore.books[i].id:i.toString()}
-        coverURI={bookStore.books[i].coverURI}
-        title={bookStore.books[i].title}
-        authors={bookStore.books[i].authors}
-        releaseDate={bookStore.books[i].releaseDate}
-      ></BookListItem>
-    )
-  }
-
-  return (
-    <SafeAreaView style={styles.full}>
-      <Image
-        style={styles.background}
-        source={background} />
-      <View style={styles.container}>
-        <TextInput
-          left={<TextInput.Icon name="magnify" color={color.primaryBlue} />}
-          right={<TextInput.Icon name="barcode-scan" color={color.primaryBlue}
-            onPress={() => {
-              goToScanScreen();
-              Keyboard.dismiss();
-            }} />}
-          label="Search Book"
-          // value={searchQuery}
-          // onChangeText={onChangeSearch}
-          mode="outlined"
-          showSoftInputOnFocus={true}
-          focusable={true}
-          style={styles.search} />
-      </View>
-      <Screen style={styles.containerList} preset="scroll" backgroundColor={color.transparent}>
-        {bookList}
-      </Screen>
-    </SafeAreaView>
-  )
-})

@@ -37,10 +37,12 @@ export const BookStoreModel = types
       const result: GetBookByISBNResult = yield self.environment.api.Books.searchBook(isbn);
       console.log(result);
       if (result.kind === "ok"){
-        self.addBook(result.book);
+        let i = self.books.findIndex((item) => item.isbn13 == result.book.isbn13);
+        if(i<0) self.addBook(result.book);
         return result.book;
       } else {
         __DEV__ && console.tron.log(result.kind);
+        return BookModel.create();
       }
       
     }),

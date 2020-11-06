@@ -13,7 +13,7 @@ export interface BookDetailProps {
     /**
      * Book author
      */
-    authors: [string],
+    authors: string[],
 
     /** 
      * Book release date

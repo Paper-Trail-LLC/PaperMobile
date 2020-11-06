@@ -7,7 +7,7 @@ import { Camera, BarCodeScanningResult } from 'expo-camera';
 import { Ionicons } from '@expo/vector-icons'
 import { Book, useStores } from "../../models";
 import { useNavigation } from "@react-navigation/native"
-import { ActivityIndicator } from 'react-native-paper';
+import { ActivityIndicator, Snackbar } from 'react-native-paper';
 
 const { width: winWidth, height: winHeight } = Dimensions.get('window');
 const isIos = Platform.OS === "ios"
@@ -26,8 +26,9 @@ export const BookScanComponent = observer(function BookScanComponent(props: Book
   const { style } = props;
   const [hasPermission, setHasPermission] = React.useState(null);
   const [scanned, setScanned] = React.useState(false);
-  const [bookLoaded, setBookLoaded] = React.useState(false);
-  const [flashMode, setFlash] = React.useState(Camera.Constants.FlashMode);
+  const [bookSearched, setBookSearched] = React.useState(false);
+  const [bookFound, setBookFound] = React.useState(false);
+  const [flashMode, setFlash] = React.useState(Camera.Constants.FlashMode.off);
   const type = Camera.Constants.Type.back;
   const bookStore = useStores().bookStore;
   const navigation = useNavigation();
@@ -46,7 +47,7 @@ export const BookScanComponent = observer(function BookScanComponent(props: Book
   if (hasPermission === null) {
     return <View />;
   }
-  if (hasPermission === false) {
+  else if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
   const getRatio = async () => {
@@ -70,13 +71,17 @@ export const BookScanComponent = observer(function BookScanComponent(props: Book
     setScanned(true);
     try {
       scannedBook = await bookStore.getBookByISBN(barcode.data);
+      setBookSearched(true);
       if (scannedBook) {
-        setBookLoaded(true);
-        setScanned(false);
+        setBookFound(true);
+        goToDetails(scannedBook.isbn13);
       }
-      goToDetails(scannedBook.isbn13);
     } catch (err) {
-      __DEV__ && console.tron.error("BarcodeScan Component: Error on getting book by ISBN.",err);
+      __DEV__ && console.tron.error("BarcodeScan Component: Error on getting book by ISBN.", err);
+    } finally {
+      setBookFound(false);
+      setScanned(false);
+      setBookSearched(false);
     }
 
   }
@@ -84,6 +89,10 @@ export const BookScanComponent = observer(function BookScanComponent(props: Book
   const goToDetails = (isbn13: string) => {
     bookStore.setChoice(isbn13);
     navigation.navigate("detail");
+  }
+
+  const addNewBook = () => {
+    console.log("Go to add new book screen.");
   }
 
   return (
@@ -107,7 +116,7 @@ export const BookScanComponent = observer(function BookScanComponent(props: Book
             justifyContent: 'center',
             alignContent: 'center'
           }}>
-          <ActivityIndicator animating={scanned && !bookLoaded} color={color.primaryOrange} size="large" />
+          <ActivityIndicator animating={scanned && !bookSearched} color={color.primaryOrange} size="large" />
         </View>
         <View
           style={{
@@ -142,6 +151,14 @@ export const BookScanComponent = observer(function BookScanComponent(props: Book
             onPress={getRatio}>
             <Ionicons name="ios-reverse-camera" style={styles.ICON} />
           </TouchableOpacity>
+          <Snackbar
+            visible={bookSearched && !bookFound}
+            action={{
+              label: 'Add',
+              onPress: addNewBook,
+            }}>
+            Book not found. Add new book?
+      </Snackbar>
         </View>
       </Camera>
     </View>
