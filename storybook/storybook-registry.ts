@@ -1,3 +1,5 @@
+require("../app/components/nearby-listing-item/nearby-listing-item.story")
+require("../app/components/nearby-listing-item/nearby-listing-item.story")
 require("../app/components/my-book-details/my-book-details.story")
 require("../app/components/book-scan-component/book-scan-component.story")
 require("../app/components/my-book-item/my-book-item.story")

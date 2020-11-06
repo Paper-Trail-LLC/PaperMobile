@@ -27,7 +27,7 @@ export const BookScanComponent = observer(function BookScanComponent(props: Book
   const [hasPermission, setHasPermission] = React.useState(null);
   const [scanned, setScanned] = React.useState(false);
   const [type, setType] = React.useState(Camera.Constants.Type.back);
-  const [flashMode, setFlash] = React.useState(Camera.Constants.FlashMode);
+  const [flashMode, setFlash] = React.useState(Camera.Constants.FlashMode.off);
   let camera: Camera = null;
   let scannedBook: Book;
   let aspectRatios;
@@ -35,6 +35,7 @@ export const BookScanComponent = observer(function BookScanComponent(props: Book
   const onBarcodeRead = async (barcode: BarCodeScanningResult) => {
     setScanned(true);
     scannedBook = await bookStore.getBookByISBN(barcode.data);
+    console.log(scannedBook);
     goToDetails(scannedBook.isbn13);
     console.log(barcode);
     Vibration.vibrate(1000);
