@@ -37,11 +37,11 @@ export class ApiBooks {
         try {
             const resultBook: Book = {
                 id: response.data.data.id,
-                title: response.data.data.title,
+                title: response.data.data.title || '',
                 authors: response.data.data.authors,
                 isbn: response.data.data.isbn,
-                isbn13: response.data.data.isbn13,
-                releaseDate: response.data.data.releaseDate,
+                isbn13: response.data.data.isbn13 || '',
+                releaseDate: response.data.data.releaseDate || '',
                 edition : response.data.data.edition,
                 coverURI: response.data.data.coverURI,
                 synopsis: response.data.data.synopsys

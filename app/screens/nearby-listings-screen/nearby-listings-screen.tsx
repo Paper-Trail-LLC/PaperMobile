@@ -35,12 +35,13 @@ export const NearbyListingsScreen = observer(function NearbyListingsScreen() {
       <Screen style={styles.container} preset="scroll">
         <Image source={{ uri: bookInfo.coverURI }} style={styles.bigImage}></Image>
         <Text style={styles.titleText}>{bookInfo.title}</Text>
-        <Text style={styles.regText}>{"Author: " + bookInfo.authors[0]}</Text>
-        <Text style={[styles.regText, { marginBottom: spacing[6] }]}>{"Published on: " + bookInfo.releaseDate}</Text>
+        <Text style={[styles.regText, {marginBottom: spacing[2]}]}>{"Author: " + bookInfo.authors}</Text>
+        <Text style={[styles.regText, { marginBottom: spacing[4] }]}>{"Published on: " + bookInfo.releaseDate}</Text>
         <Text style={styles.regText}>{"Don't see a good nearby listing?"}</Text>
-        <Button onPress={() => {Alert.alert('create book petition pressed!')}} style={[styles.blueButton, { marginBottom: spacing[6] }]} textStyle={styles.buttonText} text={'create a book petition'}></Button>
+        <Button onPress={() => {Alert.alert('create book petition pressed!')}} style={[styles.blueButton, { marginBottom: spacing[4] }]} textStyle={styles.buttonText} text={'create a book petition'}></Button>
         <NearbyListingItem
-          owner={'John Doe'}
+        style={styles.ListItem}
+          owner={'Alexander Hamilton'}
           ownerRating={1.3}
           lending={true}
           selling={false}
@@ -103,15 +104,6 @@ const styles = StyleSheet.create({
     height: 165,
     padding: 10
   },
-  buttonContainer: {
-    width: '100%',
-    justifyContent: 'center',
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
-    marginVertical: spacing[5]
-  },
   buttonText: {
     fontSize: 18,
     marginVertical: spacing[3],
@@ -126,5 +118,22 @@ const styles = StyleSheet.create({
     margin: spacing[3],
     borderRadius: 13,
     backgroundColor: color.warning
+  },
+  ListItem: {
+    margin: 5,
+
+    backgroundColor: color.background,
+    borderRadius: 8,
+
+    shadowColor: color.primaryBlue,
+    shadowOffset: {
+      width: 0,
+      height: 4
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 1
+  },
+  textIcon: {
+
   }
 })
