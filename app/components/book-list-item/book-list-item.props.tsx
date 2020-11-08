@@ -23,7 +23,7 @@ export interface BookListItemProps {
     /**
      * Book author
      */
-    authors?: [string],
+    authors?: string[],
 
     /** 
      * Book release date

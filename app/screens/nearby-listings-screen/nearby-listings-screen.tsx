@@ -1,39 +1,24 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { Image, View, StyleSheet, SafeAreaView } from "react-native"
-import { Button, Screen, Text } from "../../components"
+import { Alert, Image, SafeAreaView, StyleSheet, TouchableOpacity, View } from "react-native"
+import { Button, NearbyListingItem, Screen, Text } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
-import { Book, useStores } from "../../models"
+// import { useStores } from "../../models"
 import { color, spacing, typography } from "../../theme"
+import { backButton } from ".."
 import { useNavigation } from "@react-navigation/native"
-import { TouchableOpacity } from "react-native-gesture-handler"
+import { useStores, Book } from "../../models"
 
-export const backButton = require("./back_arrow.png")
-export const bookPicTemp = require("./book_image.png")
-export const bground = require("./book_stack.png")
-
-export const BookDetailScreen = observer(function BookDetailScreen() {
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
+export const NearbyListingsScreen = observer(function NearbyListingsScreen() {
+  
   const { bookStore } = useStores();
 
   const isbn13: string = bookStore.choice;
-  // console.log(isbn13);
   const bookInfo: Book = bookStore.getBook(isbn13);
 
-  // console.log(bookInfo);
-
   // Pull in navigation via hook
-  const navigation = useNavigation();
-  const goBack = () => navigation.goBack();
-
-  const moveToAdd = () => {
-    navigation.navigate("add_book");
-  }
-
-  const moveToNearbyListings = () => {
-    navigation.navigate("nearby_listings");
-  }
+  const navigation = useNavigation()
+  const goBack = () => navigation.goBack()
 
   return (
     <SafeAreaView style={styles.full}>
@@ -50,20 +35,22 @@ export const BookDetailScreen = observer(function BookDetailScreen() {
       <Screen style={styles.container} preset="scroll">
         <Image source={{ uri: bookInfo.coverURI }} style={styles.bigImage}></Image>
         <Text style={styles.titleText}>{bookInfo.title}</Text>
-        <Text style={styles.regText}>{"Author: " + bookInfo.authors}</Text>
-        <Text style={[styles.regText, { marginBottom: spacing[6] }]}>{"Published on: " + bookInfo.releaseDate}</Text>
-        <Text style={styles.description}>Description:</Text>
-        {bookInfo.synopsis === '' && <Text style={styles.descText}>No description.</Text>}
-        {bookInfo.synopsis !== '' && <Text style={styles.descText}>{bookInfo.synopsis}</Text>}
-        <View style={styles.buttonContainer}>
-          <Button onPress={moveToNearbyListings} style={styles.searchNearby} textStyle={styles.buttonText} text={"Search Nearby"}></Button>
-          <Button onPress={moveToAdd} style={styles.addToLibrary} textStyle={styles.buttonText} text={"Add to Library"}></Button>
-        </View>
+        <Text style={[styles.regText, {marginBottom: spacing[2]}]}>{"Author: " + bookInfo.authors}</Text>
+        <Text style={[styles.regText, { marginBottom: spacing[4] }]}>{"Published on: " + bookInfo.releaseDate}</Text>
+        <Text style={styles.regText}>{"Don't see a good nearby listing?"}</Text>
+        <Button onPress={() => {Alert.alert('create book petition pressed!')}} style={[styles.blueButton, { marginBottom: spacing[4] }]} textStyle={styles.buttonText} text={'create a book petition'}></Button>
+        <NearbyListingItem
+        style={styles.ListItem}
+          owner={'Alexander Hamilton'}
+          ownerRating={1.3}
+          lending={true}
+          selling={false}
+          distance={4}
+        ></NearbyListingItem>
       </Screen>
     </SafeAreaView>
   )
 })
-
 
 const styles = StyleSheet.create({
   full: {
@@ -117,21 +104,12 @@ const styles = StyleSheet.create({
     height: 165,
     padding: 10
   },
-  buttonContainer: {
-    width: '100%',
-    justifyContent: 'center',
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
-    marginVertical: spacing[5]
-  },
   buttonText: {
     fontSize: 18,
     marginVertical: spacing[3],
     marginHorizontal: -5
   },
-  searchNearby: {
+  blueButton: {
     margin: spacing[3],
     borderRadius: 13,
     backgroundColor: color.primaryBlue
@@ -140,5 +118,22 @@ const styles = StyleSheet.create({
     margin: spacing[3],
     borderRadius: 13,
     backgroundColor: color.warning
+  },
+  ListItem: {
+    margin: 5,
+
+    backgroundColor: color.background,
+    borderRadius: 8,
+
+    shadowColor: color.primaryBlue,
+    shadowOffset: {
+      width: 0,
+      height: 4
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 1
+  },
+  textIcon: {
+
   }
 })

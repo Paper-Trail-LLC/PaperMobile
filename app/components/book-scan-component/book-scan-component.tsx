@@ -7,7 +7,7 @@ import { Camera, BarCodeScanningResult } from 'expo-camera';
 import { Ionicons } from '@expo/vector-icons'
 import { Book, useStores } from "../../models";
 import { useNavigation } from "@react-navigation/native"
-import { BarCodeScanner } from "expo";
+import { ActivityIndicator, Snackbar } from 'react-native-paper';
 
 const { width: winWidth, height: winHeight } = Dimensions.get('window');
 const isIos = Platform.OS === "ios"
@@ -26,36 +26,28 @@ export const BookScanComponent = observer(function BookScanComponent(props: Book
   const { style } = props;
   const [hasPermission, setHasPermission] = React.useState(null);
   const [scanned, setScanned] = React.useState(false);
-  const [type, setType] = React.useState(Camera.Constants.Type.back);
-  const [flashMode, setFlash] = React.useState(Camera.Constants.FlashMode);
+  const [bookSearched, setBookSearched] = React.useState(false);
+  const [bookFound, setBookFound] = React.useState(false);
+  const [flashMode, setFlash] = React.useState(Camera.Constants.FlashMode.off);
+  const type = Camera.Constants.Type.back;
+  const bookStore = useStores().bookStore;
+  const navigation = useNavigation();
+
   let camera: Camera = null;
   let scannedBook: Book;
   let aspectRatios;
-  const bookStore = useStores().bookStore;
-  const onBarcodeRead = async (barcode: BarCodeScanningResult) => {
-    setScanned(true);
-    scannedBook = await bookStore.getBookByISBN(barcode.data);
-    goToDetails(scannedBook.isbn13);
-    console.log(barcode);
-    Vibration.vibrate(1000);
-  }
-  const navigation = useNavigation();
-  const goToDetails = (isbn13: string) => {
-    bookStore.setChoice(isbn13);
-    navigation.navigate("detail");
-  }
+
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
       setHasPermission(status === 'granted');
-
     })();
   }, []);
 
   if (hasPermission === null) {
     return <View />;
   }
-  if (hasPermission === false) {
+  else if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
   const getRatio = async () => {
@@ -67,6 +59,40 @@ export const BookScanComponent = observer(function BookScanComponent(props: Book
         console.log(err);
       }
     }
+  }
+
+  /**
+   * Callback function when the camera detects a barcode.
+   *
+   * @param {BarCodeScanningResult} barcode the barcode result object from the expo-camera
+   */
+  const onBarcodeRead = async (barcode: BarCodeScanningResult) => {
+    Vibration.vibrate(1000);
+    setScanned(true);
+    try {
+      scannedBook = await bookStore.getBookByISBN(barcode.data);
+      setBookSearched(true);
+      if (scannedBook) {
+        setBookFound(true);
+        goToDetails(scannedBook.isbn13);
+      }
+    } catch (err) {
+      __DEV__ && console.tron.error("BarcodeScan Component: Error on getting book by ISBN.", err);
+    } finally {
+      setBookFound(false);
+      setScanned(false);
+      setBookSearched(false);
+    }
+
+  }
+
+  const goToDetails = (isbn13: string) => {
+    bookStore.setChoice(isbn13);
+    navigation.navigate("detail");
+  }
+
+  const addNewBook = () => {
+    console.log("Go to add new book screen.");
   }
 
   return (
@@ -82,7 +108,16 @@ export const BookScanComponent = observer(function BookScanComponent(props: Book
         // }}
         useCamera2Api={!isIos}
       >
-
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'transparent',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignContent: 'center'
+          }}>
+          <ActivityIndicator animating={scanned && !bookSearched} color={color.primaryOrange} size="large" />
+        </View>
         <View
           style={{
             flex: 1,
@@ -116,6 +151,14 @@ export const BookScanComponent = observer(function BookScanComponent(props: Book
             onPress={getRatio}>
             <Ionicons name="ios-reverse-camera" style={styles.ICON} />
           </TouchableOpacity>
+          <Snackbar
+            visible={bookSearched && !bookFound}
+            action={{
+              label: 'Add',
+              onPress: addNewBook,
+            }}>
+            Book not found. Add new book?
+      </Snackbar>
         </View>
       </Camera>
     </View>
