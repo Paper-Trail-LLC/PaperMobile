@@ -15,7 +15,9 @@ export const BookStoreModel = types
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
     addBook: (b) => {
+      // console.log(b);
       self.books.push(BookModel.create(b));
+      // console.log(self.books);
     },
     clear: function () {
       self.books.clear();

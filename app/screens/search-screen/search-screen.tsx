@@ -30,9 +30,7 @@ export const SearchScreen = observer(function SearchScreen() {
     navigation.navigate("scan");
   };
 
-
   // bookStore.clear();
-  
 
   const bookList = [];
   for (let i = 0; i < bookStore.books.length; i++) {

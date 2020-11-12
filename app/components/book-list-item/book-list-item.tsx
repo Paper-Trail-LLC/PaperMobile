@@ -42,8 +42,7 @@ let heightC = 165;
         <View style={styles.imageColumn}>
           <Image
             source={{ uri: props.book.coverURI }}
-            style={{    width: widthC,
-              height: heightC, resizeMode: "contain" }} />
+            style={{    width: '100%', flex:1, resizeMode: "contain" }} />
         </View>
         <View style={styles.infoColumn}>
           <Text style={styles.titleText}>{props.book.title}</Text>
@@ -62,7 +61,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "flex-start",
-    padding:5
+    padding: 5
   },
   regText: {
     fontFamily: typography.primary,
@@ -81,7 +80,8 @@ const styles = StyleSheet.create({
   imageColumn: {
     flex: 0.25,
     alignItems: 'center',
-    padding:5
+    justifyContent: 'center',
+    padding: 5
   },
   infoColumn: {
     flex: 0.75,
