@@ -39,13 +39,8 @@ export const SearchScreen = observer(function SearchScreen() {
     bookList.push(
       <BookListItem
       key={bookStore.books[i].id}
+      book={bookStore.books[i]}
       style={styles.bookListItem}
-      isbn13={bookStore.books[i].isbn13}
-        id={bookStore.books[i].id? bookStore.books[i].id:i.toString()}
-        coverURI={bookStore.books[i].coverURI}
-        title={bookStore.books[i].title}
-        authors={bookStore.books[i].authors}
-        releaseDate={bookStore.books[i].releaseDate}
       ></BookListItem>
     )
   }

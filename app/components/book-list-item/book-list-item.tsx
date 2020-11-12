@@ -12,20 +12,20 @@ import { useStores } from "../../models"
  */
 export function BookListItem(props: BookListItemProps) {
 
-  const author: string = "Author: " + props.authors;
-  const releaseDate: string = "Release Date: " + props.releaseDate;
+  const author: string = "Author: " + props.book.authors;
+  const releaseDate: string = "Release Date: " + props.book.releaseDate;
 
   const { bookStore } = useStores();
 
   const navigation = useNavigation()
   const nextScreen = () => {
-    bookStore.setChoice(props.isbn13);
+    bookStore.setChoice(props.book.isbn13);
     navigation.navigate("detail");
   }
 
 let widthC = 107;
 let heightC = 165;
-// Image.getSize(props.coverURI, (width,height)=>{
+// Image.getSize(props.book.coverURI, (width,height)=>{
 //   widthC = width;
 //   heightC = height;
 //   console.log(width)
@@ -41,14 +41,14 @@ let heightC = 165;
       <View style={[styles.container, props.style]}>
         <View style={styles.imageColumn}>
           <Image
-            source={{ uri: props.coverURI }}
+            source={{ uri: props.book.coverURI }}
             style={{    width: widthC,
               height: heightC, resizeMode: "contain" }} />
         </View>
         <View style={styles.infoColumn}>
-          <Text style={styles.titleText}>{props.title}</Text>
+          <Text style={styles.titleText}>{props.book.title}</Text>
           <Text style={styles.regText}>{author}</Text>
-          <Text style={styles.regText}>{releaseDate}</Text>
+          <Text style={styles.regText}>Release date: {releaseDate}</Text>
         </View>
       </View>
     </TouchableOpacity>
