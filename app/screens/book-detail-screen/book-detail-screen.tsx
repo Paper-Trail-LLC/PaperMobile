@@ -18,10 +18,7 @@ export const BookDetailScreen = observer(function BookDetailScreen() {
   const { bookStore } = useStores();
 
   const isbn13: string = bookStore.choice;
-  // console.log(isbn13);
   const bookInfo: Book = bookStore.getBook(isbn13);
-
-  // console.log(bookInfo);
 
   // Pull in navigation via hook
   const navigation = useNavigation();

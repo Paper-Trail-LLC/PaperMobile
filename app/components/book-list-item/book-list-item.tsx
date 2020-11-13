@@ -28,8 +28,6 @@ let heightC = 165;
 // Image.getSize(props.coverURI, (width,height)=>{
 //   widthC = width;
 //   heightC = height;
-//   console.log(width)
-// console.log(height)
 // }, ()=> {
 //   widthC = 107;
 //   heightC = 165;

@@ -1,6 +1,6 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { Alert, Image, SafeAreaView, StyleSheet, TouchableOpacity, View } from "react-native"
+import { Image, SafeAreaView, StyleSheet, TouchableOpacity, View } from "react-native"
 import { Button, NearbyListingItem, Screen, Text } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
@@ -17,8 +17,12 @@ export const NearbyListingsScreen = observer(function NearbyListingsScreen() {
   const bookInfo: Book = bookStore.getBook(isbn13);
 
   // Pull in navigation via hook
-  const navigation = useNavigation()
-  const goBack = () => navigation.goBack()
+  const navigation = useNavigation();
+  const goBack = () => navigation.goBack();
+
+  const moveToCreatePetition = () => {
+    navigation.navigate("create_petition");
+  }
 
   return (
     <SafeAreaView style={styles.full}>
@@ -38,7 +42,7 @@ export const NearbyListingsScreen = observer(function NearbyListingsScreen() {
         <Text style={[styles.regText, {marginBottom: spacing[2]}]}>{"Author: " + bookInfo.authors}</Text>
         <Text style={[styles.regText, { marginBottom: spacing[4] }]}>{"Published on: " + bookInfo.releaseDate}</Text>
         <Text style={styles.regText}>{"Don't see a good nearby listing?"}</Text>
-        <Button onPress={() => {Alert.alert('create book petition pressed!')}} style={[styles.blueButton, { marginBottom: spacing[4] }]} textStyle={styles.buttonText} text={'create a book petition'}></Button>
+        <Button onPress={moveToCreatePetition} style={[styles.blueButton, { marginBottom: spacing[4] }]} textStyle={styles.buttonText} text={'create a book petition'}></Button>
         <NearbyListingItem
         style={styles.ListItem}
           owner={'Alexander Hamilton'}

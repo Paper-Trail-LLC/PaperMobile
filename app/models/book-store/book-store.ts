@@ -15,18 +15,14 @@ export const BookStoreModel = types
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
     addBook: (b) => {
-      // console.log(b);
       self.books.push(BookModel.create(b));
-      // console.log(self.books);
     },
     clear: function () {
       self.books.clear();
     },
     getBook: function (isbn13:string) {
-      console.log(self.books);
       for (let i=0; i< self.books.length; i++){
         if (self.books[i].isbn13 === isbn13){
-          // console.log(self.books);
           return self.books[i];
         }
       }
@@ -39,7 +35,6 @@ export const BookStoreModel = types
     getBookByISBN: flow(function*(isbn:string) {
       const result: GetBookByISBNResult = yield self.environment.api.Books.searchBook(isbn);
       if (result.kind === "ok"){
-        // console.log(result.book);
         let i = self.books.findIndex((item) => item.isbn13 == result.book.isbn13);
         if(i<0) self.addBook(result.book);
         return result.book;
