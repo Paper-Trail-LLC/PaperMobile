@@ -45,7 +45,6 @@ export function PrimaryNavigator() {
       labeled={false}
       style={{
         backgroundColor: color.storybookDarkBg,
-        
       }}
     >
       <Tab.Screen name="searchTab" component={BookSearchTab} options={{tabBarIcon:'book-search'}}></Tab.Screen>

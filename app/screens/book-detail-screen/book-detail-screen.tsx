@@ -24,15 +24,15 @@ export const BookDetailScreen = observer(function BookDetailScreen() {
   // Pull in navigation via hook
   const navigation = useNavigation();
   const _goBack = () => navigation.goBack();
-  const _handleSearch = () => moveToNearbyListings();
   const _handleMore = () => openMenu();
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
-  const moveToAdd = () => {
+  const _moveToAdd = () => {
     closeMenu();
     navigation.navigate("add_book");
   }
-  const moveToNearbyListings = () => {
+  const _moveToNearbyListings = () => {
+    closeMenu();
     navigation.navigate("nearby_listings");
   }
   
@@ -43,12 +43,12 @@ export const BookDetailScreen = observer(function BookDetailScreen() {
       <Appbar.Header statusBarHeight={0}>
         <Appbar.BackAction onPress={_goBack} />
         <Appbar.Content/>
-        <Appbar.Action icon="magnify" onPress={_handleSearch} accessibilityValue={{text:"Search nearby"}}/>
+        <Appbar.Action icon="magnify" onPress={_moveToNearbyListings} accessibilityValue={{text:"Search nearby"}}/>
         <Menu
           visible={visible}
           onDismiss={closeMenu}
           anchor={<Appbar.Action icon="dots-vertical" onPress={_handleMore} />}>
-          <Menu.Item icon="library-plus" onPress={() => {}} title="Add to Library" />
+          <Menu.Item icon="library-plus" onPress={_moveToAdd} title="Add to Library" />
           <Menu.Item icon="pen" onPress={() => {}} title="Create Petition" />
         </Menu>
         
@@ -62,8 +62,8 @@ export const BookDetailScreen = observer(function BookDetailScreen() {
         {bookInfo.synopsis === '' && <Text style={styles.descText}>No description.</Text>}
         {bookInfo.synopsis !== '' && <Text style={styles.descText}>{bookInfo.synopsis}</Text>}
         <View style={styles.buttonContainer}>
-          <Button onPress={moveToNearbyListings} style={styles.searchNearby} textStyle={styles.buttonText} text={"Search Nearby"}></Button>
-          <Button onPress={moveToAdd} style={styles.addToLibrary} textStyle={styles.buttonText} text={"Add to Library"}></Button>
+          <Button onPress={_moveToNearbyListings} style={styles.searchNearby} textStyle={styles.buttonText} text={"Search Nearby"}></Button>
+          <Button onPress={_moveToAdd} style={styles.addToLibrary} textStyle={styles.buttonText} text={"Add to Library"}></Button>
         </View>
       </Screen>
 

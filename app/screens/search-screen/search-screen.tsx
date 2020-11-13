@@ -1,34 +1,20 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { View, Image, StyleSheet, Keyboard, SafeAreaView } from "react-native"
-import { Screen, BookListItem } from "../../components"
-// import { useNavigation } from "@react-navigation/native"
+import { View, Image, StyleSheet, SafeAreaView } from "react-native"
+import { Screen, BookListItem, SearchBar } from "../../components"
 import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
-// import { TextInput } from "react-native-gesture-handler"
-import { TextInput } from 'react-native-paper';
-import { useNavigation } from "@react-navigation/native"
+// import { useNavigation } from "@react-navigation/native"
 
 export const background = require("../../../assets/book_stack.png")
 
-let searchQuery = '';
-let setSearchQuery = function (query: string) {
-  // Alert.alert(query);
-}
-
-const onChangeSearch = query => setSearchQuery(query);
-
 export const SearchScreen = observer(function SearchScreen() {
   // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
-  // OR
-  // const rootStore = useStores()
-  const bookStore = useStores().bookStore;
+  const { bookStore } = useStores()
+  // or
+  // const bookStore = useStores().bookStore;
   // Pull in navigation via hook
-  const navigation = useNavigation()
-  const goToScanScreen = () => {
-    navigation.navigate("scan");
-  };
+  // const navigation = useNavigation()
 
   // bookStore.clear();
 
@@ -48,22 +34,7 @@ export const SearchScreen = observer(function SearchScreen() {
       <Image
         style={styles.background}
         source={background} />
-      <View style={styles.container}>
-        <TextInput
-          left={<TextInput.Icon name="magnify" color={color.primaryBlue} />}
-          right={<TextInput.Icon name="barcode-scan" color={color.primaryBlue}
-            onPress={() => {
-              goToScanScreen();
-              Keyboard.dismiss();
-            }} />}
-          label="Search Book"
-          // value={searchQuery}
-          // onChangeText={onChangeSearch}
-          mode="outlined"
-          showSoftInputOnFocus={true}
-          focusable={true}
-          style={styles.search} />
-      </View>
+      <SearchBar></SearchBar>
       <Screen style={styles.containerList} preset="scroll" backgroundColor={color.transparent}>
         {bookList}
       </Screen>
