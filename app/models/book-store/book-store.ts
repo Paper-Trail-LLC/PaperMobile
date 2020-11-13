@@ -36,6 +36,7 @@ export const BookStoreModel = types
       const result: GetBookByISBNResult = yield self.environment.api.Books.searchBook(isbn);
       console.info('getBookByISBN: ', result);
       if (result.kind === "ok"){
+        result.book.releaseDate = new Date(result.book.releaseDate);
         if(!self.getBook(result.book.isbn13)) self.addBook(result.book);
         return result.book;
       } else {

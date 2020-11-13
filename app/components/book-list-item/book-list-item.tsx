@@ -12,28 +12,12 @@ import { useStores } from "../../models"
  */
 export function BookListItem(props: BookListItemProps) {
 
-  const author: string = "Author: " + props.book.authors;
-  const releaseDate: string = "Release Date: " + props.book.releaseDate;
-
   const { bookStore } = useStores();
-
   const navigation = useNavigation()
   const nextScreen = () => {
     bookStore.setChoice(props.book.isbn13);
     navigation.navigate("detail");
   }
-
-let widthC = 107;
-let heightC = 165;
-// Image.getSize(props.book.coverURI, (width,height)=>{
-//   widthC = width;
-//   heightC = height;
-//   console.log(width)
-// console.log(height)
-// }, ()=> {
-//   widthC = 107;
-//   heightC = 165;
-// });
 
   return (
     <TouchableOpacity
@@ -46,8 +30,8 @@ let heightC = 165;
         </View>
         <View style={styles.infoColumn}>
           <Text style={styles.titleText}>{props.book.title}</Text>
-          <Text style={styles.regText}>{author}</Text>
-          <Text style={styles.regText}>Release date: {releaseDate}</Text>
+          <Text style={styles.regText}>Author :{props.book.authors}</Text>
+          <Text style={styles.regText}>Release date: {props.book.releaseDate.toLocaleDateString()}</Text>
         </View>
       </View>
     </TouchableOpacity>

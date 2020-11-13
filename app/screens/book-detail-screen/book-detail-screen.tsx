@@ -7,6 +7,7 @@ import { Book, useStores } from "../../models"
 import { color, spacing, typography } from "../../theme"
 import { useNavigation } from "@react-navigation/native"
 import { TouchableOpacity } from "react-native-gesture-handler"
+import { Appbar, Menu } from 'react-native-paper';
 
 export const backButton = require("./back_arrow.png")
 export const bookPicTemp = require("./book_image.png")
@@ -16,42 +17,47 @@ export const BookDetailScreen = observer(function BookDetailScreen() {
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
   const { bookStore } = useStores();
-
   const isbn13: string = bookStore.choice;
-  // console.log(isbn13);
   const bookInfo: Book = bookStore.getBook(isbn13);
 
-  // console.log(bookInfo);
-
+  const [visible, setVisible] = React.useState(false);
   // Pull in navigation via hook
   const navigation = useNavigation();
-  const goBack = () => navigation.goBack();
-
+  const _goBack = () => navigation.goBack();
+  const _handleSearch = () => moveToNearbyListings();
+  const _handleMore = () => openMenu();
+  const openMenu = () => setVisible(true);
+  const closeMenu = () => setVisible(false);
   const moveToAdd = () => {
+    closeMenu();
     navigation.navigate("add_book");
   }
-
   const moveToNearbyListings = () => {
     navigation.navigate("nearby_listings");
   }
+  
+
 
   return (
-    <SafeAreaView style={styles.full}>
-      {/* <Image
-          style={BACKGROUND}
-          source={bground}/> */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={goBack}
-        >
-          <Image source={backButton}></Image>
-        </TouchableOpacity>
-      </View>
+    <SafeAreaView style={styles.full} accessible={false}>
+      <Appbar.Header statusBarHeight={0}>
+        <Appbar.BackAction onPress={_goBack} />
+        <Appbar.Content/>
+        <Appbar.Action icon="magnify" onPress={_handleSearch} accessibilityValue={{text:"Search nearby"}}/>
+        <Menu
+          visible={visible}
+          onDismiss={closeMenu}
+          anchor={<Appbar.Action icon="dots-vertical" onPress={_handleMore} />}>
+          <Menu.Item icon="library-plus" onPress={() => {}} title="Add to Library" />
+          <Menu.Item icon="pen" onPress={() => {}} title="Create Petition" />
+        </Menu>
+        
+      </Appbar.Header>
       <Screen style={styles.container} preset="scroll">
         <Image source={{ uri: bookInfo.coverURI }} style={styles.bigImage}></Image>
         <Text style={styles.titleText}>{bookInfo.title}</Text>
         <Text style={styles.regText}>{"Author: " + bookInfo.authors}</Text>
-        <Text style={[styles.regText, { marginBottom: spacing[6] }]}>{"Published on: " + bookInfo.releaseDate}</Text>
+        <Text style={[styles.regText, { marginBottom: spacing[6] }]}>{"Published on: " + bookInfo.releaseDate.toLocaleDateString()}</Text>
         <Text style={styles.description}>Description:</Text>
         {bookInfo.synopsis === '' && <Text style={styles.descText}>No description.</Text>}
         {bookInfo.synopsis !== '' && <Text style={styles.descText}>{bookInfo.synopsis}</Text>}
@@ -60,6 +66,7 @@ export const BookDetailScreen = observer(function BookDetailScreen() {
           <Button onPress={moveToAdd} style={styles.addToLibrary} textStyle={styles.buttonText} text={"Add to Library"}></Button>
         </View>
       </Screen>
+
     </SafeAreaView>
   )
 })

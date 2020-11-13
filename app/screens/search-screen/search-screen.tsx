@@ -77,7 +77,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-around',
     alignContent: 'space-around',
-    paddingTop: spacing[6]
   },
   container: {
     flexDirection: 'row',
@@ -87,7 +86,7 @@ const styles = StyleSheet.create({
   },
   search: {
     flex: 1,
-    backgroundColor: color.transparent,
+    // backgroundColor: color.transparent,
     color: color.primaryBlue
   },
   containerList: {
