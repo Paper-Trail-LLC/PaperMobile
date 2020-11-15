@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-around',
     alignContent: 'space-around',
+    backgroundColor: color.transparent
   },
   container: {
     flexDirection: 'row',

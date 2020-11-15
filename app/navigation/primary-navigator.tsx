@@ -4,16 +4,17 @@
  *
  * You'll likely spend most of your time in this file.
  */
-import React from "react"
-import { createStackNavigator } from "@react-navigation/stack"
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs"
-// import { WelcomeScreen, DemoScreen } from "../screens"
-import { SearchScreen } from "../screens/search-screen/search-screen"
-import { BookDetailScreen, NearbyListingsScreen } from "../screens"
-import { MyLibraryScreen } from "../screens/my-library-screen/my-library-screen"
+import React from "react";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+// import { WelcomeScreen, DemoScreen } from "../screens";
+import { SearchScreen } from "../screens/search-screen/search-screen";
+import { BookDetailScreen, NearbyListingsScreen } from "../screens";
+import { MyLibraryScreen } from "../screens/my-library-screen/my-library-screen";
 import { BookScanComponent } from "../components/book-scan-component/book-scan-component";
 import { color } from "../theme";
-import { AddBookScreen } from "../screens/add-book-screen/add-book-screen"
+import { AddBookScreen } from "../screens/add-book-screen/add-book-screen";
+import { HomeScreen } from "../screens/home-screen/home-screen";
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
  * as well as what properties (if any) they might take when navigating to them.
@@ -27,6 +28,7 @@ import { AddBookScreen } from "../screens/add-book-screen/add-book-screen"
  *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
  */
 export type PrimaryParamList = {
+  home: undefined
   search: undefined
   detail: undefined
   my_library: undefined
@@ -61,11 +63,12 @@ function BookSearchTab() {
         gestureEnabled: true,
       }}
     >
+      <Stack.Screen name="home" component={HomeScreen} />
       <Stack.Screen name="search" component={SearchScreen} />
       <Stack.Screen name="detail" component={BookDetailScreen} />
-      <Stack.Screen name="scan" component={BookScanComponent}/>
+      <Stack.Screen name="scan" component={BookScanComponent} />
       <Stack.Screen name="add_book" component={AddBookScreen} />
-      <Stack.Screen name="nearby_listings" component={NearbyListingsScreen}/>
+      <Stack.Screen name="nearby_listings" component={NearbyListingsScreen} />
     </Stack.Navigator>
   );
 }
@@ -92,5 +95,5 @@ function MyLibraryTab() {
  *
  * `canExit` is used in ./app/app.tsx in the `useBackButtonHandler` hook.
  */
-const exitRoutes = ["welcome"]
+const exitRoutes = ["home"]
 export const canExit = (routeName: string) => exitRoutes.includes(routeName)
