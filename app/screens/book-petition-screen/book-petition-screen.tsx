@@ -17,8 +17,7 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
 
   const today = new Date();
   today.setMonth(today.getMonth()+1);
-  const [date, setDate] = React.useState(today);
-  const [show, setShow] = React.useState(false);
+  // const [date, setDate] = React.useState(today);
 
   const [locationPermission, askLocationPermission, getLocationPermission] = Permissions.usePermissions(Permissions.LOCATION, {ask: true});
   const [location, setLocation] = React.useState(null);
@@ -26,10 +25,11 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
   const [selectedToBuy, setToBuy] = React.useState(false);
   const [selectedToBorrow, setToBorrow] = React.useState(false);
 
-  const { bookStore } = useStores();
+  const { bookStore, bookPetitionStore } = useStores();
 
   const isbn13: string = bookStore.choice;
   const bookInfo: Book = bookStore.getBook(isbn13);
+  bookPetitionStore.setBook(bookInfo);
 
   // Pull in navigation via hook
   const navigation = useNavigation()
@@ -50,9 +50,8 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
   }
 
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === 'ios');
-    setDate(currentDate);
+    const currentDate = selectedDate || today;
+    bookPetitionStore.setExpDate(currentDate);
   };
 
   return (
@@ -142,7 +141,7 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
         <View style={[styles.row, {marginVertical: Platform.OS === 'ios' ? spacing[7] : spacing[0]}]}>
           <Text style={styles.regText}>expires in:</Text>
           <DateTimePicker
-            value={date}
+            value={bookPetitionStore.getExpDate()}
             style={{flex: 1}}
             textColor={color.primaryBlue}
             mode={'date'}
@@ -150,6 +149,7 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
             onChange={onChange}
           ></DateTimePicker>
         </View>
+        <Button style={[styles.blueButton, { marginBottom: spacing[4] }]} textStyle={styles.buttonText} text={'create a book petition'}></Button>
       </Screen>
     </SafeAreaView>
   )
@@ -224,9 +224,10 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 18,
   },
-  searchNearby: {
+  blueButton: {
     margin: spacing[3],
     borderRadius: 13,
+    paddingVertical: spacing[4],
     backgroundColor: color.primaryBlue
   },
   addToLibrary: {
