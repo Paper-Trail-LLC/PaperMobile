@@ -1,18 +1,14 @@
-import { MyBookStoreModel } from "../my-book-store/my-book-store"
+import { BookPetitionStoreModel } from "../book-petition-store/book-petition-store"
 import { BookStoreModel } from "../book-store/book-store"
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
-import { UserBookModel } from "../user-book/user-book"
-import { BookPetitionModel } from "../book-petition/book-petition"
 
 /**
  * A RootStore model.
  */
 // prettier-ignore
 export const RootStoreModel = types.model("RootStore").props({
-  myBookStore: types.optional(MyBookStoreModel, {}),
+  bookPetitionStore: types.optional(BookPetitionStoreModel, {}),
   bookStore: types.optional(BookStoreModel, {}),
-  userBookStore: types.optional(UserBookModel, {}),
-  bookPetitionStore: types.optional(BookPetitionModel, {}),
 })
 
 /**

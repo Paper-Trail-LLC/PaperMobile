@@ -7,10 +7,11 @@ import { Book, BookModel } from "../book/book"
 export const BookPetitionModel = types
   .model("BookPetition")
   .props({
+    id: types.string,
     book: BookModel,
     description: types.optional(types.string, ''),
-    toBuy: types.optional(types.boolean, false),
-    toSell: types.optional(types.boolean, false),
+    buying: types.optional(types.boolean, false),
+    borrowing: types.optional(types.boolean, false),
     location: types.optional(types.array(types.number), [0,0]), //Not sure!
     maxRadius: types.optional(types.number, 0),
     expirationDate: types.optional(types.Date, new Date())
@@ -24,11 +25,11 @@ export const BookPetitionModel = types
     setDescription: (desc: string) => {
       self.description = desc;
     },
-    setToBuy: (toBuy: boolean) => {
-      self.toBuy = toBuy;
+    setBuying: (buying: boolean) => {
+      self.buying = buying;
     },
-    setToSell: (toSell: boolean) => {
-      self.toSell = toSell;
+    setBorrowing: (borrowing: boolean) => {
+      self.borrowing = borrowing;
     },
     setLocation: (location: number[]) => {
       self.location[0] = location[0];
@@ -45,11 +46,11 @@ export const BookPetitionModel = types
     getDescription: () => {
       return self.description;
     },
-    getToBuy: () => {
-      return self.toBuy;
+    getbuying: () => {
+      return self.buying;
     },
-    getToSell: () => {
-      return self.toSell;
+    getborrowing: () => {
+      return self.borrowing;
     },
     getLocation: () => {
       return self.location;
