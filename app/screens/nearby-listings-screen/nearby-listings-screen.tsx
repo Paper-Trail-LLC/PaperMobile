@@ -8,9 +8,10 @@ import { color, spacing, typography } from "../../theme"
 import { backButton } from ".."
 import { useNavigation } from "@react-navigation/native"
 import { useStores, Book } from "../../models"
+import { Appbar, Menu } from 'react-native-paper';
 
 export const NearbyListingsScreen = observer(function NearbyListingsScreen() {
-  
+
   const { bookStore } = useStores();
 
   const isbn13: string = bookStore.choice;
@@ -18,7 +19,7 @@ export const NearbyListingsScreen = observer(function NearbyListingsScreen() {
 
   // Pull in navigation via hook
   const navigation = useNavigation();
-  const goBack = () => navigation.goBack();
+  const _goBack = () => navigation.goBack();
 
   const moveToCreatePetition = () => {
     navigation.navigate("create_petition");
@@ -26,25 +27,19 @@ export const NearbyListingsScreen = observer(function NearbyListingsScreen() {
 
   return (
     <SafeAreaView style={styles.full}>
-      {/* <Image
-          style={BACKGROUND}
-          source={bground}/> */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={goBack}
-        >
-          <Image source={backButton}></Image>
-        </TouchableOpacity>
-      </View>
+      <Appbar.Header statusBarHeight={0}>
+        <Appbar.BackAction onPress={_goBack} />
+        <Appbar.Content title={"Nearby Listing"} />
+      </Appbar.Header>
       <Screen style={styles.container} preset="scroll">
         <Image source={{ uri: bookInfo.coverURI }} style={styles.bigImage}></Image>
         <Text style={styles.titleText}>{bookInfo.title}</Text>
-        <Text style={[styles.regText, {marginBottom: spacing[2]}]}>{"Author: " + bookInfo.authors}</Text>
-        <Text style={[styles.regText, { marginBottom: spacing[4] }]}>{"Published on: " + bookInfo.releaseDate}</Text>
+        <Text style={[styles.regText, { marginBottom: spacing[2] }]}>{"Author: " + bookInfo.authors}</Text>
+        <Text style={[styles.regText, { marginBottom: spacing[4] }]}>{"Published on: " + bookInfo.releaseDate.toLocaleDateString()}</Text>
         <Text style={styles.regText}>{"Don't see a good nearby listing?"}</Text>
         <Button onPress={moveToCreatePetition} style={[styles.blueButton, { marginBottom: spacing[4] }]} textStyle={styles.buttonText} text={'create a book petition'}></Button>
         <NearbyListingItem
-        style={styles.ListItem}
+          style={styles.ListItem}
           owner={'Alexander Hamilton'}
           ownerRating={1.3}
           lending={true}

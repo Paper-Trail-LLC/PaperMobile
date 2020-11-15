@@ -21,11 +21,9 @@ export const BookStoreModel = types
       self.books.clear();
     },
     getBook: function (isbn13:string) {
-      for (let i=0; i< self.books.length; i++){
-        if (self.books[i].isbn13 === isbn13){
-          return self.books[i];
-        }
-      }
+      let i = self.books.findIndex((item) => item.isbn13 == isbn13);
+      if(i<0) return;
+      else return self.books[i];
     },
     setChoice: (isbn13: string) => {
       self.choice = isbn13;
@@ -34,12 +32,14 @@ export const BookStoreModel = types
   .actions(self => ({
     getBookByISBN: flow(function*(isbn:string) {
       const result: GetBookByISBNResult = yield self.environment.api.Books.searchBook(isbn);
+      console.info('getBookByISBN: ', result);
       if (result.kind === "ok"){
-        let i = self.books.findIndex((item) => item.isbn13 == result.book.isbn13);
-        if(i<0) self.addBook(result.book);
+        result.book.releaseDate = new Date(result.book.releaseDate);
+        if(!self.getBook(result.book.isbn13)) self.addBook(result.book);
         return result.book;
       } else {
         __DEV__ && console.tron.log(result.kind);
+        return;
       }
       
     }),

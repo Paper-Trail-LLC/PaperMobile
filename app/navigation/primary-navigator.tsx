@@ -13,7 +13,8 @@ import { BookDetailScreen, BookPetitionScreen, NearbyListingsScreen } from "../s
 import { MyLibraryScreen } from "../screens/my-library-screen/my-library-screen"
 import { BookScanComponent } from "../components/book-scan-component/book-scan-component";
 import { color } from "../theme";
-import { AddBookScreen } from "../screens/add-book-screen/add-book-screen"
+import { AddBookScreen } from "../screens/add-book-screen/add-book-screen";
+import { HomeScreen } from "../screens/home-screen/home-screen";
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
  * as well as what properties (if any) they might take when navigating to them.
@@ -27,6 +28,7 @@ import { AddBookScreen } from "../screens/add-book-screen/add-book-screen"
  *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
  */
 export type PrimaryParamList = {
+  home: undefined
   search: undefined
   detail: undefined
   my_library: undefined
@@ -45,7 +47,7 @@ export function PrimaryNavigator() {
     <Tab.Navigator
       labeled={false}
       style={{
-        backgroundColor: color.primaryBlue
+        backgroundColor: color.storybookDarkBg,
       }}
     >
       <Tab.Screen name="searchTab" component={BookSearchTab} options={{tabBarIcon:'book-search'}}></Tab.Screen>
@@ -62,9 +64,10 @@ function BookSearchTab() {
         gestureEnabled: true,
       }}
     >
+      <Stack.Screen name="home" component={HomeScreen} />
       <Stack.Screen name="search" component={SearchScreen} />
       <Stack.Screen name="detail" component={BookDetailScreen} />
-      <Stack.Screen name="scan" component={BookScanComponent}/>
+      <Stack.Screen name="scan" component={BookScanComponent} />
       <Stack.Screen name="add_book" component={AddBookScreen} />
       <Stack.Screen name="nearby_listings" component={NearbyListingsScreen} />
       <Stack.Screen name="create_petition" component={BookPetitionScreen} />
@@ -94,5 +97,5 @@ function MyLibraryTab() {
  *
  * `canExit` is used in ./app/app.tsx in the `useBackButtonHandler` hook.
  */
-const exitRoutes = ["welcome"]
+const exitRoutes = ["home"]
 export const canExit = (routeName: string) => exitRoutes.includes(routeName)
