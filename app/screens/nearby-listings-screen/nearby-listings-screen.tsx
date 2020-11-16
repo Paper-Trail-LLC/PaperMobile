@@ -1,14 +1,13 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
 import { Image, SafeAreaView, StyleSheet, TouchableOpacity, View } from "react-native"
-import { Button, NearbyListingItem, Screen, Text } from "../../components"
+import { Button, NearbyListingItem, Screen, BookOverviewComponent  } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing, typography } from "../../theme"
-import { backButton } from ".."
 import { useNavigation } from "@react-navigation/native"
 import { useStores, Book } from "../../models"
-import { Appbar, Menu } from 'react-native-paper';
+import { Appbar, Menu, Text} from 'react-native-paper';
 
 export const NearbyListingsScreen = observer(function NearbyListingsScreen() {
 
@@ -32,10 +31,7 @@ export const NearbyListingsScreen = observer(function NearbyListingsScreen() {
         <Appbar.Content title={"Nearby Listing"} />
       </Appbar.Header>
       <Screen style={styles.container} preset="scroll">
-        <Image source={{ uri: bookInfo.coverURI }} style={styles.bigImage}></Image>
-        <Text style={styles.titleText}>{bookInfo.title}</Text>
-        <Text style={[styles.regText, { marginBottom: spacing[2] }]}>{"Author: " + bookInfo.authors}</Text>
-        <Text style={[styles.regText, { marginBottom: spacing[4] }]}>{"Published on: " + bookInfo.releaseDate.toLocaleDateString()}</Text>
+        <BookOverviewComponent book={bookInfo}></BookOverviewComponent>
         <Text style={styles.regText}>{"Don't see a good nearby listing?"}</Text>
         <Button onPress={moveToCreatePetition} style={[styles.blueButton, { marginBottom: spacing[4] }]} textStyle={styles.buttonText} text={'create a book petition'}></Button>
         <NearbyListingItem
@@ -60,10 +56,10 @@ const styles = StyleSheet.create({
     // alignContent:'space-around'
   },
   container: {
-    // flex: 1,
-    // flexDirection: 'row',
-    // justifyContent: 'center',
-    // alignItems: 'center',
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    alignItems: 'center',
     // backgroundColor: color.transparent,
     paddingHorizontal: spacing[2]
   },

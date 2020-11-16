@@ -1,14 +1,15 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { Image, SafeAreaView, StyleSheet, TouchableOpacity, View, Switch, Picker, Alert, Platform } from "react-native"
-import { Button, Screen, BookOverviewComponent } from "../../components"
+import { SafeAreaView, StyleSheet, View, Switch, Picker, Alert, Platform } from "react-native"
+import { Screen, BookOverviewComponent } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
+import { UrlTile } from 'react-native-maps';
+import MapView from 'react-native-maps';
 import { color, spacing, typography } from "../../theme"
 import { Book, BookPetition, useStores } from "../../models"
 import { useNavigation } from "@react-navigation/native"
-import { backButton } from ".."
-import { TextInput, Text } from "react-native-paper"
+import { TextInput, Text, Appbar, Subheading, Divider, Button } from "react-native-paper"
 import * as Permissions from 'expo-permissions'
 import * as Location from 'expo-location'
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -35,7 +36,18 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
 
   // Pull in navigation via hook
   const navigation = useNavigation()
-  const goBack = () => navigation.goBack()
+  const _goBack = () => navigation.goBack()
+  /*
+  For refernce, below URL is for OpenStreetMap:
+  var tileUrl = "http://c.tile.openstreetmap.org/{z}/{x}/{y}.png";
+  */
+  const tileUrl = "http://c.tile.openstreetmap.org/{z}/{x}/{y}.png";
+  const [region, setRegion] = React.useState({
+    latitude: 18.220833,
+    longitude: -66.590149,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  });
 
   async function getLocation() {
     console.log('test');
@@ -58,22 +70,16 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
 
   return (
     <SafeAreaView style={styles.full}>
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={goBack}
-        >
-          <Image source={backButton}></Image>
-        </TouchableOpacity>
-      </View>
+      <Appbar.Header statusBarHeight={0}>
+        <Appbar.BackAction onPress={_goBack} />
+        <Appbar.Content title={"Book Petition"} />
+      </Appbar.Header>
+
       <Screen style={styles.container} preset="scroll">
-        <BookOverviewComponent book={bookInfo}></BookOverviewComponent>
-        <TextInput
-          // accessibilityValue={{text:'Petition details'}}
-          multiline={true}
-          numberOfLines={4}
-          label={'Write details here.'}
-          focusable={true}
-        />
+        <BookOverviewComponent book={bookInfo} style={{ flex: 1 }}></BookOverviewComponent>
+        {/* BUYING OR BORROWING */}
+        <Subheading>Are you?</Subheading>
+        <Divider />
         <View style={styles.row}>
           <View style={styles.item}>
             <View style={styles.row}>
@@ -98,6 +104,9 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
             </View>
           </View>
         </View>
+        {/* LOCATION */}
+        <Subheading>Where?</Subheading>
+        <Divider />
         <View style={[styles.row, { marginBottom: Platform.OS === 'ios' ? spacing[5] : spacing[0] }]}>
           <View style={styles.item}>
             <Text style={styles.regText}>Location: </Text>
@@ -117,7 +126,7 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
         </View>
         <View style={styles.row}>
           {petitionLocation === 'new location' &&
-            <Button onPress={getLocation} text={'locate me!'} style={styles.locateMeButtonStyle} textStyle={styles.buttonText}></Button>
+            <Button onPress={getLocation} mode={'contained'} icon={'crosshairs-gps'}></Button>
           }
           <TextInput
             mode="outlined"
@@ -126,6 +135,12 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
             focusable={false}
             value={location}
             style={styles.locationInput} />
+        </View>
+        <View style={styles.mapContainer}>
+          <MapView style={styles.map} initialRegion={region} provider={null}
+            mapType={Platform.OS == "android" ? "none" : "standard"}>
+            <UrlTile urlTemplate={tileUrl} maximumZ={19} />
+          </MapView>
         </View>
         <View style={styles.row}>
           <Text style={styles.regText}>max radius:</Text>
@@ -141,15 +156,22 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
         </View>
         <View style={[styles.row, { marginVertical: Platform.OS === 'ios' ? spacing[7] : spacing[0] }]}>
           <Text style={styles.regText}>expires in:</Text>
-          <DateTimePicker
+          {/* <DateTimePicker
             value={expdate}
             style={{ flex: 1 }}
             textColor={color.primaryBlue}
             mode={'date'}
             display={'default'}
             onChange={onChange}
-          ></DateTimePicker>
+          ></DateTimePicker> */}
         </View>
+        <TextInput
+          // accessibilityValue={{text:'Petition details'}}
+          multiline={true}
+          numberOfLines={4}
+          label={'Write details here.'}
+          focusable={true}
+        />
         <Button style={[styles.blueButton, { marginBottom: spacing[4] }]} textStyle={styles.buttonText} text={'create a book petition'}></Button>
       </Screen>
     </SafeAreaView>
@@ -165,8 +187,9 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingHorizontal: spacing[2],
-    flex: 1,
-    flexDirection: 'column'
+    // flex: 1,
+    // flexDirection: 'column',
+    // justifyContent: 'space-around'
   },
   row: {
     flexDirection: 'row',
@@ -247,4 +270,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: color.transparent
   },
+  mapContainer: {
+    flexDirection: 'column',
+    height: 200,
+  }, 
+  map: {
+    flex: 1,
+  }
 })

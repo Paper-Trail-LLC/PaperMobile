@@ -28,7 +28,7 @@ export const BookOverviewComponent = observer(function BookOverviewComponent(pro
       </View>
       <Title style={styles.titleText}>{book.title}</Title>
       <Text style={styles.TEXT}>{"Author: " + book.authors}</Text>
-      <Text style={styles.TEXT}>{"Published on: " + book.releaseDate}</Text>
+      <Text style={styles.TEXT}>{"Published on: " + book.releaseDate.toLocaleDateString()}</Text>
     </View>
   )
 })
@@ -36,6 +36,8 @@ const styles = StyleSheet.create({
   CONTAINER: {
     flex: 1,
     flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignContent: 'space-between'
   },
   TEXT: {
     fontFamily: typography.primary,
@@ -43,7 +45,10 @@ const styles = StyleSheet.create({
     color: color.primaryBlue,
   },
   imgContainer: {
-    flex: 0.30
+    flex:1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    
   },
   titleText: {
     // fontFamily: typography.primary,
@@ -61,8 +66,8 @@ const styles = StyleSheet.create({
   bigImage: {
     alignSelf: 'center',
     marginBottom: spacing[5],
-    width: 107,
-    height: 165,
+    height: '100%',
+    flex: 0.30,
     padding: 10
   },
   buttonContainer: {
