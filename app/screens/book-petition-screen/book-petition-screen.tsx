@@ -4,7 +4,7 @@ import { SafeAreaView, StyleSheet, View, Switch, Picker, Alert, Platform } from 
 import { Screen, BookOverviewComponent } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
-import { UrlTile } from 'react-native-maps';
+import { Circle, Marker, UrlTile } from 'react-native-maps';
 import MapView from 'react-native-maps';
 import { color, spacing, typography } from "../../theme"
 import { Book, BookPetition, useStores } from "../../models"
@@ -18,10 +18,11 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
 
   // Petition values for form
   const today = new Date();
+  const originalLatDelta = 0.0922;
   today.setMonth(today.getMonth() + 1);
   const [expdate, setDate] = React.useState(today);
   const [locationPermission, askLocationPermission, getLocationPermission] = Permissions.usePermissions(Permissions.LOCATION, { ask: true });
-  const [location, setLocation] = React.useState(null);
+  const [location, setLocation] = React.useState([null]);
   const [petitionLocation, setPetitionLocation] = React.useState('new location');
   const [buying, setBuying] = React.useState(false);
   const [borrowing, setBorrowing] = React.useState(false);
@@ -59,7 +60,12 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
     }
     else {
       let location = await Location.getCurrentPositionAsync({});
-      setLocation(location.coords.latitude + ", " + location.coords.longitude);
+      setRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
+      });
     }
   }
 
@@ -69,7 +75,7 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.full}>
+    <SafeAreaView style={[styles.full]}>
       <Appbar.Header statusBarHeight={0}>
         <Appbar.BackAction onPress={_goBack} />
         <Appbar.Content title={"Book Petition"} />
@@ -107,39 +113,26 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
         {/* LOCATION */}
         <Subheading>Where?</Subheading>
         <Divider />
-        <View style={[styles.row, { marginBottom: Platform.OS === 'ios' ? spacing[5] : spacing[0] }]}>
-          <View style={styles.item}>
-            <Text style={styles.regText}>Location: </Text>
-          </View>
-          <View style={styles.item}>
-            <Picker
-              selectedValue={petitionLocation}
-              onValueChange={(itemValue: any, itemPosition: number) => {
-                setPetitionLocation(itemValue);
-              }}
-              itemStyle={styles.regText}
-            >
-              <Picker.Item label={'new location'} value={'new location'} />
-              <Picker.Item label={'your saved location'} value={'your saved location'} />
-            </Picker>
-          </View>
-        </View>
-        <View style={styles.row}>
-          {petitionLocation === 'new location' &&
-            <Button onPress={getLocation} mode={'contained'} icon={'crosshairs-gps'}></Button>
-          }
-          <TextInput
-            mode="outlined"
-            editable={false}
-            showSoftInputOnFocus={true}
-            focusable={false}
-            value={location}
-            style={styles.locationInput} />
-        </View>
+        <Picker
+          selectedValue={petitionLocation}
+          onValueChange={(itemValue: any, itemPosition: number) => {
+            setPetitionLocation(itemValue);
+          }}
+          itemStyle={styles.regText}
+          style={{ marginVertical: Platform.OS === 'ios' ? -spacing[6] : spacing[0] }}
+        >
+          <Picker.Item label={'New Location'} value={'new location'} />
+          <Picker.Item label={'Your Saved Location'} value={'your saved location'} />
+        </Picker>
+        {petitionLocation === 'new location' &&
+          <Button onPress={getLocation} mode={'contained'} icon={'crosshairs-gps'} style={{ alignSelf: 'center', justifyContent: 'center', margin: 10 }}>Locate me!</Button>
+        }
         <View style={styles.mapContainer}>
-          <MapView style={styles.map} initialRegion={region} provider={null}
-            mapType={Platform.OS == "android" ? "none" : "standard"}>
+          <MapView style={styles.map} initialRegion={region} provider={null} region={region}
+            mapType={Platform.OS == "android" ? "none" : "standard"} rotateEnabled={false}>
             <UrlTile urlTemplate={tileUrl} maximumZ={19} />
+            <Marker coordinate={{ latitude: region.latitude, longitude: region.longitude }}></Marker>
+            <Circle center={{ latitude: region.latitude, longitude: region.longitude }} radius={maxRadius*1000} fillColor={'rgba(50,60,200,0.4)'} strokeColor={'rgba(50,60,200,0.8)'}></Circle>
           </MapView>
         </View>
         <View style={styles.row}>
@@ -147,32 +140,34 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
           <TextInput
             mode="outlined"
             value={"" + maxRadius}
-            onChangeText={rad => setMaxRadius(+rad)}
+            onChangeText={rad => {setMaxRadius(+rad); setRegion({latitude: region.latitude, longitude: region.longitude, latitudeDelta: originalLatDelta * +rad/4, longitudeDelta: region.longitudeDelta})}}
             keyboardType='number-pad'
             showSoftInputOnFocus={true}
             focusable={false}
             style={[styles.locationInput, { marginHorizontal: spacing[6], height: spacing[7] }]} />
           <Text style={styles.regText}>km</Text>
         </View>
-        <View style={[styles.row, { marginVertical: Platform.OS === 'ios' ? spacing[7] : spacing[0] }]}>
-          <Text style={styles.regText}>expires in:</Text>
-          {/* <DateTimePicker
-            value={expdate}
-            style={{ flex: 1 }}
-            textColor={color.primaryBlue}
-            mode={'date'}
-            display={'default'}
-            onChange={onChange}
-          ></DateTimePicker> */}
-        </View>
+        <Subheading>Expires in:</Subheading>
+        <Divider />
+        <DateTimePicker
+          value={expdate}
+          style={{ flex: 1 }}
+          textColor={color.primaryBlue}
+          mode={'date'}
+          minimumDate={new Date()}
+          display={'default'}
+          onChange={onChange}
+        ></DateTimePicker>
+        <Subheading>Anything you want to add?</Subheading>
+        <Divider />
         <TextInput
           // accessibilityValue={{text:'Petition details'}}
           multiline={true}
           numberOfLines={4}
-          label={'Write details here.'}
+          label={'Write it here!'}
           focusable={true}
         />
-        <Button style={[styles.blueButton, { marginBottom: spacing[4] }]} textStyle={styles.buttonText} text={'create a book petition'}></Button>
+        <Button onPress={() => {Alert.alert('Create book petition pressed!')}} style={[styles.blueButton, { marginBottom: spacing[4] }]} color={'white'}>create a book petition</Button>
       </Screen>
     </SafeAreaView>
   )
@@ -183,7 +178,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-around',
-    backgroundColor: color.background
+    backgroundColor: color.transparent
   },
   container: {
     paddingHorizontal: spacing[2],
@@ -254,7 +249,7 @@ const styles = StyleSheet.create({
     margin: spacing[3],
     borderRadius: 13,
     paddingVertical: spacing[4],
-    backgroundColor: color.primaryBlue
+    backgroundColor: color.primaryBlue,
   },
   addToLibrary: {
     margin: spacing[3],
@@ -273,7 +268,7 @@ const styles = StyleSheet.create({
   mapContainer: {
     flexDirection: 'column',
     height: 200,
-  }, 
+  },
   map: {
     flex: 1,
   }
