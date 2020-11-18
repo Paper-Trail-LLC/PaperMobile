@@ -1,7 +1,7 @@
 import * as React from "react"
 import { TextStyle, View, ViewStyle, StyleSheet, Keyboard } from "react-native"
 import { color, typography, spacing } from "../../theme"
-import { TextInput } from 'react-native-paper';
+import { TextInput, useTheme } from 'react-native-paper';
 import { useNavigation } from "@react-navigation/native"
 
 export interface SearchBarProps {
@@ -16,6 +16,7 @@ export interface SearchBarProps {
  */
 export function SearchBar(props: SearchBarProps) {
   const { style } = props
+  const { colors } = useTheme();
   let searchQuery = '';
   let setSearchQuery = function (query: string) {
     // Alert.alert(query);
@@ -31,8 +32,8 @@ export function SearchBar(props: SearchBarProps) {
   return (
     <View style={styles.container}>
     <TextInput
-      left={<TextInput.Icon name="magnify" color={color.primaryBlue} />}
-      right={<TextInput.Icon name="barcode-scan" color={color.primaryBlue}
+      left={<TextInput.Icon name="magnify" color={colors.primary}/>}
+      right={<TextInput.Icon name="barcode-scan" color={colors.primary}
         onPress={() => {
           goToScanScreen();
           Keyboard.dismiss();
@@ -53,11 +54,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     // justifyContent: 'space-around',
     // alignItems: 'stretch',
-    padding: spacing[2]
   },
   search: {
     flex: 1,
     // backgroundColor: color.transparent,
-    color: color.primaryBlue
+    // color: color.primaryBlue
   },
 });

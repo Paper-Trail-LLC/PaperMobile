@@ -2,11 +2,11 @@ import * as React from "react"
 import { Alert, StyleSheet, View } from "react-native"
 import { observer } from "mobx-react-lite"
 import { spacing, typography } from "../../theme"
-import { Text } from "../"
 import { NearbyListingItemProps } from "./nearby-listing-item.props"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
-import { Button } from "../../components"
 import { TouchableOpacity } from "react-native-gesture-handler"
+import {Text, Button, useTheme, Headline, Subheading, Chip} from 'react-native-paper';
+import { propOr, propSatisfies } from "ramda"
 // import { useNavigation } from "@react-navigation/native"
 
 /**
@@ -14,7 +14,7 @@ import { TouchableOpacity } from "react-native-gesture-handler"
  */
 export const NearbyListingItem = observer(function NearbyListingItem(props: NearbyListingItemProps) {
   const { style } = props
-
+  const { colors } = useTheme();
   // const navigation = useNavigation()
 
   var ratingColor: string = '';
@@ -36,32 +36,24 @@ export const NearbyListingItem = observer(function NearbyListingItem(props: Near
     ratingColor = 'blue';
   }
 
-  if (props.selling && props.lending) {
-    transactions = 'lending, selling';
-  }
-  else if (props.selling) {
-    transactions = 'selling';
-  }
-  else if (props.lending) {
-    transactions = 'lending';
-  }
-
   return (
     <View style={[styles.container, style]}>
       <TouchableOpacity onPress={() => { Alert.alert('owner profile pressed!') }} style={styles.ownerInfoColumn}>
-        <Text style={styles.bigBoldText}>{'owner: ' + props.owner}</Text>
+        <Text>{'Owner: ' + props.owner}</Text>
         <View style={styles.row}>
           <MaterialCommunityIcons name={'star'} color={'orange'} size={24}></MaterialCommunityIcons>
-          <Text style={[styles.boldText, {color: ratingColor}]}>{props.ownerRating + '/5'}</Text>
+          <Text style={[{color: ratingColor}]}>{props.ownerRating + '/5'}</Text>
         </View>
-        <Text style={[styles.thinText, {marginBottom: spacing[3]}]}>{transactions}</Text>
+        <View style={[styles.row]}>
+          <Chip icon="bank-transfer-out" mode={props.lending?'flat':'outlined'} selected={props.lending}  disabled={!props.lending}>Lending</Chip>
+          <Chip icon="currency-usd" mode={props.selling?'flat':'outlined'} selected={props.selling}   disabled={!props.selling}>Selling</Chip>
+        </View>
       </TouchableOpacity>
       <View style={styles.secondColumn}>
-        <View style={[styles.row, {marginBottom: -spacing[3]}]}>
-          <Text style={[styles.boldText, { color: '#390099' }]}>{props.distance}</Text>
-          <Text style={styles.regText}>{' km away'}</Text>
+        <View style={[styles.row]}>
+          <Text>{props.distance + ' km away'}</Text>
         </View>
-        <Button onPress={() => { Alert.alert("request book pressed!") }} style={styles.buttonStyle} textStyle={styles.buttonText} text={'request book'}></Button>
+        <Button mode={'contained'} onPress={() => { Alert.alert("request book pressed!") }}>Request Book</Button>
       </View>
     </View>
   )
@@ -69,36 +61,13 @@ export const NearbyListingItem = observer(function NearbyListingItem(props: Near
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
+    flexDirection: 'column',
     justifyContent: "center",
-    // flexWrap: "wrap",
     alignItems: "center",
-    padding: 5
   },
   row: {
-    flexDirection: "row"
-  },
-  regText: {
-    fontFamily: typography.primary,
-    color: "#390099",
-    fontSize: 20
-  },
-  thinText: {
-    fontFamily: typography.primary,
-    color: "#390099",
-    fontWeight: '200',
-    fontSize: 20
-  },
-  bigBoldText: {
-    fontFamily: typography.primary,
-    color: "#390099",
-    fontWeight: "bold",
-    fontSize: 24
-  },
-  boldText: {
-    fontFamily: typography.primary,
-    fontWeight: "bold",
-    fontSize: 24
+    flexDirection: "row",
   },
   ownerInfoColumn: {
     alignItems: 'center',
@@ -107,16 +76,5 @@ const styles = StyleSheet.create({
   secondColumn: {
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  buttonStyle: {
-    margin: spacing[3],
-    borderRadius: 13,
-    backgroundColor: '#43D000',
-    paddingVertical: -5
-  },
-  buttonText: {
-    fontSize: 18,
-    marginVertical: spacing[3],
-    marginHorizontal: -5
   },
 })

@@ -1,18 +1,9 @@
 import * as React from "react"
-import { TextStyle, View, ViewStyle } from "react-native"
+import { View, StyleSheet, ViewStyle } from "react-native"
 import { observer } from "mobx-react-lite"
-import { color, typography } from "../../theme"
-import { Text } from "../"
+import { color, spacing, typography } from "../../theme"
+import { Text, Title } from "react-native-paper"
 
-const CONTAINER: ViewStyle = {
-  justifyContent: "center",
-}
-
-const TEXT: TextStyle = {
-  fontFamily: typography.primary,
-  fontSize: 14,
-  color: color.primaryBlue,
-}
 
 export interface CoverSideScrollProps {
   /**
@@ -28,8 +19,27 @@ export const CoverSideScroll = observer(function CoverSideScroll(props: CoverSid
   const { style } = props
 
   return (
-    <View style={[CONTAINER, style]}>
-      <Text style={TEXT}>Hello</Text>
+    <View style={[styles.CONTAINER, style]}>
+      <Title>Nearby Listings</Title>
+
+      <Title>Just for you</Title>
+
+      <Title>Popular in your area</Title>
     </View>
   )
 })
+
+const styles = StyleSheet.create( {
+  CONTAINER: {
+    flex: 1,
+    padding: spacing[2],
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    alignItems: 'flex-start'
+  },
+  TEXT: {
+    fontFamily: typography.primary,
+    fontSize: 14,
+    color: color.primaryBlue,
+  }
+});
