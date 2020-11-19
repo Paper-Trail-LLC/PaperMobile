@@ -1,5 +1,5 @@
 import { ViewStyle } from "react-native"
-
+import { Book } from "../../models"
 export interface BookListItemProps {
 
     /**
@@ -7,31 +7,9 @@ export interface BookListItemProps {
      */
     style?: ViewStyle,
 
-    id: string,
-
-    isbn13: string,
     /**
-     * Book cover image url
+     * Book object
      */
-    coverURI?: string,
+    book: Book,
 
-    /**
-     * Book title
-     */
-    title?: string,
-
-    /**
-     * Book author
-     */
-    authors?: string[],
-
-    /** 
-     * Book release date
-    */
-    releaseDate?: string
-
-    /**
-     * Book is bookmarked
-     */
-    isBookmarked?: boolean
 }

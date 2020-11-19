@@ -10,7 +10,7 @@ export const BookModel = types
     coverURI: types.optional(types.string, ''),
     title: types.string,
     authors: types.array(types.string),
-    releaseDate: types.string,
+    releaseDate: types.Date,
     isbn: types.optional(types.string, ''),
     isbn13: types.string,
     edition: types.optional(types.string, ''),

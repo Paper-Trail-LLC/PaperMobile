@@ -15,21 +15,15 @@ export const BookStoreModel = types
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
     addBook: (b) => {
-      // console.log(b);
       self.books.push(BookModel.create(b));
-      // console.log(self.books);
     },
     clear: function () {
       self.books.clear();
     },
     getBook: function (isbn13:string) {
-      console.log(self.books);
-      for (let i=0; i< self.books.length; i++){
-        if (self.books[i].isbn13 === isbn13){
-          // console.log(self.books);
-          return self.books[i];
-        }
-      }
+      let i = self.books.findIndex((item) => item.isbn13 == isbn13);
+      if(i<0) return;
+      else return self.books[i];
     },
     setChoice: (isbn13: string) => {
       self.choice = isbn13;
@@ -38,13 +32,14 @@ export const BookStoreModel = types
   .actions(self => ({
     getBookByISBN: flow(function*(isbn:string) {
       const result: GetBookByISBNResult = yield self.environment.api.Books.searchBook(isbn);
+      console.info('getBookByISBN: ', result);
       if (result.kind === "ok"){
-        // console.log(result.book);
-        let i = self.books.findIndex((item) => item.isbn13 == result.book.isbn13);
-        if(i<0) self.addBook(result.book);
+        result.book.releaseDate = new Date(result.book.releaseDate);
+        if(!self.getBook(result.book.isbn13)) self.addBook(result.book);
         return result.book;
       } else {
         __DEV__ && console.tron.log(result.kind);
+        return;
       }
       
     }),

@@ -42,7 +42,7 @@ export const AddBookScreen = observer(function AddBookScreen(props: AddBookProps
           <Image source={{uri: bookInfo.coverURI}} style={styles.bigImage}></Image>
           <Text style={styles.titleText}>{bookInfo.title}</Text>
           <Text style={styles.regText}>{"Author: " + bookInfo.authors}</Text>
-          <Text style={[styles.regText, { marginBottom: spacing[6] }]}>{"Published on: " + bookInfo.releaseDate}</Text>
+          <Text style={[styles.regText, { marginBottom: spacing[6] }]}>{"Published on: " + bookInfo.releaseDate.toLocaleDateString()}</Text>
           <MyBookDetails
             style={{ color: color.primaryBlue, borderColor: color.primaryBlue }}
           />

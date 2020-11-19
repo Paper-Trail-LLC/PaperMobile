@@ -2093,6 +2093,13 @@
     sudo-prompt "^9.0.0"
     wcwidth "^1.0.1"
 
+"@react-native-community/datetimepicker@^3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@react-native-community/datetimepicker/-/datetimepicker-3.0.4.tgz#ad3efa90fab78fc3c0710abf3cb06d2976603140"
+  integrity sha512-IsBkemz1XYubH5twfQPC/xleZdILA5SEUaLJ2C86IbnIOctb6suk8tB6uT9VxQkCsw4zjkrlqt9p9LGx9DJ97w==
+  dependencies:
+    invariant "^2.2.4"
+
 "@react-native-community/masked-view@0.1.10":
   version "0.1.10"
   resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.10.tgz#5dda643e19e587793bc2034dd9bf7398ad43d401"
@@ -5845,6 +5852,18 @@ es5-shim@^4.5.13:
   version "4.5.14"
   resolved "https://registry.yarnpkg.com/es5-shim/-/es5-shim-4.5.14.tgz#90009e1019d0ea327447cb523deaff8fe45697ef"
   integrity sha512-7SwlpL+2JpymWTt8sNLuC2zdhhc+wrfe5cMPI2j0o6WsPdfAiPwmFy2f0AocPB4RQVBOZ9kNTgi5YF7TdhkvEg==
+
+es6-deferred@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/es6-deferred/-/es6-deferred-1.3.0.tgz#4c2ebe054749a8ceba3b839289f7b1e26c82ad03"
+  integrity sha1-TC6+BUdJqM66O4OSifex4myCrQM=
+  optionalDependencies:
+    es6-promise "^2.0.1"
+
+es6-promise@^2.0.1:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-2.3.0.tgz#96edb9f2fdb01995822b263dd8aadab6748181bc"
+  integrity sha1-lu258v2wGZWCKyY92KratnSBgbw=
 
 es6-shim@^0.35.5:
   version "0.35.5"
@@ -11608,6 +11627,18 @@ react-native-keychain@^6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/react-native-keychain/-/react-native-keychain-6.2.0.tgz#8f4cff503aad367141db5aea0189ead9240c28ff"
   integrity sha512-U6fnOQRJPq+c0Abl+FoYy9v0H3kQU587tMamU/o+MoBSUScFLE3DQpkyT1PW4NF5IObgiGuqQdmjC2KgtBpjGA==
+
+react-native-maps@0.27.1:
+  version "0.27.1"
+  resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.27.1.tgz#2f10cd417bb2fd938c9e015b1c9b6d9b1a44b97f"
+  integrity sha512-HygBkZBecTnIVRYrSiLRAvu4OmXOYso/A7c6Cy73HkOh9CgGV8Ap5eBea24tvmFGptjj5Hg8AJ94/YbmWK1Okw==
+
+react-native-paper-datepicker@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-paper-datepicker/-/react-native-paper-datepicker-1.0.0.tgz#010e4d4564707543f0390227af658854f4c618df"
+  integrity sha512-yic/54J1GjHB1NnGEKkYV/0JcWJiIyGc6UrY7h4WBbBu4h0/Z1HMZAL2G55AxMte801ud22hDNH/+rx3TImUNQ==
+  dependencies:
+    es6-deferred "^1.3.0"
 
 react-native-paper@^4.2.0:
   version "4.2.0"

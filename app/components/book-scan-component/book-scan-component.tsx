@@ -5,9 +5,10 @@ import { color, typography } from "../../theme";
 import { Text } from "../";
 import { Camera, BarCodeScanningResult } from 'expo-camera';
 import { Ionicons } from '@expo/vector-icons'
-import { Book, useStores } from "../../models";
+import { Book, BookType, useStores } from "../../models";
 import { useNavigation } from "@react-navigation/native"
 import { ActivityIndicator, Snackbar } from 'react-native-paper';
+import { $nonEmptyObject } from "mobx-state-tree/dist/internal";
 
 const { width: winWidth, height: winHeight } = Dimensions.get('window');
 const isIos = Platform.OS === "ios"
@@ -28,6 +29,7 @@ export const BookScanComponent = observer(function BookScanComponent(props: Book
   const [scanned, setScanned] = React.useState(false);
   const [bookSearched, setBookSearched] = React.useState(false);
   const [bookFound, setBookFound] = React.useState(false);
+  const [showSnack, setShowSnack] = React.useState(false);
   const [flashMode, setFlash] = React.useState(Camera.Constants.FlashMode.off);
   const type = Camera.Constants.Type.back;
   const bookStore = useStores().bookStore;
@@ -61,6 +63,11 @@ export const BookScanComponent = observer(function BookScanComponent(props: Book
     }
   }
 
+  const onDismissSnackBar = () => {
+    setScanned(false);
+    setShowSnack(false);
+  };
+
   /**
    * Callback function when the camera detects a barcode.
    *
@@ -72,7 +79,9 @@ export const BookScanComponent = observer(function BookScanComponent(props: Book
     try {
       scannedBook = await bookStore.getBookByISBN(barcode.data);
       setBookSearched(true);
-      if (scannedBook) {
+      if (scannedBook === undefined) {
+        setShowSnack(true);
+      } else {
         setBookFound(true);
         goToDetails(scannedBook.isbn13);
       }
@@ -80,7 +89,7 @@ export const BookScanComponent = observer(function BookScanComponent(props: Book
       __DEV__ && console.tron.error("BarcodeScan Component: Error on getting book by ISBN.", err);
     } finally {
       setBookFound(false);
-      setScanned(false);
+      
       setBookSearched(false);
     }
 
@@ -96,7 +105,7 @@ export const BookScanComponent = observer(function BookScanComponent(props: Book
   }
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={ styles.CONTAINER }>
       <Camera style={{ flex: 1 }}
         ref={ref => camera = ref}
         type={type}
@@ -116,7 +125,7 @@ export const BookScanComponent = observer(function BookScanComponent(props: Book
             justifyContent: 'center',
             alignContent: 'center'
           }}>
-          <ActivityIndicator animating={scanned && !bookSearched} color={color.primaryOrange} size="large" />
+          <ActivityIndicator animating={(scanned && !showSnack) && !bookSearched} color={color.primaryOrange} size="large" />
         </View>
         <View
           style={{
@@ -151,16 +160,18 @@ export const BookScanComponent = observer(function BookScanComponent(props: Book
             onPress={getRatio}>
             <Ionicons name="ios-reverse-camera" style={styles.ICON} />
           </TouchableOpacity>
-          <Snackbar
-            visible={bookSearched && !bookFound}
+        </View>
+      </Camera>
+      <Snackbar
+            visible={showSnack}
+            style={styles.SNACK}
+            onDismiss={onDismissSnackBar}
             action={{
               label: 'Add',
               onPress: addNewBook,
             }}>
             Book not found. Add new book?
       </Snackbar>
-        </View>
-      </Camera>
     </View>
   )
 
@@ -177,6 +188,8 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   CONTAINER: {
+    flex: 1,
+    flexDirection: 'column',
     justifyContent: "center",
   },
   TEXT: {
@@ -189,5 +202,8 @@ const styles = StyleSheet.create({
     fontSize: 36,
     color: "white",
     marginBottom: 10,
+  },
+  SNACK: {
+    alignSelf:'flex-start'
   }
 });

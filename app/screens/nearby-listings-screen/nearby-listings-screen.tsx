@@ -1,46 +1,41 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { Alert, Image, SafeAreaView, StyleSheet, TouchableOpacity, View } from "react-native"
-import { Button, NearbyListingItem, Screen, Text } from "../../components"
+import { Image, SafeAreaView, StyleSheet, TouchableOpacity, View } from "react-native"
+import { Button, NearbyListingItem, Screen, BookOverviewComponent  } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing, typography } from "../../theme"
-import { backButton } from ".."
 import { useNavigation } from "@react-navigation/native"
 import { useStores, Book } from "../../models"
+import { Appbar, Menu, Text} from 'react-native-paper';
 
 export const NearbyListingsScreen = observer(function NearbyListingsScreen() {
-  
+
   const { bookStore } = useStores();
 
   const isbn13: string = bookStore.choice;
   const bookInfo: Book = bookStore.getBook(isbn13);
 
   // Pull in navigation via hook
-  const navigation = useNavigation()
-  const goBack = () => navigation.goBack()
+  const navigation = useNavigation();
+  const _goBack = () => navigation.goBack();
+
+  const moveToCreatePetition = () => {
+    navigation.navigate("create_petition");
+  }
 
   return (
     <SafeAreaView style={styles.full}>
-      {/* <Image
-          style={BACKGROUND}
-          source={bground}/> */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={goBack}
-        >
-          <Image source={backButton}></Image>
-        </TouchableOpacity>
-      </View>
+      <Appbar.Header statusBarHeight={0}>
+        <Appbar.BackAction onPress={_goBack} />
+        <Appbar.Content title={"Nearby Listing"} />
+      </Appbar.Header>
       <Screen style={styles.container} preset="scroll">
-        <Image source={{ uri: bookInfo.coverURI }} style={styles.bigImage}></Image>
-        <Text style={styles.titleText}>{bookInfo.title}</Text>
-        <Text style={[styles.regText, {marginBottom: spacing[2]}]}>{"Author: " + bookInfo.authors}</Text>
-        <Text style={[styles.regText, { marginBottom: spacing[4] }]}>{"Published on: " + bookInfo.releaseDate}</Text>
+        <BookOverviewComponent book={bookInfo}></BookOverviewComponent>
         <Text style={styles.regText}>{"Don't see a good nearby listing?"}</Text>
-        <Button onPress={() => {Alert.alert('create book petition pressed!')}} style={[styles.blueButton, { marginBottom: spacing[4] }]} textStyle={styles.buttonText} text={'create a book petition'}></Button>
+        <Button onPress={moveToCreatePetition} style={[styles.blueButton, { marginBottom: spacing[4] }]} textStyle={styles.buttonText} text={'create a book petition'}></Button>
         <NearbyListingItem
-        style={styles.ListItem}
+          style={styles.ListItem}
           owner={'Alexander Hamilton'}
           ownerRating={1.3}
           lending={true}
@@ -61,10 +56,10 @@ const styles = StyleSheet.create({
     // alignContent:'space-around'
   },
   container: {
-    // flex: 1,
-    // flexDirection: 'row',
-    // justifyContent: 'center',
-    // alignItems: 'center',
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    alignItems: 'center',
     // backgroundColor: color.transparent,
     paddingHorizontal: spacing[2]
   },

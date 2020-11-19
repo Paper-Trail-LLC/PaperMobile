@@ -1,34 +1,20 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { View, Image, StyleSheet, Keyboard, SafeAreaView } from "react-native"
-import { Screen, BookListItem } from "../../components"
-// import { useNavigation } from "@react-navigation/native"
+import { View, Image, StyleSheet, SafeAreaView } from "react-native"
+import { Screen, BookListItem, SearchBar } from "../../components"
 import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
-// import { TextInput } from "react-native-gesture-handler"
-import { TextInput } from 'react-native-paper';
-import { useNavigation } from "@react-navigation/native"
+// import { useNavigation } from "@react-navigation/native"
 
 export const background = require("../../../assets/book_stack.png")
 
-let searchQuery = '';
-let setSearchQuery = function (query: string) {
-  // Alert.alert(query);
-}
-
-const onChangeSearch = query => setSearchQuery(query);
-
 export const SearchScreen = observer(function SearchScreen() {
   // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
-  // OR
-  // const rootStore = useStores()
-  const bookStore = useStores().bookStore;
+  const { bookStore } = useStores()
+  // or
+  // const bookStore = useStores().bookStore;
   // Pull in navigation via hook
-  const navigation = useNavigation()
-  const goToScanScreen = () => {
-    navigation.navigate("scan");
-  };
+  // const navigation = useNavigation()
 
   // bookStore.clear();
 
@@ -37,13 +23,8 @@ export const SearchScreen = observer(function SearchScreen() {
     bookList.push(
       <BookListItem
       key={bookStore.books[i].id}
+      book={bookStore.books[i]}
       style={styles.bookListItem}
-      isbn13={bookStore.books[i].isbn13}
-        id={bookStore.books[i].id? bookStore.books[i].id:i.toString()}
-        coverURI={bookStore.books[i].coverURI}
-        title={bookStore.books[i].title}
-        authors={bookStore.books[i].authors}
-        releaseDate={bookStore.books[i].releaseDate}
       ></BookListItem>
     )
   }
@@ -53,22 +34,7 @@ export const SearchScreen = observer(function SearchScreen() {
       <Image
         style={styles.background}
         source={background} />
-      <View style={styles.container}>
-        <TextInput
-          left={<TextInput.Icon name="magnify" color={color.primaryBlue} />}
-          right={<TextInput.Icon name="barcode-scan" color={color.primaryBlue}
-            onPress={() => {
-              goToScanScreen();
-              Keyboard.dismiss();
-            }} />}
-          label="Search Book"
-          // value={searchQuery}
-          // onChangeText={onChangeSearch}
-          mode="outlined"
-          showSoftInputOnFocus={true}
-          focusable={true}
-          style={styles.search} />
-      </View>
+      <SearchBar></SearchBar>
       <Screen style={styles.containerList} preset="scroll" backgroundColor={color.transparent}>
         {bookList}
       </Screen>
@@ -82,7 +48,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-around',
     alignContent: 'space-around',
-    paddingTop: spacing[6]
+    backgroundColor: color.transparent
   },
   container: {
     flexDirection: 'row',
@@ -92,7 +58,7 @@ const styles = StyleSheet.create({
   },
   search: {
     flex: 1,
-    backgroundColor: color.transparent,
+    // backgroundColor: color.transparent,
     color: color.primaryBlue
   },
   containerList: {

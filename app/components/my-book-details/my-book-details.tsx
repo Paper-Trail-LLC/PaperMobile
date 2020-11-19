@@ -65,7 +65,6 @@ export const MyBookDetails = observer(function MyBookDetails(props: MyBookDetail
                 onValueChange={() => {
                   setSelling(!selectedSelling);
                   myBookDetails.setSelling(!selectedSelling);
-                  console.log(!selectedSelling);
                 }}
               />
             </View>
@@ -76,7 +75,6 @@ export const MyBookDetails = observer(function MyBookDetails(props: MyBookDetail
                 onValueChange={() => {
                   setLending(!selectedLending);
                   myBookDetails.setLending(!selectedLending);
-                  console.log(!selectedLending);
                 }}
               />
             </View>
@@ -125,7 +123,7 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   locateMeButtonStyle: {
-    margin: spacing[3],
+    height: spacing[4],
     borderRadius: 13,
     backgroundColor: color.warning
   },
