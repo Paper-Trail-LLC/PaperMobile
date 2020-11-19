@@ -13,27 +13,26 @@ export const HomeScreen = observer(function HomeScreen() {
   // const { someStore, anotherStore } = useStores()
   // OR
   // const rootStore = useStores()
- 
+
   // Pull in navigation via hook
   // const navigation = useNavigation() 
   const { colors } = useTheme();
 
   const styles = StyleSheet.create({
     ROOT: {
-      flex: 1,
-      flexDirection: 'column',
       padding: spacing[2],
-      backgroundColor: colors.background
+      flex:1
     }
-})
+
+  })
   return (
-    // <SafeAreaView>
-      <Screen style={styles.ROOT} preset="scroll">
+    <SafeAreaView style={styles.ROOT}>
+      <SearchBar></SearchBar>
+      <Screen style={{backgroundColor: colors.background}} preset="scroll">
         {/* <StatusBar barStyle={'default'} translucent={true} backgroundColor={color.palette.indigo} /> */}
-        <SearchBar></SearchBar>
         <CoverSideScroll></CoverSideScroll>
       </Screen>
-    // </SafeAreaView>
+    </SafeAreaView>
   )
 
 

@@ -18,13 +18,15 @@ export const DefaultTheme = {
         ...CombinedDefaultTheme.colors,
         primary: color.palette.indigo,
         accent: color.palette.orangeDarker,
-    },
+
+    }
 };
 
 export const DarkTheme = {
     ...CombinedDarkTheme,
     colors:{
         ...CombinedDarkTheme.colors,
-        primary: color.palette.burgundy
+        primary: color.palette.burgundy,
+        accent: color.palette.pink,
     }
 }

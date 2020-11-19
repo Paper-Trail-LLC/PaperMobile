@@ -40,7 +40,7 @@ export function SearchBar(props: SearchBarProps) {
         }} />}
       label="Search Book"
       // value={searchQuery}
-      // onChangeText={onChangeSearch}
+      // onChangeText={onChangeSearch }
       mode="outlined"
       showSoftInputOnFocus={true}
       focusable={true}
