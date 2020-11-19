@@ -11,6 +11,7 @@ export const background = require("../../../assets/book_stack.png")
 export const SearchScreen = observer(function SearchScreen() {
   // Pull in one of our MST stores
   const { bookStore } = useStores()
+  const { colors } = useTheme();
   // or
   // const bookStore = useStores().bookStore;
   // Pull in navigation via hook
@@ -30,7 +31,7 @@ export const SearchScreen = observer(function SearchScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.full}>
+    <View style={styles.full}>
       <Image
         style={styles.background}
         source={background} />
@@ -38,7 +39,7 @@ export const SearchScreen = observer(function SearchScreen() {
       <Screen style={styles.containerList} preset="scroll" backgroundColor={color.transparent}>
         {bookList}
       </Screen>
-    </SafeAreaView>
+    </View>
   )
 })
 
@@ -48,13 +49,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-around',
     alignContent: 'space-around',
-    backgroundColor: color.transparent
   },
   container: {
     flexDirection: 'row',
     // justifyContent: 'space-around',
     // alignItems: 'stretch',
-    padding: spacing[2]
   },
   search: {
     flex: 1,

@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
     margin: 16,
     right: 0,
     bottom: 0,
-    backgroundColor: color.primaryOrange,
     zIndex: 1
   },
   bookListItem: {
@@ -44,8 +43,6 @@ const styles = StyleSheet.create({
 
     backgroundColor: color.background,
     borderRadius: 8,
-
-    shadowColor: '#E14A00',
     shadowOffset: {
       width: 0,
       height: 4
@@ -57,7 +54,7 @@ const styles = StyleSheet.create({
 
 export const MyLibraryScreen = observer(function MyLibraryScreen() {
 
-  const myBookStore = useStores().myBookStore;
+  // const myBookStore = useStores().myBookStore;
 
   // myBookStore.addToLibrary({
   //   id: "123",
@@ -71,17 +68,17 @@ export const MyLibraryScreen = observer(function MyLibraryScreen() {
   // });
 
   const myBooks = [];
-  for (let i = 0; i < myBookStore.myBooks.length; i++) {
-    myBooks.push(
-      <MyBookItem
-        style={styles.bookListItem}
-        id={myBookStore.myBooks[i].id}
-        bookImage={myBookStore.myBooks[i].bookImage}
-        title={myBookStore.myBooks[i].title}
-        status={myBookStore.myBooks[i].status}
-      ></MyBookItem>
-    )
-  }
+  // for (let i = 0; i < myBookStore.myBooks.length; i++) {
+  //   myBooks.push(
+  //     <MyBookItem
+  //       style={styles.bookListItem}
+  //       id={myBookStore.myBooks[i].id}
+  //       bookImage={myBookStore.myBooks[i].bookImage}
+  //       title={myBookStore.myBooks[i].title}
+  //       status={myBookStore.myBooks[i].status}
+  //     ></MyBookItem>
+  //   )
+  // }
 
   return (
     <SafeAreaView style={styles.full}>

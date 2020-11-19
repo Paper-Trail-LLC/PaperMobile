@@ -2,10 +2,20 @@ import * as React from "react"
 import { View, ViewStyle, Image, StyleSheet } from "react-native"
 import { observer } from "mobx-react-lite"
 import { color, typography, spacing } from "../../theme"
-import { Text, Title, } from "react-native-paper"
+import { Text, Title, Paragraph, Subheading } from "react-native-paper"
 import { Book } from "../../models/book/book"
-
-
+import { useTheme } from 'react-native-paper'
+/**
+ *
+ *
+ * @enum {number}
+ */
+enum BookInfo {
+  'title',
+  'author',
+  'releaseDate',
+  'synopsis'
+}
 
 export interface BookOverviewComponentProps {
   /**
@@ -13,22 +23,37 @@ export interface BookOverviewComponentProps {
    */
   style?: ViewStyle
   book: Book
+  /**
+   * 0=title;
+   * 1=author;
+   * 2=releaseDate;
+   * 3=synopsis;
+   * @type {BookInfo[]}
+   * @memberof BookOverviewComponentProps
+   */
+  exclude?: BookInfo[]
 }
 
 /**
  * Describe your component here
  */
 export const BookOverviewComponent = observer(function BookOverviewComponent(props: BookOverviewComponentProps) {
-  const { style, book } = props
+  const { style, book, exclude } = props
+  const { colors } = useTheme();
+
+  let excluding: BookInfo[];
+  exclude ? excluding = exclude : excluding = [];
 
   return (
     <View style={[styles.CONTAINER, style]}>
       <View style={styles.imgContainer}>
-        <Image source={{ uri: book.coverURI }} style={styles.bigImage}></Image>
+        <Image source={{ uri: book.coverURI }} style={styles.bigImage} resizeMode={'contain'}></Image>
       </View>
-      <Title style={styles.titleText}>{book.title}</Title>
-      <Text style={styles.TEXT}>{"Author: " + book.authors}</Text>
-      <Text style={styles.TEXT}>{"Published on: " + book.releaseDate.toLocaleDateString()}</Text>
+      {!excluding.includes(BookInfo.title) && <Title style={{ color: colors.primary }}>{book.title}</Title>}
+      {!excluding.includes(BookInfo.author) && <Text>{'Author' + (book.authors.length > 1 ? 's' : '') + ': ' + book.authors}</Text>}
+      {!excluding.includes(BookInfo.releaseDate) && <Text>{"Published on: " + book.releaseDate.toLocaleDateString()}</Text>}
+      {!excluding.includes(BookInfo.synopsis) && <Subheading>Synopsis:</Subheading>}
+      {!excluding.includes(BookInfo.synopsis) && <Paragraph>{book.synopsis === '' ? 'Not found.' : book.synopsis}</Paragraph>}
     </View>
   )
 })
@@ -37,69 +62,13 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    alignContent: 'space-between'
-  },
-  TEXT: {
-    fontFamily: typography.primary,
-    fontSize: 14,
-    color: color.primaryBlue,
   },
   imgContainer: {
-    flex:1,
+    flex: 0.5,
     flexDirection: 'row',
     justifyContent: 'center',
-    
-  },
-  titleText: {
-    // fontFamily: typography.primary,
-    color: color.primaryBlue,
-    // fontWeight: 'bold',
-    // fontSize: 24,
-    // marginBottom: 10
-  },
-  description: {
-    fontFamily: typography.primary,
-    color: color.primaryBlue,
-    fontSize: 24,
-    marginBottom: 10
   },
   bigImage: {
-    alignSelf: 'center',
-    marginBottom: spacing[5],
-    height: '100%',
-    flex: 0.30,
-    padding: 10
-  },
-  buttonContainer: {
-    width: '100%',
-    justifyContent: 'center',
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
-    marginVertical: spacing[5]
-  },
-  buttonText: {
-    fontSize: 18,
-  },
-  blueButton: {
-    margin: spacing[3],
-    borderRadius: 13,
-    paddingVertical: spacing[4],
-    backgroundColor: color.primaryBlue
-  },
-  addToLibrary: {
-    margin: spacing[3],
-    borderRadius: 13,
-    backgroundColor: color.warning
-  },
-  locateMeButtonStyle: {
-    margin: spacing[3],
-    borderRadius: 13,
-    backgroundColor: color.warning
-  },
-  locationInput: {
-    flex: 1,
-    backgroundColor: color.transparent
-  },
+    flex: 0.4,
+  }
 })

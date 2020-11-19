@@ -44,12 +44,7 @@ const Tab = createMaterialBottomTabNavigator();
 
 export function PrimaryNavigator() {
   return (
-    <Tab.Navigator
-      labeled={false}
-      style={{
-        backgroundColor: color.storybookDarkBg,
-      }}
-    >
+    <Tab.Navigator labeled={false}>
       <Tab.Screen name="searchTab" component={BookSearchTab} options={{tabBarIcon:'book-search'}}></Tab.Screen>
       <Tab.Screen name="myLibraryTab" component={MyLibraryTab} options={{tabBarIcon:'library'}}></Tab.Screen>
     </Tab.Navigator>

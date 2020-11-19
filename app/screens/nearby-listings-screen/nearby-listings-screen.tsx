@@ -1,13 +1,13 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
 import { Image, SafeAreaView, StyleSheet, TouchableOpacity, View } from "react-native"
-import { Button, NearbyListingItem, Screen, BookOverviewComponent  } from "../../components"
+import { NearbyListingItem, Screen, BookOverviewComponent  } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing, typography } from "../../theme"
 import { useNavigation } from "@react-navigation/native"
 import { useStores, Book } from "../../models"
-import { Appbar, Menu, Text} from 'react-native-paper';
+import { Appbar, Menu, Text, Button, useTheme, Headline, Subheading} from 'react-native-paper';
 
 export const NearbyListingsScreen = observer(function NearbyListingsScreen() {
 
@@ -15,7 +15,7 @@ export const NearbyListingsScreen = observer(function NearbyListingsScreen() {
 
   const isbn13: string = bookStore.choice;
   const bookInfo: Book = bookStore.getBook(isbn13);
-
+  const { colors } = useTheme();
   // Pull in navigation via hook
   const navigation = useNavigation();
   const _goBack = () => navigation.goBack();
@@ -26,14 +26,14 @@ export const NearbyListingsScreen = observer(function NearbyListingsScreen() {
 
   return (
     <SafeAreaView style={styles.full}>
-      <Appbar.Header statusBarHeight={0}>
+      <Appbar.Header>
         <Appbar.BackAction onPress={_goBack} />
         <Appbar.Content title={"Nearby Listing"} />
       </Appbar.Header>
-      <Screen style={styles.container} preset="scroll">
-        <BookOverviewComponent book={bookInfo}></BookOverviewComponent>
-        <Text style={styles.regText}>{"Don't see a good nearby listing?"}</Text>
-        <Button onPress={moveToCreatePetition} style={[styles.blueButton, { marginBottom: spacing[4] }]} textStyle={styles.buttonText} text={'create a book petition'}></Button>
+      <Screen style={[styles.container, {backgroundColor: colors.background}]} preset="scroll">
+        <BookOverviewComponent book={bookInfo} exclude={[2,3]}></BookOverviewComponent>
+        <Subheading>{"Don't see a good nearby listing?"}</Subheading>
+        <Button onPress={moveToCreatePetition} mode={"contained"}>Create a Book Petition</Button>
         <NearbyListingItem
           style={styles.ListItem}
           owner={'Alexander Hamilton'}
@@ -50,24 +50,14 @@ export const NearbyListingsScreen = observer(function NearbyListingsScreen() {
 const styles = StyleSheet.create({
   full: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    backgroundColor: color.background
-    // alignContent:'space-around'
+    flexDirection: 'column'
   },
   container: {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-around',
     alignItems: 'center',
-    // backgroundColor: color.transparent,
-    paddingHorizontal: spacing[2]
-  },
-  header: {
-    backgroundColor: '#FFFFFF',
-    paddingLeft: spacing[6],
-    paddingBottom: spacing[4] - 1,
-    paddingHorizontal: 0,
+    padding: spacing[2]
   },
   regText: {
     fontFamily: typography.primary,
@@ -116,10 +106,7 @@ const styles = StyleSheet.create({
   },
   ListItem: {
     margin: 5,
-
-    backgroundColor: color.background,
     borderRadius: 8,
-
     shadowColor: color.primaryBlue,
     shadowOffset: {
       width: 0,

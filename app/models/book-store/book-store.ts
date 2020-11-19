@@ -15,7 +15,8 @@ export const BookStoreModel = types
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
     addBook: (b) => {
-      self.books.push(BookModel.create(b));
+      let i = self.books.findIndex((item) => item.isbn13 == b.isbn13);
+      if(i<0) self.books.push(BookModel.create(b));
     },
     clear: function () {
       self.books.clear();

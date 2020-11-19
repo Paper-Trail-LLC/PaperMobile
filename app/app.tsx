@@ -13,9 +13,10 @@ import "./i18n"
 import "./utils/ignore-warnings"
 import React, { useState, useEffect, useRef } from "react"
 import { NavigationContainerRef } from "@react-navigation/native"
-import { SafeAreaProvider, initialWindowSafeAreaInsets } from "react-native-safe-area-context"
+import { SafeAreaProvider, initialWindowMetrics } from "react-native-safe-area-context"
 import { Provider as PaperProvider } from 'react-native-paper';
 import { initFonts } from "./theme/fonts"
+import { DefaultTheme, DarkTheme } from "./theme/theme"
 import * as storage from "./utils/storage"
 import {
   useBackButtonHandler,
@@ -65,9 +66,10 @@ function App() {
   // otherwise, we're ready to render the app
   return (
     <RootStoreProvider value={rootStore}>
-      <SafeAreaProvider initialSafeAreaInsets={initialWindowSafeAreaInsets}>
-        <PaperProvider>
+      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+        <PaperProvider theme={DarkTheme}>
           <RootNavigator
+            theme={DarkTheme}
             ref={navigationRef}
             initialState={initialNavigationState}
             onStateChange={onNavigationStateChange}
