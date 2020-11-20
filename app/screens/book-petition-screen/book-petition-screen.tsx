@@ -1,6 +1,6 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { SafeAreaView, StyleSheet, View, Switch, Picker, Alert, Platform } from "react-native"
+import { SafeAreaView, StyleSheet, View, Picker, Alert, Platform } from "react-native"
 import { Screen, BookOverviewComponent } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
@@ -9,13 +9,14 @@ import MapView from 'react-native-maps';
 import { color, spacing, typography } from "../../theme"
 import { Book, BookPetition, useStores } from "../../models"
 import { useNavigation } from "@react-navigation/native"
-import { TextInput, Text, Appbar, Subheading, Divider, Button } from "react-native-paper"
+import { TextInput, Text, Appbar, Subheading, Divider, Button, useTheme, Switch } from "react-native-paper"
 import * as Permissions from 'expo-permissions'
 import * as Location from 'expo-location'
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 export const BookPetitionScreen = observer(function BookPetitionScreen() {
 
+  const { colors } = useTheme();
   // Petition values for form
   const today = new Date();
   const originalLatDelta = 0.0922;
@@ -76,17 +77,16 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
 
   return (
     <SafeAreaView style={[styles.full]}>
-      <Appbar.Header statusBarHeight={0}>
+      <Appbar.Header>
         <Appbar.BackAction onPress={_goBack} />
         <Appbar.Content title={"Book Petition"} />
       </Appbar.Header>
 
-      <Screen style={styles.container} preset="scroll">
-        <BookOverviewComponent book={bookInfo} style={{ flex: 1 }}></BookOverviewComponent>
+      <Screen style={[styles.container, {backgroundColor: colors.background}]} preset="scroll" backgroundColor={colors.background}>
+        <BookOverviewComponent book={bookInfo}></BookOverviewComponent>
         {/* BUYING OR BORROWING */}
         <Subheading>Are you?</Subheading>
         <Divider />
-        <View style={styles.row}>
           <View style={styles.item}>
             <View style={styles.row}>
               <Text style={styles.regText}>Buying: </Text>
@@ -108,7 +108,6 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
                 />
               </View>
             </View>
-          </View>
         </View>
         {/* LOCATION */}
         <Subheading>Where?</Subheading>
@@ -118,7 +117,7 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
           onValueChange={(itemValue: any, itemPosition: number) => {
             setPetitionLocation(itemValue);
           }}
-          itemStyle={styles.regText}
+          itemStyle={[styles.regText, {color:colors.text}]}
           style={{ marginVertical: Platform.OS === 'ios' ? -spacing[6] : spacing[0] }}
         >
           <Picker.Item label={'New Location'} value={'new location'} />
@@ -152,7 +151,7 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
         <DateTimePicker
           value={expdate}
           style={{ flex: 1 }}
-          textColor={color.primaryBlue}
+          textColor={colors.text}
           mode={'date'}
           minimumDate={new Date()}
           display={'default'}
@@ -204,20 +203,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
   },
   regText: {
-    fontFamily: typography.primary,
-    color: color.primaryBlue,
     fontSize: 20
   },
   titleText: {
     fontFamily: typography.primary,
-    color: color.primaryBlue,
     fontWeight: 'bold',
     fontSize: 24,
     marginBottom: 10
   },
   description: {
     fontFamily: typography.primary,
-    color: color.primaryBlue,
     fontSize: 24,
     marginBottom: 10
   },

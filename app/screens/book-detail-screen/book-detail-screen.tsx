@@ -37,11 +37,11 @@ export const BookDetailScreen = observer(function BookDetailScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.full}>
+    <View style={styles.full}>
       <StatusBar translucent={true}  />
       <Appbar.Header>
         <Appbar.BackAction onPress={_goBack} />
-        <Appbar.Content/>
+        <Appbar.Content title={"Details"}/>
         <Appbar.Action icon="magnify" onPress={_moveToNearbyListings} accessibilityValue={{text:"Search nearby"}}/>
         <Menu
           visible={visible}
@@ -51,14 +51,14 @@ export const BookDetailScreen = observer(function BookDetailScreen() {
           <Menu.Item icon="pen" onPress={() => {}} title="Create Petition" />
         </Menu>
       </Appbar.Header>
-      <Screen style={[styles.container, {backgroundColor: colors.background}]} preset="scroll">
+      <Screen style={[styles.container, {backgroundColor: colors.background}]} preset="scroll" backgroundColor={colors.background}>
         <BookOverviewComponent book={bookInfo}></BookOverviewComponent>
         <View style={styles.buttonContainer}>
           <Button mode={'contained'} onPress={_moveToNearbyListings}>Search Nearby</Button>
           <Button mode={'outlined'} onPress={_moveToAdd} >Add to Library</Button>
         </View>
       </Screen>
-    </SafeAreaView>
+    </View>
   )
 })
 

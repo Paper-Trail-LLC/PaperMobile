@@ -9,7 +9,7 @@ import { createStackNavigator } from "@react-navigation/stack"
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs"
 // import { WelcomeScreen, DemoScreen } from "../screens"
 import { SearchScreen } from "../screens/search-screen/search-screen"
-import { BookDetailScreen, BookPetitionScreen, NearbyListingsScreen } from "../screens"
+import { BookDetailScreen, BookPetitionScreen, NearbyListingsScreen, TransactionAgreementScreen } from "../screens"
 import { MyLibraryScreen } from "../screens/my-library-screen/my-library-screen"
 import { BookScanComponent } from "../components/book-scan-component/book-scan-component";
 import { color } from "../theme";
@@ -36,6 +36,7 @@ export type PrimaryParamList = {
   add_book: undefined
   nearby_listings: undefined
   create_petition: undefined
+  request_book: undefined
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
@@ -65,6 +66,7 @@ function BookSearchTab() {
       <Stack.Screen name="scan" component={BookScanComponent} />
       <Stack.Screen name="add_book" component={AddBookScreen} />
       <Stack.Screen name="nearby_listings" component={NearbyListingsScreen} />
+      <Stack.Screen name="request_book" component={TransactionAgreementScreen} />
       <Stack.Screen name="create_petition" component={BookPetitionScreen} />
     </Stack.Navigator>
   );

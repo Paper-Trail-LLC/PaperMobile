@@ -28,7 +28,7 @@ export const HomeScreen = observer(function HomeScreen() {
   return (
     <SafeAreaView style={styles.ROOT}>
       <SearchBar></SearchBar>
-      <Screen style={{backgroundColor: colors.background}} preset="scroll">
+      <Screen style={{backgroundColor: colors.background}} preset="scroll" backgroundColor={colors.background}>
         {/* <StatusBar barStyle={'default'} translucent={true} backgroundColor={color.palette.indigo} /> */}
         <CoverSideScroll></CoverSideScroll>
       </Screen>
