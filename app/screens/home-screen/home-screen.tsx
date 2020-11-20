@@ -1,6 +1,6 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { StyleSheet, StatusBar } from "react-native"
+import { StyleSheet, StatusBar, View } from "react-native"
 import { Screen, Text, SearchBar, CoverSideScroll } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
@@ -26,13 +26,13 @@ export const HomeScreen = observer(function HomeScreen() {
 
   })
   return (
-    <SafeAreaView style={styles.ROOT}>
+    <View style={styles.ROOT}>
       <SearchBar></SearchBar>
-      <Screen style={{backgroundColor: colors.background}} preset="scroll">
+      <Screen preset="scroll">
         {/* <StatusBar barStyle={'default'} translucent={true} backgroundColor={color.palette.indigo} /> */}
         <CoverSideScroll></CoverSideScroll>
       </Screen>
-    </SafeAreaView>
+    </View>
   )
 
 
