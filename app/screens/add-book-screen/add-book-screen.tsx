@@ -35,7 +35,7 @@ export const AddBookScreen = observer(function AddBookScreen(props: AddBookProps
       </Appbar.Header>
         <Screen style={[styles.container, {backgroundColor: colors.background}]} preset="scroll" backgroundColor={colors.background}>
           <BookOverviewComponent book={bookInfo} exclude={[3]} />
-          <MyBookDetails style={{ color: colors.primary, borderColor: colors.primary }}/>
+          <MyBookDetails editable={true} style={{ color: colors.primary, borderColor: colors.primary, marginBottom: spacing[2] }}/>
           <Button mode={'contained'} onPress={() => { console.log('Hello') }}>Add</Button>
         </Screen>
     </View>
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   container: {
+    flex: 1,
     padding: spacing[2]
   },
 })

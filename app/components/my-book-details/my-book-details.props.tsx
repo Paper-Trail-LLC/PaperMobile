@@ -30,4 +30,6 @@ export interface MyBookDetailProps {
      * Book image uris
      */
     images?: [string]
+
+    editable?: boolean
 }

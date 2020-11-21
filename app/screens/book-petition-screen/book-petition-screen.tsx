@@ -23,7 +23,6 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
   today.setMonth(today.getMonth() + 1);
   const [expdate, setDate] = React.useState(today);
   const [locationPermission, askLocationPermission, getLocationPermission] = Permissions.usePermissions(Permissions.LOCATION, { ask: true });
-  const [location, setLocation] = React.useState([null]);
   const [petitionLocation, setPetitionLocation] = React.useState('new location');
   const [buying, setBuying] = React.useState(false);
   const [borrowing, setBorrowing] = React.useState(false);

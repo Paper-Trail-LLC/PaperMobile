@@ -1,23 +1,31 @@
 import * as React from "react"
-import { Picker, StyleSheet, View, Alert } from "react-native"
-// import {  } from "../../components"
+import { Picker, StyleSheet, View, Alert, Platform } from "react-native"
 import { observer } from "mobx-react-lite"
-import { color, spacing, typography } from "../../theme"
+import { color, spacing } from "../../theme"
 import { MyBookDetailProps } from "./my-book-details.props"
-import { Text, TextInput, Button, Subheading, Divider, Checkbox, useTheme } from 'react-native-paper'
+import { Text, Button, Subheading, Divider, Checkbox, useTheme } from 'react-native-paper'
 import * as Permissions from 'expo-permissions'
 import * as Location from 'expo-location'
-import { useStores } from "../../models"
+// import { useStores } from "../../models"
+import MapView, { Marker, UrlTile } from "react-native-maps"
 
 export const MyBookDetails = observer(function MyBookDetails(props: MyBookDetailProps) {
-  const { style } = props
-  const [selectedValue, setSelectedValue] = React.useState('available');
+  const { style, editable } = props
   const [selectedSelling, setSelling] = React.useState(false);
   const [selectedLending, setLending] = React.useState(false);
   const [locationPermission, askLocationPermission, getLocationPermission] = Permissions.usePermissions(Permissions.LOCATION, { ask: true });
   const [location, setLocation] = React.useState(null);
   const { colors } = useTheme();
+  const [bookLocation, setBookLocation] = React.useState('new location');
   // const myBookDetails = useStores().userBookStore;
+
+  const tileUrl = "http://c.tile.openstreetmap.org/{z}/{x}/{y}.png";
+  const [region, setRegion] = React.useState({
+    latitude: 18.220833,
+    longitude: -66.590149,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  });
 
   async function getLocation() {
     console.log('test');
@@ -30,6 +38,12 @@ export const MyBookDetails = observer(function MyBookDetails(props: MyBookDetail
     else {
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location.coords.latitude + ", " + location.coords.longitude);
+      setRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: region.latitudeDelta,
+        longitudeDelta: region.longitudeDelta
+      });
       // myBookDetails.setLocation(location.coords.latitude, location.coords.longitude);
     }
   }
@@ -40,37 +54,52 @@ export const MyBookDetails = observer(function MyBookDetails(props: MyBookDetail
       <Divider />
       <View style={styles.row}>
         <Text>Available for selling:</Text>
-        <Checkbox
-          status={selectedSelling? 'checked':'unchecked'}
-          onPress={() => {
-            setSelling(!selectedSelling);
-            // myBookDetails.setSelling(!selectedSelling);
-          }}
-        />
+        <View style={Platform.OS === 'ios' ? { borderWidth: 1, borderColor: colors.accent, borderRadius: spacing[2] } : {}}>
+          <Checkbox
+            disabled={!editable}
+            status={selectedSelling ? 'checked' : 'unchecked'}
+            onPress={() => {
+              setSelling(!selectedSelling);
+              // myBookDetails.setSelling(!selectedSelling);
+            }}
+          />
+        </View>
       </View>
       <View style={styles.row}>
         <Text>Available for lending:</Text>
-        <Checkbox
-          status={selectedLending? 'checked':'unchecked'}
-          onPress={() => {
-            setLending(!selectedLending);
-            // myBookDetails.setLending(!selectedLending);
+        <View style={Platform.OS === 'ios' ? { borderWidth: 1, borderColor: colors.accent, borderRadius: spacing[2] } : {}}>
+          <Checkbox
+            disabled={!editable}
+            status={selectedLending ? 'checked' : 'unchecked'}
+            onPress={() => {
+              setLending(!selectedLending);
+            }}
+          />
+        </View>
+      </View>
+      <Subheading>Book Location</Subheading>
+      <Divider />
+      {editable &&
+        <Picker
+          selectedValue={bookLocation}
+          onValueChange={(itemValue: any, itemPosition: number) => {
+            setBookLocation(itemValue);
           }}
-        />
-      </View>
-      <View style={styles.location}>
-        <Subheading>Location</Subheading>
-        <Divider />
-        <Button onPress={getLocation} mode={'contained'}>Locate Me</Button>
-      </View>
-      <View style={styles.row}>
-        <TextInput
-          // onChangeText={}
-          mode="outlined"
-          showSoftInputOnFocus={true}
-          focusable={false}
-          value={location}
-          style={[styles.locationInput, props.style, { marginTop: -spacing[7] }]} />
+          itemStyle={[styles.regText, { color: colors.text, height: 115 }]}
+        >
+          <Picker.Item label={'New Location'} value={'new location'} />
+          <Picker.Item label={'Your Saved Location'} value={'your saved location'} />
+        </Picker>
+      }
+      {bookLocation === 'new location' && editable &&
+        <Button onPress={getLocation} mode={'contained'} icon={'crosshairs-gps'} style={{ alignSelf: 'center', justifyContent: 'center', margin: 10 }}>Locate me!</Button>
+      }
+      <View style={styles.mapContainer}>
+        <MapView style={styles.map} initialRegion={region} provider={null} region={region}
+          mapType={Platform.OS == "android" ? "none" : "standard"} rotateEnabled={false}>
+          <UrlTile urlTemplate={tileUrl} maximumZ={19} />
+          <Marker coordinate={{ latitude: region.latitude, longitude: region.longitude }}></Marker>
+        </MapView>
       </View>
 
     </View >
@@ -79,16 +108,16 @@ export const MyBookDetails = observer(function MyBookDetails(props: MyBookDetail
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-around',
-  },
-  regText: {
-    fontFamily: typography.primary,
-    fontSize: 20
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between'
+  },
+  regText: {
+    fontSize: 20
   },
   locationInput: {
     flex: 1,
@@ -97,6 +126,13 @@ const styles = StyleSheet.create({
   location: {
     flexDirection: 'column',
     justifyContent: 'space-around'
+  },
+  mapContainer: {
+    flexDirection: 'column',
+    height: 150,
+  },
+  map: {
+    flex: 1,
   }
 
 })
