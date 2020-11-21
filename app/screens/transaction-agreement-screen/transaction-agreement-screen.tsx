@@ -1,20 +1,14 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { Alert, Picker, Platform, StatusBar, StyleSheet, View, ViewStyle } from "react-native"
-import { Screen, UserBookOverviewComponent } from "../../components"
+import { Alert, Picker, StatusBar, StyleSheet, View } from "react-native"
+import { BookOverviewComponent, Screen, UserBookOverviewComponent } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
 import { useNavigation } from "@react-navigation/native"
-import { Appbar, Divider, Subheading, Text, useTheme, TextInput, Button, Title } from "react-native-paper"
+import { Appbar, Divider, Subheading, useTheme, TextInput, Button, Title } from "react-native-paper"
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { EventEmitter } from "expo-location"
 import { Book, User, UserBook, useStores } from "../../models"
-
-const ROOT: ViewStyle = {
-  backgroundColor: color.palette.black,
-  flex: 1,
-}
 
 export const TransactionAgreementScreen = observer(function TransactionAgreementScreen() {
   // Pull in one of our MST stores
@@ -29,7 +23,6 @@ export const TransactionAgreementScreen = observer(function TransactionAgreement
   const today = new Date();
   today.setMonth(today.getMonth() + 1);
   const [returnDate, setReturnDate] = React.useState(today);
-  const [requestType, setRequestType] = React.useState('borrow');
   const [price, setPrice] = React.useState(0);
 
   //Dummy
@@ -50,6 +43,8 @@ export const TransactionAgreementScreen = observer(function TransactionAgreement
     lending: true,
   }
 
+  const [requestType, setRequestType] = React.useState(userBook.lending ? 'borrow' : 'purchase');
+
   // Pull in navigation via hook
   const navigation = useNavigation();
   const _goBack = () => navigation.goBack();
@@ -61,10 +56,9 @@ export const TransactionAgreementScreen = observer(function TransactionAgreement
         <Appbar.Content title={'Request Book'} />
       </Appbar.Header>
       <Screen style={[styles.container, { backgroundColor: colors.background }]} preset="scroll" backgroundColor={colors.background}>
+        <BookOverviewComponent book={bookInfo} exclude={[1,2,3]}></BookOverviewComponent>
         <UserBookOverviewComponent userBook={userBook}></UserBookOverviewComponent>
-        <Subheading>Status:</Subheading>
-        <Title>{'Available'}</Title>
-        <Divider />
+        <Divider/>
         <Subheading>Request Type:</Subheading>
         <Picker
           style={styles.picker}
@@ -72,30 +66,32 @@ export const TransactionAgreementScreen = observer(function TransactionAgreement
           onValueChange={(itemValue: any, itemPosition: number) => {
             setRequestType(itemValue);
           }}
-          itemStyle={{ color: colors.text, height: 110 }}
+          itemStyle={{ color: colors.text }}
         >
-          <Picker.Item label={'Borrow'} value={'borrow'} />
-          <Picker.Item label={'Purchase'} value={'purchase'} />
+          {userBook.lending && <Picker.Item label={'Borrow'} value={'borrow'} />}
+          {userBook.selling && <Picker.Item label={'Purchase'} value={'purchase'} />}
         </Picker>
         {/* <View style={styles.row}> */}
         <Subheading>{(requestType === 'borrow') ? 'Desired Return Date:' : 'Desired Price: ($)'}</Subheading>
         {requestType === 'purchase' && <TextInput
           label={'Price'}
           mode="outlined"
-          keyboardType='decimal-pad'
+          value={price.toString()}
+          keyboardType='number-pad'
           onChangeText={price => { setPrice(+price) }}
           showSoftInputOnFocus={true}
           focusable={true}></TextInput>}
         {requestType === 'borrow' && <DateTimePicker
 
           value={returnDate}
-          style={{ height: 120, marginVertical: (Platform.OS === 'ios') ? -spacing[6] : spacing[0] }}
+          style={{ flex: 0.25 }}
           textColor={colors.text}
           mode={'date'}
           minimumDate={new Date()}
           display={'default'}
           onChange={(event, selectedDate) => setReturnDate(selectedDate)}
         />}
+        <Divider />
         <Button mode={'contained'} onPress={() => {Alert.alert('Request Book pressed!')}}>request book</Button>
       </Screen>
     </View >
@@ -119,9 +115,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   picker: {
-    marginVertical: (Platform.OS === 'ios') ? -spacing[7] : spacing[0], 
-    // backgroundColor:'blue', 
-    width: '50%', 
+    width: '50%',
+    flex: 0.15, 
     alignSelf: 'center',
     justifyContent: 'center'
   },
@@ -133,8 +128,5 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-evenly',
     alignItems: 'center'
-  },
-  pickerHeight: {
-    height: spacing[7]
   }
 })

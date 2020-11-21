@@ -1,10 +1,8 @@
 import * as React from "react"
-import { Image, StyleSheet, TextStyle, View, ViewStyle } from "react-native"
+import { StyleSheet, View, ViewStyle } from "react-native"
 import { observer } from "mobx-react-lite"
-import { color, typography } from "../../theme"
-import { Text } from "../"
 import { UserBook } from "../../models"
-import { Title, useTheme } from "react-native-paper"
+import { useTheme, Text, Divider, Subheading, Title } from "react-native-paper"
 
 export interface UserBookOverviewComponentProps {
   /**
@@ -23,27 +21,18 @@ export const UserBookOverviewComponent = observer(function UserBookOverviewCompo
 
   return (
     <View style={[styles.CONTAINER, style]}>
-      <View style={styles.imgContainer}>
-        <Image source={{ uri: userBook.book.coverURI }} style={styles.bigImage} resizeMode={'contain'}></Image>
-      </View>
-      <Title style={{ color: colors.primary }}>{userBook.book.title}</Title>
-        <Text>{'Owner: ' + userBook.owner.firstName + ' ' + userBook.owner.lastName + ', ' + userBook.owner.gender}</Text>
+      <Text>{'Owner: ' + userBook.owner.firstName + ' ' + userBook.owner.lastName + ', ' + userBook.owner.gender}</Text>
+      <Divider />
+      <Subheading>Status:</Subheading>
+      <Title>{userBook.status}</Title>
     </View>
   )
 })
 
 const styles = StyleSheet.create({
   CONTAINER: {
-    flex: 1,
+    // flex: 0.45,
     flexDirection: 'column',
     justifyContent: 'flex-start',
-  },
-  imgContainer: {
-    flex: 0.5,
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  bigImage: {
-    flex: 0.4,
   }
 })
