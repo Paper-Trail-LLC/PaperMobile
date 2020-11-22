@@ -37,7 +37,7 @@ export const BookDetailScreen = observer(function BookDetailScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.full}>
+    <View style={styles.full}>
       <StatusBar translucent={true}  />
       <Appbar.Header>
         <Appbar.BackAction onPress={_goBack} />
@@ -58,7 +58,7 @@ export const BookDetailScreen = observer(function BookDetailScreen() {
           <Button mode={'outlined'} onPress={_moveToAdd} >Add to Library</Button>
         </View>
       </Screen>
-    </SafeAreaView>
+    </View>
   )
 })
 
