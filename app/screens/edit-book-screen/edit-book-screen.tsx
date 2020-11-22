@@ -44,7 +44,7 @@ export const EditBookScreen = observer(function EditBookScreen() {
       <Appbar.Header>
         <Appbar.BackAction onPress={_goBack} />
         <Appbar.Content title={'Add to Library'}/>
-        <Appbar.Action icon="book-edit-outline" onPress={() => {setEditing(true)}} accessibilityValue={{text:"Search nearby"}}/>
+        {editing && <Appbar.Action icon="book-edit-outline" onPress={() => {setEditing(true)}} accessibilityValue={{text:"Search nearby"}}/>}
       </Appbar.Header>
         <Screen style={[styles.container, {backgroundColor: colors.background}]} preset="scroll" backgroundColor={colors.background}>
           <BookOverviewComponent book={bookInfo} exclude={[3]} />
