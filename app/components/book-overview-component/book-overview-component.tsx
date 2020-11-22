@@ -59,12 +59,12 @@ export const BookOverviewComponent = observer(function BookOverviewComponent(pro
 })
 const styles = StyleSheet.create({
   CONTAINER: {
-    flex: 1,
+    flex: 0.45,
     flexDirection: 'column',
     justifyContent: 'flex-start',
   },
   imgContainer: {
-    flex: 0.5,
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
   },

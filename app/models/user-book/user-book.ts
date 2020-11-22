@@ -1,4 +1,6 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
+import { Book, BookModel } from "../book/book";
+import { UserModel } from "../user/user";
 
 /**
  * Model description here for TypeScript hints.
@@ -6,24 +8,28 @@ import { Instance, SnapshotOut, types } from "mobx-state-tree"
 export const UserBookModel = types
   .model("UserBook")
   .props({
+    id: types.optional(types.string,''),
+    owner: UserModel,
+    book: BookModel,
     status: types.optional(types.string, "available"),
-    selling: types.optional(types.number, 0),
-    lending: types.optional(types.number, 0),
+    selling: types.optional(types.boolean, false),
+    lending: types.optional(types.boolean, false),
     location: types.optional(types.array(types.number), []),
     images: types.optional(types.array(types.string), [])
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
+    setBook: (book: Book) => {
+      self.book = book;
+    },
     setStatus: (status: string) => {
       self.status = status;
     },
     setSelling: (isSelling: boolean) => {
-      if(isSelling) self.selling = 1;
-      else self.selling = 0;
+      self.selling = isSelling;
     },
     setLending: (isLending: boolean) => {
-      if(isLending) self.lending = 1;
-      else self.lending = 0;
+      self.lending = isLending;
     },
     setLocation: (latitude: number, longitude: number) => {
       self.location.clear();

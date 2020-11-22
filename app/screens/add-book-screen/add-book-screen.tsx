@@ -27,18 +27,18 @@ export const AddBookScreen = observer(function AddBookScreen(props: AddBookProps
   // Pull in navigation via hook
   // const navigation = useNavigation()
   return (
-    <SafeAreaView style={styles.full}>
+    <View style={styles.full}>
       <StatusBar translucent={true} />
       <Appbar.Header>
         <Appbar.BackAction onPress={_goBack} />
         <Appbar.Content title={'Add to Library'}/>
       </Appbar.Header>
-        <Screen style={[styles.container, {backgroundColor: colors.background}]} preset="scroll">
+        <Screen style={[styles.container, {backgroundColor: colors.background}]} preset="scroll" backgroundColor={colors.background}>
           <BookOverviewComponent book={bookInfo} exclude={[3]} />
-          <MyBookDetails style={{ color: colors.primary, borderColor: colors.primary }}/>
+          <MyBookDetails editable={true} style={{ color: colors.primary, borderColor: colors.primary, marginBottom: spacing[2] }}/>
           <Button mode={'contained'} onPress={() => { console.log('Hello') }}>Add</Button>
         </Screen>
-    </SafeAreaView>
+    </View>
   )
 })
 
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   container: {
+    flex: 1,
     padding: spacing[2]
   },
 })
