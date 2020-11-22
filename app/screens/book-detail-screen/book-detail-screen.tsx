@@ -1,13 +1,12 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { Image, View, StyleSheet, SafeAreaView, StatusBar, ViewStyle } from "react-native"
+import { View, StyleSheet, StatusBar } from "react-native"
 import { Screen, BookOverviewComponent } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 import { Book, useStores } from "../../models"
-import { color, spacing, typography } from "../../theme"
+import { color, spacing } from "../../theme"
 import { useNavigation } from "@react-navigation/native"
-import { TouchableOpacity } from "react-native-gesture-handler"
-import { Appbar, Menu, Text, useTheme, Button } from 'react-native-paper';
+import { Appbar, Menu, useTheme, Button } from 'react-native-paper';
 
 export const backButton = require("./back_arrow.png")
 export const bookPicTemp = require("./book_image.png")
@@ -66,7 +65,7 @@ export const BookDetailScreen = observer(function BookDetailScreen() {
 const styles = StyleSheet.create({
   full: {
     flex: 1,
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   container: {
     flex: 1,

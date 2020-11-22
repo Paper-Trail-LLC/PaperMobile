@@ -10,9 +10,9 @@ import * as Location from 'expo-location'
 import MapView, { Marker, UrlTile } from "react-native-maps"
 
 export const MyBookDetails = observer(function MyBookDetails(props: MyBookDetailProps) {
-  const { style, editable } = props
-  const [selectedSelling, setSelling] = React.useState(false);
-  const [selectedLending, setLending] = React.useState(false);
+  const { style, editable, userBook } = props
+  const [selectedSelling, setSelling] = React.useState(userBook.selling != undefined ? userBook.selling : false);
+  const [selectedLending, setLending] = React.useState(userBook.lending != undefined ? userBook.selling : false);
   const [locationPermission, askLocationPermission, getLocationPermission] = Permissions.usePermissions(Permissions.LOCATION, { ask: true });
   const [location, setLocation] = React.useState(null);
   const { colors } = useTheme();
@@ -21,8 +21,8 @@ export const MyBookDetails = observer(function MyBookDetails(props: MyBookDetail
 
   const tileUrl = "http://c.tile.openstreetmap.org/{z}/{x}/{y}.png";
   const [region, setRegion] = React.useState({
-    latitude: 18.220833,
-    longitude: -66.590149,
+    latitude: (userBook.location != undefined) ? userBook.location[0] : 18.220833,
+    longitude: (userBook.location != undefined) ? userBook.location[1] : -66.590149,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
@@ -60,6 +60,7 @@ export const MyBookDetails = observer(function MyBookDetails(props: MyBookDetail
             status={selectedSelling ? 'checked' : 'unchecked'}
             onPress={() => {
               setSelling(!selectedSelling);
+              //Alter book status if necessary
               // myBookDetails.setSelling(!selectedSelling);
             }}
           />

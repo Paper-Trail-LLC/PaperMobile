@@ -1,4 +1,5 @@
 import { TextStyle } from "react-native"
+import { UserBook } from "../../models";
 
 export interface MyBookDetailProps {
     /**
@@ -6,30 +7,7 @@ export interface MyBookDetailProps {
      */
     style?: TextStyle,
 
-    /**
-     * Book status
-     */
-    status?: string,
-
-    /**
-     * Indicates if book is for selling
-     */
-    selling?: boolean,
-
-    /**
-     * Indicates if book is for lending
-     */
-    lending?: boolean,
-
-    /**
-     * Book location
-     */
-    location?: [number],
-
-    /**
-     * Book image uris
-     */
-    images?: [string]
+    userBook?: UserBook,
 
     editable?: boolean
 }
