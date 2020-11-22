@@ -67,9 +67,9 @@ function App() {
   return (
     <RootStoreProvider value={rootStore}>
       <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-        <PaperProvider theme={DarkTheme}>
+        <PaperProvider theme={DefaultTheme}>
           <RootNavigator
-            theme={DarkTheme}
+            theme={DefaultTheme}
             ref={navigationRef}
             initialState={initialNavigationState}
             onStateChange={onNavigationStateChange}

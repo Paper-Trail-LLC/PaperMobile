@@ -25,12 +25,12 @@ export const NearbyListingsScreen = observer(function NearbyListingsScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.full}>
+    <View style={styles.full}>
       <Appbar.Header>
         <Appbar.BackAction onPress={_goBack} />
         <Appbar.Content title={"Nearby Listing"} />
       </Appbar.Header>
-      <Screen style={[styles.container, {backgroundColor: colors.background}]} preset="scroll">
+      <Screen style={[styles.container, {backgroundColor: colors.background}]} preset="scroll" backgroundColor={colors.background}>
         <BookOverviewComponent book={bookInfo} exclude={[2,3]}></BookOverviewComponent>
         <Subheading>{"Don't see a good nearby listing?"}</Subheading>
         <Button onPress={moveToCreatePetition} mode={"contained"}>Create a Book Petition</Button>
@@ -43,7 +43,7 @@ export const NearbyListingsScreen = observer(function NearbyListingsScreen() {
           distance={4}
         ></NearbyListingItem>
       </Screen>
-    </SafeAreaView>
+    </View>
   )
 })
 

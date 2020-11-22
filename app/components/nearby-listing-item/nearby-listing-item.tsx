@@ -7,6 +7,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import {Text, Button, useTheme, Headline, Subheading, Chip} from 'react-native-paper';
 import { propOr, propSatisfies } from "ramda"
+import { useNavigation } from "@react-navigation/native"
 // import { useNavigation } from "@react-navigation/native"
 
 /**
@@ -15,7 +16,11 @@ import { propOr, propSatisfies } from "ramda"
 export const NearbyListingItem = observer(function NearbyListingItem(props: NearbyListingItemProps) {
   const { style } = props
   const { colors } = useTheme();
-  // const navigation = useNavigation()
+  const navigation = useNavigation();
+
+  const _moveToAgreement = () => {
+    navigation.navigate("request_book");
+  }
 
   var ratingColor: string = '';
   var transactions: string = '';
@@ -53,7 +58,7 @@ export const NearbyListingItem = observer(function NearbyListingItem(props: Near
         <View style={[styles.row]}>
           <Text>{props.distance + ' km away'}</Text>
         </View>
-        <Button mode={'contained'} onPress={() => { Alert.alert("request book pressed!") }}>Request Book</Button>
+        <Button mode={'contained'} onPress={_moveToAgreement}>Request Book</Button>
       </View>
     </View>
   )

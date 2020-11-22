@@ -1,3 +1,4 @@
+require("../app/components/user-book-overview-component/user-book-overview-component.story")
 require("../app/components/book-overview-component/book-overview-component.story")
 require("../app/components/search-bar/search-bar.story")
 require("../app/components/cover-side-scroll/cover-side-scroll.story")
