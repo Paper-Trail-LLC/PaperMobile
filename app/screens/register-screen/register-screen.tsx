@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   screen: {
-    flex: 1,
+    // flex: 1,
     padding: spacing[2]
   },
   imageContainer: {
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     flex: 0.72
   },
   image: { //Didn't work with flex!
-    height: '100%',
+    height: 220,
     resizeMode: 'contain',
   },
   picker: {

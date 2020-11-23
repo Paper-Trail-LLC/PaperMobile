@@ -48,7 +48,6 @@ export function PrimaryNavigator() {
     <Tab.Navigator labeled={false}>
       <Tab.Screen name="searchTab" component={BookSearchTab} options={{tabBarIcon:'book-search'}}></Tab.Screen>
       <Tab.Screen name="myLibraryTab" component={MyLibraryTab} options={{tabBarIcon:'library'}}></Tab.Screen>
-      <Tab.Screen name="loginTestTab" component={RegisterScreen} options={{tabBarIcon:'account'}}></Tab.Screen>
     </Tab.Navigator>
   )
 }
