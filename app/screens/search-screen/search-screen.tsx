@@ -4,6 +4,7 @@ import { View, Image, StyleSheet, SafeAreaView } from "react-native"
 import { Screen, BookListItem, SearchBar } from "../../components"
 import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
+import { useTheme } from "react-native-paper"
 // import { useNavigation } from "@react-navigation/native"
 
 export const background = require("../../../assets/book_stack.png")
