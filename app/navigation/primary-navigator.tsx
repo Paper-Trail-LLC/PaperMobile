@@ -9,7 +9,7 @@ import { createStackNavigator } from "@react-navigation/stack"
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs"
 // import { WelcomeScreen, DemoScreen } from "../screens"
 import { SearchScreen } from "../screens/search-screen/search-screen"
-import { BookDetailScreen, BookPetitionScreen, NearbyListingsScreen, ProfileScreen, TransactionAgreementScreen } from "../screens"
+import { BookDetailScreen, BookPetitionScreen, LoginScreen, ProfileScreen, NearbyListingsScreen, RegisterScreen, TransactionAgreementScreen } from "../screens"
 import { MyLibraryScreen } from "../screens/my-library-screen/my-library-screen"
 import { BookScanComponent } from "../components/book-scan-component/book-scan-component";
 import { color } from "../theme";
