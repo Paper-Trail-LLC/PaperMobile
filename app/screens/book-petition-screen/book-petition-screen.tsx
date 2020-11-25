@@ -75,7 +75,7 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
   };
 
   return (
-    <SafeAreaView style={[styles.full]}>
+    <View style={styles.full}>
       <Appbar.Header>
         <Appbar.BackAction onPress={_goBack} />
         <Appbar.Content title={"Book Petition"} />
@@ -116,8 +116,7 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
           onValueChange={(itemValue: any, itemPosition: number) => {
             setPetitionLocation(itemValue);
           }}
-          itemStyle={[styles.regText, {color:colors.text}]}
-          style={{ marginVertical: Platform.OS === 'ios' ? -spacing[6] : spacing[0] }}
+          itemStyle={[styles.regText, {color:colors.text, height: 120}]}
         >
           <Picker.Item label={'New Location'} value={'new location'} />
           <Picker.Item label={'Your Saved Location'} value={'your saved location'} />
@@ -167,7 +166,7 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
         />
         <Button onPress={() => {Alert.alert('Create book petition pressed!')}} style={[styles.blueButton, { marginBottom: spacing[4] }]} color={'white'}>create a book petition</Button>
       </Screen>
-    </SafeAreaView>
+    </View>
   )
 })
 

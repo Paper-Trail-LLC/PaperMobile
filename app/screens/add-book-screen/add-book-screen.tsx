@@ -1,15 +1,14 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { Image, StyleSheet, TouchableOpacity, View, StatusBar } from "react-native"
+import { StyleSheet, View, StatusBar } from "react-native"
 import { Screen, MyBookDetails, BookOverviewComponent} from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
-import { color, spacing, typography } from "../../theme"
+import { spacing } from "../../theme"
 import { AddBookProps } from "./add-book.props"
 import { Book, useStores } from "../../models"
 import { useNavigation } from "@react-navigation/native"
-import { SafeAreaView } from "react-native-safe-area-context"
-import { Appbar, Menu, Text, useTheme, Button } from 'react-native-paper';
+import { Appbar, useTheme, Button } from 'react-native-paper';
 
 export const backBttn = require("../book-detail-screen/back_arrow.png")
 
