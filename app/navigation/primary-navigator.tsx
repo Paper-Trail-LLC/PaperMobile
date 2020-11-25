@@ -9,7 +9,7 @@ import { createStackNavigator } from "@react-navigation/stack"
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs"
 // import { WelcomeScreen, DemoScreen } from "../screens"
 import { SearchScreen } from "../screens/search-screen/search-screen"
-import { BookDetailScreen, BookPetitionScreen, LoginScreen, NearbyListingsScreen, RegisterScreen, TransactionAgreementScreen } from "../screens"
+import { BookDetailScreen, BookPetitionScreen, LoginScreen, ProfileScreen, NearbyListingsScreen, RegisterScreen, TransactionAgreementScreen } from "../screens"
 import { MyLibraryScreen } from "../screens/my-library-screen/my-library-screen"
 import { BookScanComponent } from "../components/book-scan-component/book-scan-component";
 import { color } from "../theme";
@@ -37,6 +37,7 @@ export type PrimaryParamList = {
   nearby_listings: undefined
   create_petition: undefined
   request_book: undefined
+  profile: undefined
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
@@ -48,6 +49,7 @@ export function PrimaryNavigator() {
     <Tab.Navigator labeled={false}>
       <Tab.Screen name="searchTab" component={BookSearchTab} options={{tabBarIcon:'book-search'}}></Tab.Screen>
       <Tab.Screen name="myLibraryTab" component={MyLibraryTab} options={{tabBarIcon:'library'}}></Tab.Screen>
+      <Tab.Screen name="profileTab" component={ProfileScreen} options={{tabBarIcon:'account'}}></Tab.Screen>
     </Tab.Navigator>
   )
 }
