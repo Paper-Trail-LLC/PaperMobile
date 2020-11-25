@@ -1,3 +1,8 @@
+require("../app/components/upcoming-meeting-item/upcoming-meeting-item.story")
+require("../app/components/agreement-history-item/agreement-history-item.story")
+require("../app/components/pending-agreement/pending-agreement.story")
+require("../app/components/tab-picker/tab-picker.story")
+require("../app/components/profile-book/profile-book.story")
 require("../app/components/user-book-overview-component/user-book-overview-component.story")
 require("../app/components/book-overview-component/book-overview-component.story")
 require("../app/components/search-bar/search-bar.story")

@@ -1,13 +1,12 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { StatusBar, StyleSheet, View, Image } from "react-native"
-import { Screen } from "../../components"
+import { StatusBar, StyleSheet, View, Image, TouchableOpacity, Alert } from "react-native"
+import { PendingAgreement, ProfileBook, Screen, TabPicker } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
-import { Appbar, Menu, useTheme, Text, Title } from "react-native-paper"
-import { Book, User, useStores } from "../../models"
-import UserAvatar from 'react-native-user-avatar'
+import { Appbar, Menu, useTheme, Text, Title, Avatar } from "react-native-paper"
+import { Agreement, Book, BorrowAgreement, PurchaseAgreement, User, UserBook, useStores } from "../../models"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 
 export const ProfileScreen = observer(function ProfileScreen() {
@@ -20,6 +19,8 @@ export const ProfileScreen = observer(function ProfileScreen() {
   // const navigation = useNavigation()
 
   const [visible, setVisible] = React.useState(false);
+  //initialize depending on if on own profile or other's profile ('requests' vs 'book' respectively)
+  const [selection, setSelection] = React.useState('requests');
 
   const _handleMore = () => openMenu();
   const openMenu = () => setVisible(true);
@@ -41,13 +42,6 @@ export const ProfileScreen = observer(function ProfileScreen() {
     return colour;
   }
 
-  //Get appropriate content by comparing profile's user to session's user
-  const content = [];
-  for (let i = 0; i < 10; i++) {
-    let bookImage = <Image source={{ uri: bookInfo.coverURI }} style={{ flex: 0.3 }}></Image>
-    content.push(bookImage);
-  }
-
   //Take from session if on profile tab or from other user store when going to another profile
   const dummyUser: User = {
     id: '123',
@@ -56,6 +50,50 @@ export const ProfileScreen = observer(function ProfileScreen() {
     email: 'john.doe@test.com',
     gender: 'male',
     memberSince: new Date()
+  }
+
+  //Get appropriate content by comparing profile's user to session's user
+  var dummyBooks = [];
+  for (let i = 0; i < bookStore.books.length; i++) {
+    let newBook: UserBook = { //Replace with appropriate store later!
+      id: i.toString(),
+      owner: dummyUser,
+      book: bookStore.books[i],
+      selling: false,
+      lending: i===2 ? false : true,
+      status: 'available',
+    }
+    let bookImage = <ProfileBook userBook={newBook}></ProfileBook>
+    dummyBooks.push(bookImage);
+  }
+
+  //Get pending requests from appropriate store
+  var pendingRequests = []; 
+  for (let i=0; i<dummyBooks.length; i++) {
+    let agreement: Agreement = {
+      id: '123',
+      userBook: dummyBooks[i],
+      requester: dummyUser,
+      status: 'incomplete',
+      created_on: new Date(),
+      updated_on: new Date()
+    }
+    if(i%2 === 0) {
+      let request: BorrowAgreement = {
+        agreement: agreement,
+        returnDate: new Date()
+      }
+      let component = <PendingAgreement style={{backgroundColor: colors.primary, borderRadius: 10}} request={request}></PendingAgreement>
+      pendingRequests.push(component);
+    }
+    else {
+      let request: PurchaseAgreement = {
+        agreement: agreement,
+        cost: 25
+      }
+      let component = <PendingAgreement style={{backgroundColor: colors.accent, borderRadius: 10}} request={request}></PendingAgreement>
+      pendingRequests.push(component);
+    }
   }
 
   return (
@@ -67,12 +105,15 @@ export const ProfileScreen = observer(function ProfileScreen() {
           visible={visible}
           onDismiss={closeMenu}
           anchor={<Appbar.Action icon="dots-vertical" color={colors.text} onPress={_handleMore} />}>
+          <Menu.Item icon="account-edit" title="Edit Profile" />
+          <Menu.Item icon="settings" title="Settings" />
           <Menu.Item icon="logout" title="Logout" />
         </Menu>
       </Appbar.Header>
-      <View style={styles.profileTop}>
+      <Screen style={styles.container} preset="scroll" backgroundColor={color.transparent}>
+        <View style={styles.profileTop}>
           <View style={styles.profileRow}>
-            <UserAvatar style={{ height: 70, width: 70 }} size={80} name={dummyUser.firstName + ' ' + dummyUser.lastName} bgColor={stringToColour(dummyUser.firstName + dummyUser.lastName)}></UserAvatar>
+            <Avatar.Text size={70} label={dummyUser.firstName.charAt(0) + dummyUser.lastName.charAt(0)} color={'white'} style={{ backgroundColor: stringToColour(dummyUser.firstName + dummyUser.lastName) }}></Avatar.Text>
             <View style={styles.bookCount}>
               <Title>13</Title>
               <Text>Books</Text>
@@ -86,11 +127,11 @@ export const ProfileScreen = observer(function ProfileScreen() {
             </View>
           </View>
         </View>
-      <Screen style={styles.container} preset="scroll" backgroundColor={color.transparent}>
         <View style={styles.content}>
-          <Title style={{ alignSelf: 'center' }}>Books</Title>
-          <View style={styles.bookItems}>
-            {/* {content} */}
+          <TabPicker isOtherUserProfile={false} selection={selection} selectionToggle={setSelection}></TabPicker>
+          <View style={styles.wrapColumns}>
+            {selection === 'books' && dummyBooks}
+            {selection === 'requests' && pendingRequests}
           </View>
         </View>
       </Screen>
@@ -106,13 +147,11 @@ const styles = StyleSheet.create({
     alignContent: 'space-around',
   },
   container: {
-    marginTop: -spacing[4],
-    flex: 0.87,
     flexDirection: 'column',
     padding: spacing[2]
   },
   profileTop: {
-    flex: 0.13
+    flex: 0.15
   },
   profileRow: {
     flexDirection: 'row',
@@ -125,14 +164,15 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   content: {
-    flex: 0.8,
-    padding: spacing[3]
+    flex: 0.85,
   },
-  bookItems: {
+  wrapColumns: {
     flex: 1,
-    
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around'
   },
   petitionItems: {
 
-  }
+  },
 })
