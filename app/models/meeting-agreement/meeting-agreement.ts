@@ -11,6 +11,7 @@ export const MeetingAgreementModel = types
     geolocation: types.optional(types.array(types.number), [0,0]),
     place: types.optional(types.string, ''),
     timestamp: types.optional(types.Date, new Date()),
+    updated_on: types.optional(types.Date, new Date()),
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
