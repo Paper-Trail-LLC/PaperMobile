@@ -136,9 +136,9 @@ export const BookOfferScreen = observer(function BookOfferScreen() {
           focusable={true}
         />
         {/* Show buttons depending on who's petition this is (compare with session) */}
-        <Button onPress={() => {Alert.alert('Create book petition pressed!')}} style={[styles.blueButton, { marginBottom: spacing[4] }]} color={'white'}>create a book petition</Button>
-        <Button onPress={() => {Alert.alert('accept pressed!')}} style={[styles.blueButton, { marginBottom: spacing[4] }]} color={'white'}>Accept</Button>
+        <Button onPress={() => {Alert.alert('Create book petition pressed!')}} style={[styles.blueButton, { marginBottom: spacing[4] }]} color={'white'}>Request Book</Button>
         <Button onPress={() => {Alert.alert('decline pressed!')}} style={[styles.redButton, { marginBottom: spacing[4] }]} color={'white'}>Decline</Button>
+        <Button onPress={() => {Alert.alert('edit pressed!')}} style={[styles.blueButton, { marginBottom: spacing[4] }]} color={'white'}>Edit Offer</Button>
         <Button onPress={() => {Alert.alert('cancel pressed!')}} style={[styles.redButton, { marginBottom: spacing[4] }]} color={'white'}>Cancel Offer</Button>
       </Screen>
     </View>
