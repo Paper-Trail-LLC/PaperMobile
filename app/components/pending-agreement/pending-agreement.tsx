@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Alert, Image, StyleSheet, View, ViewStyle } from "react-native"
+import { Alert, StyleSheet, View, ViewStyle } from "react-native"
 import { observer } from "mobx-react-lite"
 import { TouchableOpacity } from "react-native"
 import { Text, useTheme } from "react-native-paper"
@@ -12,7 +12,7 @@ export interface PendingAgreementProps {
    */
   style?: ViewStyle
 
-  request: PurchaseAgreement | BorrowAgreement
+  request: PurchaseAgreement | BorrowAgreement // | Offer | MeetingAgreement (not confirmed)
 
 }
 
@@ -35,31 +35,19 @@ export const PendingAgreement = observer(function PendingAgreement(props: Pendin
   const reqType = (instanceOfPurchaseAgreement(request)) ? 'purchase' : 'borrow';
 
   return (
-    <TouchableOpacity onPress={() => {Alert.alert(reqType + ' agreement pressed')}} style={[styles.container, style]}>
-      <Image source={{ uri: 'https://place-hold.it/90x160/FF00FF.png&text=Book' }} style={styles.image}></Image>
-      <View style={styles.text}>
-        <Text style={{color: (dark && reqType === 'purchase') ? 'black' : 'white'}}>{'by: ' + request.agreement.requester.firstName + ' ' + request.agreement.requester.lastName}</Text>
-        <Text style={{color: (dark && reqType === 'purchase') ? 'black' : 'white'}}>{'to: ' + reqType}</Text>
-      </View>
-
+    <TouchableOpacity onPress={() => { Alert.alert(reqType + ' agreement pressed') }} style={[styles.container, style]}>
+      {/* <View style={{alignSelf: request.agreement.requester === session.user ? 'flex-end' : 'flex-start'}}> */}
+        <Text style={{ color: (dark && reqType === 'purchase') ? 'black' : 'white' }}>{'by: ' + request.agreement.requester.firstName + ' ' + request.agreement.requester.lastName}</Text>
+        <Text style={{ color: (dark && reqType === 'purchase') ? 'black' : 'white' }}>{'to: ' + reqType}</Text>
+      {/* </View> */}
     </TouchableOpacity>
   )
 })
 
 const styles = StyleSheet.create({
   container: {
-    height: 200,
+    minWidth: '50%',
     margin: spacing[2],
     padding: spacing[2],
-    width: 150
   },
-  image: {
-    flex: 1,
-    margin: spacing[1],
-    width: '63%',
-    alignSelf: 'center'
-  },
-  text: {
-    alignItems: 'center'
-  }
 })
