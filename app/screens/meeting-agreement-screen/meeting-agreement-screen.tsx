@@ -68,7 +68,7 @@ export const MeetingAgreementScreen = observer(function MeetingAgreementScreen()
     <View style={styles.full}>
       <Appbar.Header>
         <Appbar.BackAction onPress={_goBack} />
-        <Appbar.Content title={"Book Petition"} />
+        <Appbar.Content title={"Meeting Agreement"} />
       </Appbar.Header>
       <Screen style={[styles.container, { backgroundColor: colors.background }]} preset="scroll" backgroundColor={colors.background}>
       <Subheading>Where?</Subheading>

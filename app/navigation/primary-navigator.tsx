@@ -12,7 +12,6 @@ import { SearchScreen } from "../screens/search-screen/search-screen"
 import { BookDetailScreen, BookPetitionScreen, LoginScreen, ProfileScreen, NearbyListingsScreen, RegisterScreen, TransactionAgreementScreen } from "../screens"
 import { MyLibraryScreen } from "../screens/my-library-screen/my-library-screen"
 import { BookScanComponent } from "../components/book-scan-component/book-scan-component";
-import { color } from "../theme";
 import { AddBookScreen } from "../screens/add-book-screen/add-book-screen";
 import { HomeScreen } from "../screens/home-screen/home-screen";
 /**
