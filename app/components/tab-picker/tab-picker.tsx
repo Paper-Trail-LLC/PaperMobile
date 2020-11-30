@@ -32,25 +32,19 @@ export const TabPicker = observer(function TabPicker(props: TabPickerProps) {
       {isOtherUserProfile &&
         <TouchableOpacity disabled={selection === 'books'} style={[styles.tab, { backgroundColor: selection === 'books' ? 'rgba(128, 128, 128, 0.25)' : colors.background }]} onPress={() => selectionToggle('books')}>
           <MaterialCommunityIcons color={colors.text} name={'book-multiple'} size={24}></MaterialCommunityIcons>
-          <Text>Books</Text>
+          <Text>Library</Text>
         </TouchableOpacity>
       }
       {!isOtherUserProfile &&
         <TouchableOpacity disabled={selection === 'requests'} style={[styles.tab, { backgroundColor: selection === 'requests' ? 'rgba(128, 128, 128, 0.25)' : colors.background }]} onPress={() => selectionToggle('requests')}>
           <MaterialCommunityIcons color={colors.text} name={'timeline-text'} size={24}></MaterialCommunityIcons>
-          <Text>Requests</Text>
-        </TouchableOpacity>
-      }
-      {!isOtherUserProfile &&
-        <TouchableOpacity disabled={selection === 'history'} style={[styles.tab, { backgroundColor: selection === 'history' ? 'rgba(128, 128, 128, 0.25)' : colors.background }]} onPress={() => selectionToggle('history')}>
-          <MaterialCommunityIcons color={colors.text} name={'history'} size={24}></MaterialCommunityIcons>
-          <Text>History</Text>
+          <Text>Activity</Text>
         </TouchableOpacity>
       }
       {!isOtherUserProfile &&
         <TouchableOpacity disabled={selection === 'upcoming'} style={[styles.tab, { backgroundColor: selection === 'upcoming' ? 'rgba(128, 128, 128, 0.25)' : colors.background }]} onPress={() => selectionToggle('upcoming')}>
           <MaterialCommunityIcons color={colors.text} name={'map-marker-alert'} size={24}></MaterialCommunityIcons>
-          <Text>Meetings</Text>
+          <Text>Upcoming</Text>
         </TouchableOpacity>
       }
     </View>
