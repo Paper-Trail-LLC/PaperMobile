@@ -1,10 +1,10 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { SafeAreaView, StyleSheet, View, Picker, Alert, Platform } from "react-native"
+import { StyleSheet, View, Picker, Alert, Platform } from "react-native"
 import { Screen, BookOverviewComponent } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
-import { Circle, Marker, UrlTile } from 'react-native-maps';
+import { Marker, UrlTile } from 'react-native-maps';
 import MapView from 'react-native-maps';
 import { color, spacing, typography } from "../../theme"
 import { Book, BookPetition, useStores } from "../../models"
@@ -12,21 +12,18 @@ import { useNavigation } from "@react-navigation/native"
 import { TextInput, Text, Appbar, Subheading, Divider, Button, useTheme, Switch } from "react-native-paper"
 import * as Permissions from 'expo-permissions'
 import * as Location from 'expo-location'
-import DateTimePicker from '@react-native-community/datetimepicker';
 
-export const BookPetitionScreen = observer(function BookPetitionScreen() {
+export const BookOfferScreen = observer(function BookOfferScreen() {
 
   const { colors } = useTheme();
   // Petition values for form
   const today = new Date();
-  const originalLatDelta = 0.0922;
   today.setMonth(today.getMonth() + 1);
   const [expdate, setDate] = React.useState(today);
   const [locationPermission, askLocationPermission, getLocationPermission] = Permissions.usePermissions(Permissions.LOCATION, { ask: true });
   const [petitionLocation, setPetitionLocation] = React.useState('new location');
-  const [buying, setBuying] = React.useState(false);
-  const [borrowing, setBorrowing] = React.useState(false);
-  const [maxRadius, setMaxRadius] = React.useState(2);
+  const [selling, setSelling] = React.useState(false);
+  const [lending, setLending] = React.useState(false);
 
   // Stores to be used to get book and save petition to store
   const { bookStore, bookPetitionStore } = useStores();
@@ -51,7 +48,6 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
   });
 
   async function getLocation() {
-    console.log('test');
     if (!locationPermission || locationPermission.status !== 'granted') {
       askLocationPermission();
     }
@@ -69,40 +65,39 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
     }
   }
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || today;
-    setDate(currentDate);
-  };
-
   return (
     <View style={styles.full}>
       <Appbar.Header>
         <Appbar.BackAction onPress={_goBack} />
-        <Appbar.Content title={"Book Petition"} />
+        <Appbar.Content title={"Book Offer"} />
       </Appbar.Header>
 
       <Screen style={[styles.container, {backgroundColor: colors.background}]} preset="scroll" backgroundColor={colors.background}>
         <BookOverviewComponent book={bookInfo}></BookOverviewComponent>
-        {/* BUYING OR BORROWING */}
-        <Subheading>Are you?</Subheading>
+        <Subheading>Offering book to:</Subheading>
+        <Divider />
+        {/* Add name of person who made petition! */}
+        {/* <Title>{bookPetitionStore}</Title> */} 
+        <Subheading>Are you...?</Subheading>
+        {/* Disable them depending on petition and who is viewing petition */}
         <Divider />
           <View style={styles.item}>
             <View style={styles.row}>
-              <Text style={styles.regText}>Buying: </Text>
+              <Text style={styles.regText}>Selling: </Text>
               <View style={styles.item}>
                 <Switch
-                  value={buying}
+                  value={selling}
                   onValueChange={() => {
-                    setBuying(!buying);
+                    setSelling(!selling);
                   }}
                 />
               </View>
-              <Text style={styles.regText}>Borrowing: </Text>
+              <Text style={styles.regText}>Lending: </Text>
               <View style={styles.item}>
                 <Switch
-                  value={borrowing}
+                  value={lending}
                   onValueChange={() => {
-                    setBorrowing(!borrowing);
+                    setLending(!lending);
                   }}
                 />
               </View>
@@ -129,42 +124,22 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
             mapType={Platform.OS == "android" ? "none" : "standard"} rotateEnabled={false}>
             <UrlTile urlTemplate={tileUrl} maximumZ={19} />
             <Marker coordinate={{ latitude: region.latitude, longitude: region.longitude }}></Marker>
-            <Circle center={{ latitude: region.latitude, longitude: region.longitude }} radius={maxRadius*1000} fillColor={'rgba(50,60,200,0.4)'} strokeColor={'rgba(50,60,200,0.8)'}></Circle>
           </MapView>
         </View>
-        <View style={styles.row}>
-          <Text style={styles.regText}>max radius:</Text>
-          <TextInput
-            mode="outlined"
-            value={"" + maxRadius}
-            onChangeText={rad => {setMaxRadius(+rad); setRegion({latitude: region.latitude, longitude: region.longitude, latitudeDelta: originalLatDelta * +rad/4, longitudeDelta: region.longitudeDelta})}}
-            keyboardType='number-pad'
-            showSoftInputOnFocus={true}
-            focusable={false}
-            style={[styles.locationInput, { marginHorizontal: spacing[6], height: spacing[7] }]} />
-          <Text style={styles.regText}>km</Text>
-        </View>
-        <Subheading>Expires in:</Subheading>
-        <Divider />
-        <DateTimePicker
-          value={expdate}
-          style={{ flex: 1 }}
-          textColor={colors.text}
-          mode={'date'}
-          minimumDate={new Date()}
-          display={'default'}
-          onChange={onChange}
-        ></DateTimePicker>
-        <Subheading>Anything you want to add?</Subheading>
+        <Subheading>Description:</Subheading>
         <Divider />
         <TextInput
-          // accessibilityValue={{text:'Petition details'}}
+          // accessibilityValue={{text:'Offer details'}}
           multiline={true}
           numberOfLines={4}
           label={'Write it here!'}
           focusable={true}
         />
-        <Button onPress={() => {Alert.alert('Create book petition pressed!')}} style={[styles.blueButton, { marginBottom: spacing[4] }]} color={'white'}>create a book petition</Button>
+        {/* Show buttons depending on who's petition this is (compare with session) */}
+        <Button onPress={() => {Alert.alert('Create book petition pressed!')}} style={[styles.blueButton, { marginBottom: spacing[4] }]} color={'white'}>Request Book</Button>
+        <Button onPress={() => {Alert.alert('decline pressed!')}} style={[styles.redButton, { marginBottom: spacing[4] }]} color={'white'}>Decline</Button>
+        <Button onPress={() => {Alert.alert('edit pressed!')}} style={[styles.blueButton, { marginBottom: spacing[4] }]} color={'white'}>Edit Offer</Button>
+        <Button onPress={() => {Alert.alert('cancel pressed!')}} style={[styles.redButton, { marginBottom: spacing[4] }]} color={'white'}>Cancel Offer</Button>
       </Screen>
     </View>
   )
@@ -243,6 +218,12 @@ const styles = StyleSheet.create({
     borderRadius: 13,
     paddingVertical: spacing[4],
     backgroundColor: color.primaryBlue,
+  },
+  redButton: {
+    margin: spacing[3],
+    borderRadius: 13,
+    paddingVertical: spacing[4],
+    backgroundColor: 'red',
   },
   addToLibrary: {
     margin: spacing[3],
