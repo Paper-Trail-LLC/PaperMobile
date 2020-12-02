@@ -1,12 +1,12 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { Alert, Platform, StyleSheet, View } from "react-native"
+import { Alert, Linking, Platform, StyleSheet, View } from "react-native"
 import { BookOverviewComponent, Screen } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
 import { useNavigation } from "@react-navigation/native"
-import { Appbar, Divider, Subheading, Title, useTheme, Text, Button } from "react-native-paper"
+import { Appbar, Divider, Subheading, Title, useTheme, Text, Button, TouchableRipple } from "react-native-paper"
 import MapView, { Marker, UrlTile } from "react-native-maps"
 
 export const MeetingDetailsScreen = observer(function MeetingDetailsScreen() {
@@ -25,6 +25,14 @@ export const MeetingDetailsScreen = observer(function MeetingDetailsScreen() {
     longitudeDelta: 0.0421,
   });
 
+  const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
+  const latLng = `${region.latitude},${region.longitude}`;
+  const label = 'Custom Label';
+  const url = Platform.select({
+    ios: `${scheme}${label}@${latLng}`,
+    android: `${scheme}${latLng}(${label})`
+  });
+
   // Pull in navigation via hook
   const navigation = useNavigation();
   const _goBack = () => navigation.goBack();
@@ -36,24 +44,25 @@ export const MeetingDetailsScreen = observer(function MeetingDetailsScreen() {
         <Appbar.Content title={"Upcoming Meeting Details"} />
       </Appbar.Header>
       <Screen style={[styles.container, { backgroundColor: colors.background }]} preset="scroll" backgroundColor={colors.background}>
-        <BookOverviewComponent exclude={[1, 2, 3]} book={}></BookOverviewComponent>
+        <BookOverviewComponent exclude={[1, 2, 3]} book={ }></BookOverviewComponent>
         <Divider />
         <Subheading>Meeting with:</Subheading>
         <Title>{ }</Title>
         <Divider />
         <Subheading>Location:</Subheading>
-        <View style={styles.mapContainer}>
+        <TouchableRipple onPress={() => {Linking.openURL(url);}} style={styles.mapContainer}>
           <MapView style={styles.map} initialRegion={region} provider={null} region={region}
-            mapType={Platform.OS == "android" ? "none" : "standard"} rotateEnabled={false}>
+            mapType={Platform.OS == "android" ? "none" : "standard"} rotateEnabled={false} zoomEnabled={false}>
             <UrlTile urlTemplate={tileUrl} maximumZ={19} />
             <Marker coordinate={{ latitude: region.latitude, longitude: region.longitude }}></Marker>
           </MapView>
-        </View>
-        <Text>{'Place: ' }</Text>
-        <Text>{'When: ' }</Text>
+        </TouchableRipple>
+        <Text>{'Place: '}</Text>
+        <Text>{'When: '}</Text>
         <Divider />
-        <Button onPress={() => {Alert.alert('accept pressed!')}} style={[styles.blueButton, { marginBottom: spacing[4] }]} color={'white'}>Confirm Transaction</Button>
-        <Button onPress={() => {Alert.alert('decline pressed!')}} style={[styles.redButton, { marginBottom: spacing[4] }]} color={'white'}>Cancel Meeting</Button>
+        <Button onPress={() => { Alert.alert('accept pressed!') }} style={[styles.blueButton, { marginBottom: spacing[4] }]} color={'white'}>Confirm Transaction</Button>
+        <Button onPress={() => { Alert.alert('return pressed!') }} style={[styles.blueButton, { marginBottom: spacing[4] }]} color={'white'}>Confirm Return</Button>
+        <Button onPress={() => { Alert.alert('decline pressed!') }} style={[styles.redButton, { marginBottom: spacing[4] }]} color={'white'}>Cancel Meeting</Button>
       </Screen>
     </View>
   )
