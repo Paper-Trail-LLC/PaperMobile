@@ -4,7 +4,7 @@ import { View, Image, StyleSheet, SafeAreaView } from "react-native"
 import { Screen, BookListItem, SearchBar } from "../../components"
 import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
-import { useTheme } from "react-native-paper"
+import { Text, Title, useTheme } from "react-native-paper"
 // import { useNavigation } from "@react-navigation/native"
 
 export const background = require("../../../assets/book_stack.png")
@@ -21,26 +21,32 @@ export const SearchScreen = observer(function SearchScreen() {
   // bookStore.clear();
 
   const bookList = [];
-  for (let i = 0; i < bookStore.books.length; i++) {
+  for (let i = 0; i < bookStore.searchResults.length; i++) {
     bookList.push(
       <BookListItem
-      key={bookStore.books[i].id}
-      book={bookStore.books[i]}
+      key={bookStore.searchResults[i].id}
+      book={bookStore.searchResults[i]}
       style={styles.bookListItem}
       ></BookListItem>
     )
   }
 
   return (
-    <View style={styles.full}>
+    <SafeAreaView style={styles.full}>
       <Image
         style={styles.background}
         source={background} />
       <SearchBar></SearchBar>
       <Screen style={styles.containerList} preset="scroll" backgroundColor={color.transparent}>
+      {bookList.length === 0 &&
+          <View>
+            <Title style={styles.emptyText}>No results found.</Title>
+            <Text style={styles.emptyText}>Try searching for something else</Text>
+          </View>
+        }
         {bookList}
       </Screen>
-    </View>
+    </SafeAreaView>
   )
 })
 
@@ -85,7 +91,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 1
   },
-  textIcon: {
-
+  emptyText: {
+    marginTop: spacing[6],
+    marginHorizontal: spacing[7],
+    alignSelf: 'center',
   }
 });
