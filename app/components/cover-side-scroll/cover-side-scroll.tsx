@@ -23,62 +23,12 @@ export const CoverSideScroll = observer(function CoverSideScroll(props: CoverSid
   const { bookStore } = useStores()
   const { colors, dark } = useTheme();
   const navigation = useNavigation()
+
+  if(bookStore.areSugestionsLoaded){
+    // bookStore.loadSuggestions().;
+  }
+
   // bookStore.clear();
-  bookStore.addBook(
-    {
-      id: '1',
-      coverURI: 'https://place-hold.it/90x160/FF00FF.png&text=coverI',
-      title: 'La prueba más grande',
-      authors: ['Gabriel Huertas'],
-      releaseDate: Date.now(),
-      isbn: '1234543210',
-      isbn13: '12345654321013',
-      edition: '1st',
-      synopsis: 'Ain\'t nobody going to read this'
-    }
-  )
-  bookStore.addBook(
-    {
-      id: '3',
-      coverURI: 'https://place-hold.it/90x160/FF00FF.png&text=coverIII',
-      title: 'La prueba más grande III',
-      authors: ['Gabriel Huertas'],
-      releaseDate: Date.now(),
-      isbn: '54321234510',
-      isbn13: '65432123456013',
-      edition: '1st',
-      synopsis: 'Ain\'t nobody going to read this^2'
-    }
-  )
-
-  bookStore.addBook(
-    {
-      id: '2',
-      coverURI: 'https://place-hold.it/90x160/FF00FF.png&text=coverII',
-      title: 'La prueba más grande II',
-      authors: ['Gabriel Huertas'],
-      releaseDate: Date.now(),
-      isbn: '98765234510',
-      isbn13: '76543223456013',
-      edition: '1st',
-      synopsis: 'Ain\'t nobody going to read this^2'
-    }
-  )
-
-  bookStore.addBook(
-    {
-      id: '4',
-      coverURI: 'https://place-hold.it/90x160/FF00FF.png&text=coverIV',
-      title: 'La prueba más grande IV',
-      authors: ['Gabriel Huertas'],
-      releaseDate: Date.now(),
-      isbn: '54321298765',
-      isbn13: '65456789056013',
-      edition: '1st',
-      synopsis: 'Ain\'t nobody going to read this^2'
-    }
-  )
-
   const Item = ({ item, onPress, style }) => (
     <Surface style={[styles.surface, styles.item, style]}>
       <TouchableRipple onPress={onPress}>
@@ -107,7 +57,7 @@ export const CoverSideScroll = observer(function CoverSideScroll(props: CoverSid
       <Title>Nearby Listings</Title>
       {/* <View> */}
       <FlatList
-        data={bookStore.books}
+        data={bookStore.nearbyBooks}
         renderItem={renderItem}
         keyExtractor={(item) => item.isbn13}
         extraData={bookStore.choice}
@@ -116,7 +66,7 @@ export const CoverSideScroll = observer(function CoverSideScroll(props: CoverSid
       {/* </View> */}
       <Title>Just for you</Title>
       <FlatList
-        data={bookStore.books}
+        data={bookStore.forMeBooks}
         renderItem={renderItem}
         keyExtractor={(item) => item.isbn13}
         extraData={bookStore.choice}
@@ -124,7 +74,7 @@ export const CoverSideScroll = observer(function CoverSideScroll(props: CoverSid
       />
       <Title>Popular in your area</Title>
       <FlatList
-        data={bookStore.books}
+        data={bookStore.popularBooks}
         renderItem={renderItem}
         keyExtractor={(item) => item.isbn13}
         extraData={bookStore.choice}

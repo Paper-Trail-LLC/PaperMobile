@@ -5,7 +5,9 @@ import { Screen } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
-import { Button, Text, TextInput, useTheme } from "react-native-paper"
+import { Button, Text, TextInput, useTheme, ActivityIndicator } from "react-native-paper"
+import { useStores } from "../../models"
+import { useNavigation } from "@react-navigation/native"
 
 const logo = require("../../../assets/splash.png");
 
@@ -14,14 +16,30 @@ export const LoginScreen = observer(function LoginScreen() {
   // const { someStore, anotherStore } = useStores()
   // OR
   // const rootStore = useStores()
+  const { authStore } = useStores();
 
   // Pull in navigation via hook
-  // const navigation = useNavigation()
+  const navigation = useNavigation();
 
   const { dark, colors } = useTheme();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  var error = '';
+  const [error, setError] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
+  const _moveToRegisterScreen = () => {
+    navigation.navigate("register");
+  }
+
+  const onLoginPressed = async () => {
+    setIsLoading(true);
+    try {
+      await authStore.login(email, password);
+      setIsLoading(false);
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <View style={styles.full}>
@@ -32,15 +50,16 @@ export const LoginScreen = observer(function LoginScreen() {
         </View>
         <View style={styles.loginForm}>
           <Text style={{ fontSize: 44, fontWeight: '600', alignSelf: 'center' }}>Login</Text>
-          <Text style={{color: 'red', alignSelf: 'center'}}>{error}</Text> 
+          <Text style={{ color: 'red', alignSelf: 'center' }}>{error}</Text>
           <TextInput value={email} label={'email'} mode={'outlined'} autoCapitalize={'none'} onChangeText={text => setEmail(text)} style={{ marginVertical: spacing[3] }} />
           <TextInput value={password} label={'password'} mode={'outlined'} autoCapitalize={'none'} secureTextEntry={true} onChangeText={pass => setPassword(pass)} style={{ marginVertical: spacing[3] }} />
           <View style={styles.buttonContainer}>
-            <Button onPress={() => Alert.alert('sign in')} style={{ marginVertical: spacing[5], borderColor: colors.text, borderWidth: 1 }} mode={'outlined'}>Sign In</Button>
+            <Button onPress={() => onLoginPressed()} loading={isLoading} style={{ marginVertical: spacing[5], borderColor: colors.text, borderWidth: 1 }} disabled={isLoading} mode={'outlined'}>Sign In</Button>
+            {/* {isLoading && <ActivityIndicator color={colors.primary} animating={true} />} */}
           </View>
-          <Text style={{alignSelf: 'center'}}>Not registered yet?</Text>
+          <Text style={{ alignSelf: 'center' }}>Not registered yet?</Text>
           <View style={styles.buttonContainer}>
-            <Button onPress={() => Alert.alert('sign up')} mode={'text'}>Sign Up</Button>
+            <Button onPress={_moveToRegisterScreen} mode={'text'}>Sign Up</Button>
           </View>
         </View>
       </Screen>

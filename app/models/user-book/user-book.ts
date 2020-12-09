@@ -1,6 +1,5 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
-import { Book, BookModel } from "../book/book";
-import { UserModel } from "../user/user";
+import { BookModel } from "../book/book";
 
 /**
  * Model description here for TypeScript hints.
@@ -9,7 +8,7 @@ export const UserBookModel = types
   .model("UserBook")
   .props({
     id: types.optional(types.string,''),
-    owner: UserModel,
+    ownerId: types.string,
     book: BookModel,
     status: types.optional(types.string, "available"),
     selling: types.optional(types.boolean, false),
@@ -19,23 +18,23 @@ export const UserBookModel = types
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
-    setBook: (book: Book) => {
-      self.book = book;
-    },
-    setStatus: (status: string) => {
-      self.status = status;
-    },
-    setSelling: (isSelling: boolean) => {
-      self.selling = isSelling;
-    },
-    setLending: (isLending: boolean) => {
-      self.lending = isLending;
-    },
-    setLocation: (latitude: number, longitude: number) => {
-      self.location.clear();
-      self.location.push(latitude);
-      self.location.push(longitude);
-    }
+    // setBook: (book: Book) => {
+    //   self.book = book;
+    // },
+    // setStatus: (status: string) => {
+    //   self.status = status;
+    // },
+    // setSelling: (isSelling: boolean) => {
+    //   self.selling = isSelling;
+    // },
+    // setLending: (isLending: boolean) => {
+    //   self.lending = isLending;
+    // },
+    // setLocation: (latitude: number, longitude: number) => {
+    //   self.location.clear();
+    //   self.location.push(latitude);
+    //   self.location.push(longitude);
+    // }
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
   /**

@@ -38,12 +38,53 @@ export const BookScanComponent = observer(function BookScanComponent(props: Book
   let camera: Camera = null;
   let scannedBook: Book;
   let aspectRatios;
+//   useEffect(() => {
+//     checkNotificationsPermissions()
+//     AppState.addEventListener("change", _handleAppStateChange);
+
+//     return () => {
+//         // To unsubscribe from the event listener after the component is unmounted
+//         AppState.removeEventListener("change", _handleAppStateChange);
+//     };
+// }, [settingsStore.themeSettings.use_os_theme, settingsStore.themeSettings.dark_mode]);
+
+// const _handleAppStateChange = (nextAppState): void => {
+//     if (
+//         appState.current.match(/inactive|background/) &&
+//         nextAppState === "active"
+//     ) {
+//         checkNotificationsPermissions()
+//     }
+
+//     appState.current = nextAppState;
+// };
+
+// const checkNotificationsPermissions = async () => {
+
+//     try {
+//         await checkNotifications().then(({ status, settings }) => {
+
+//             if (status == "granted") {
+//                 set_notifications_switch(true)
+//             }
+//             else {
+//                 set_notifications_switch(false)
+//             }
+//         })
+//     }
+//     catch (err) {
+//         console.log('Error fetching notifications permission', err);
+//     }
+// }
 
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
+    return () => {
+      // To unsubscribe from the event listener after the component is unmounted
+    }
   }, []);
 
   if (hasPermission === null) {

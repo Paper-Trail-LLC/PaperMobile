@@ -8,15 +8,16 @@ import { color, spacing } from "../../theme"
 import { Appbar, Menu, useTheme, Text, Title, Avatar } from "react-native-paper"
 import { Agreement, Book, BorrowAgreement, PurchaseAgreement, User, UserBook, useStores } from "../../models"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
+import { useNavigation } from "@react-navigation/native"
 
 export const ProfileScreen = observer(function ProfileScreen() {
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
   // OR
-  const { bookStore } = useStores();
+  const { bookStore, authStore } = useStores();
   const bookInfo: Book = bookStore.getBook(bookStore.choice);
   // Pull in navigation via hook
-  // const navigation = useNavigation()
+  const navigation = useNavigation();
 
   const [visible, setVisible] = React.useState(false);
   //initialize depending on if on own profile or other's profile ('requests' vs 'book' respectively)
@@ -42,30 +43,29 @@ export const ProfileScreen = observer(function ProfileScreen() {
     return colour;
   }
 
-  //Take from session if on profile tab or from other user store when going to another profile
-  const dummyUser: User = {
-    id: '123',
-    firstName: 'Anibal',
-    lastName: 'Pagan',
-    email: 'john.doe@test.com',
-    gender: 'male',
-    memberSince: new Date()
+  const logout = () => {
+    authStore.logout();
+    navigation.navigate('home');
   }
 
+  //Take from session if on profile tab or from other user store when going to another profile
+  authStore.loadUser()
+  const user: User = authStore.user;
+// console.log(user);
   //Get appropriate content by comparing profile's user to session's user
   var dummyBooks = [];
-  for (let i = 0; i < bookStore.books.length; i++) {
-    let newBook: UserBook = { //Replace with appropriate store later!
-      id: i.toString(),
-      owner: dummyUser,
-      book: bookStore.books[i],
-      selling: false,
-      lending: i===2 ? false : true,
-      status: 'available',
-    }
-    let bookImage = <ProfileBook userBook={newBook}></ProfileBook>
-    dummyBooks.push(bookImage);
-  }
+  // for (let i = 0; i < bookStore.books.length; i++) {
+  //   let newBook: UserBook = { //Replace with appropriate store later!
+  //     id: i.toString(),
+  //     owner: user,
+  //     book: bookStore.books[i],
+  //     selling: false,
+  //     lending: i===2 ? false : true,
+  //     status: 'available',
+  //   }
+  //   let bookImage = <ProfileBook userBook={newBook}></ProfileBook>
+  //   dummyBooks.push(bookImage);
+  // }
 
   //Get pending requests from appropriate store
   var pendingRequests = []; 
@@ -73,7 +73,7 @@ export const ProfileScreen = observer(function ProfileScreen() {
     let agreement: Agreement = {
       id: '123',
       userBook: dummyBooks[i],
-      requester: dummyUser,
+      requester: user,
       status: 'incomplete',
       created_on: new Date(),
       updated_on: new Date()
@@ -100,20 +100,20 @@ export const ProfileScreen = observer(function ProfileScreen() {
     <View style={styles.full}>
       <StatusBar translucent={true} />
       <Appbar.Header style={{ backgroundColor: color.transparent }}>
-        <Appbar.Content title={dummyUser.firstName + ' ' + dummyUser.lastName} color={colors.text} />
+        <Appbar.Content title={user.firstname + ' ' + user.lastname} color={colors.text} />
         <Menu
           visible={visible}
           onDismiss={closeMenu}
           anchor={<Appbar.Action icon="dots-vertical" color={colors.text} onPress={_handleMore} />}>
           <Menu.Item icon="account-edit" title="Edit Profile" />
           <Menu.Item icon="settings" title="Settings" />
-          <Menu.Item icon="logout" title="Logout" />
+          <Menu.Item onPress={() => logout()} icon="logout" title="Logout" />
         </Menu>
       </Appbar.Header>
       <Screen style={styles.container} preset="scroll" backgroundColor={color.transparent}>
         <View style={styles.profileTop}>
           <View style={styles.profileRow}>
-            <Avatar.Text size={70} label={dummyUser.firstName.charAt(0) + dummyUser.lastName.charAt(0)} color={'white'} style={{ backgroundColor: stringToColour(dummyUser.firstName + dummyUser.lastName) }}></Avatar.Text>
+            <Avatar.Text size={70} label={user.firstname.charAt(0) + user.lastname.charAt(0)} color={'white'} style={{ backgroundColor: stringToColour(user.firstname + user.lastname) }}></Avatar.Text>
             <View style={styles.bookCount}>
               <Title>13</Title>
               <Text>Books</Text>

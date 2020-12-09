@@ -7,12 +7,13 @@ export const UserModel = types
   .model("User")
   .props({
     id: types.optional(types.string, ''),
-    firstName: types.optional(types.string, ''),
-    lastName: types.optional(types.string, ''),
+    firstname: types.optional(types.string, ''),
+    lastname: types.optional(types.string, ''),
     email: types.optional(types.string, ''),
     gender: types.optional(types.string, ''),
-    // hash and salt?
-    memberSince: types.optional(types.Date, new Date()), //created_on
+    likes: types.optional(types.array(types.string), []),
+    created_on: types.optional(types.Date, new Date()),
+    updated_on: types.optional(types.Date, new Date()), //created_on
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars

@@ -44,7 +44,7 @@ export const MeetingDetailsScreen = observer(function MeetingDetailsScreen() {
         <Appbar.Content title={"Upcoming Meeting Details"} />
       </Appbar.Header>
       <Screen style={[styles.container, { backgroundColor: colors.background }]} preset="scroll" backgroundColor={colors.background}>
-        <BookOverviewComponent exclude={[1, 2, 3]} book={ }></BookOverviewComponent>
+        {/* <BookOverviewComponent exclude={[1, 2, 3]} book={ }></BookOverviewComponent> */}
         <Divider />
         <Subheading>Meeting with:</Subheading>
         <Title>{ }</Title>

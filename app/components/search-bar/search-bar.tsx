@@ -1,34 +1,38 @@
 import * as React from "react"
-import { TextStyle, View, ViewStyle, StyleSheet, Keyboard } from "react-native"
-import { color, typography, spacing } from "../../theme"
+import { View, ViewStyle, StyleSheet, Keyboard } from "react-native"
+import { observer } from "mobx-react-lite"
+import { typography, spacing } from "../../theme"
 import { TextInput, useTheme } from 'react-native-paper';
 import { useNavigation } from "@react-navigation/native"
+import { BookStore } from "../../models";
 
 export interface SearchBarProps {
   /**
    * An optional style override useful for padding & margin.
    */
   style?: ViewStyle
+  bookStore: BookStore
 }
 
 /**
  * Describe your component here
  */
-export function SearchBar(props: SearchBarProps) {
+export const SearchBar = observer(function SearchBar(props: SearchBarProps) {
   const { style } = props
   const { colors } = useTheme();
-  let searchQuery = '';
-  let setSearchQuery = function (query: string) {
-    // Alert.alert(query);
-  }
-  
-  const onChangeSearch = query => setSearchQuery(query);
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const onChangeSearch = (query) => setSearchQuery(query);
 
   // Pull in navigation via hook
   const navigation = useNavigation()
   const goToScanScreen = () => {
     navigation.navigate("scan");
   };
+  const searchBook= () => {
+    navigation.navigate("search")
+  }
+
+
   return (
     <View style={styles.container}>
     <TextInput
@@ -39,6 +43,7 @@ export function SearchBar(props: SearchBarProps) {
           Keyboard.dismiss();
         }} />}
       label="Search Book"
+      onSubmitEditing={searchBook}
       // value={searchQuery}
       // onChangeText={onChangeSearch }
       mode="outlined"
@@ -47,7 +52,7 @@ export function SearchBar(props: SearchBarProps) {
       style={styles.search} />
   </View>
   )
-}
+})
 
 const styles = StyleSheet.create({
   container: {

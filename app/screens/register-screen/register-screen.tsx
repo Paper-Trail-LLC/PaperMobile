@@ -6,6 +6,8 @@ import { Screen } from "../../components"
 // import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
 import { Button, TextInput, useTheme, Text } from "react-native-paper"
+import { useStores } from "../../models"
+import { useNavigation } from "@react-navigation/native"
 
 const logo = require("../../../assets/splash.png");
 
@@ -14,9 +16,10 @@ export const RegisterScreen = observer(function RegisterScreen() {
   // const { someStore, anotherStore } = useStores()
   // OR
   // const rootStore = useStores()
+  const { authStore } = useStores();
 
   // Pull in navigation via hook
-  // const navigation = useNavigation()
+  const navigation = useNavigation();
 
   const { dark, colors } = useTheme();
   const [email, setEmail] = React.useState('');
@@ -25,7 +28,27 @@ export const RegisterScreen = observer(function RegisterScreen() {
   const [retypedPassword, setRetypedPassword] = React.useState('');
   const [firstName, setFirstName] = React.useState('');
   const [lastName, setLastName] = React.useState('');
-  var error = '';
+  const [phoneNum, setPhoneNum] = React.useState('');
+  const [error, setError] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const _goBack = () => navigation.goBack();
+
+  const onRegisterPressed = async () => {
+    if (password === retypedPassword) {
+      setIsLoading(true);
+      try {
+        await authStore.register(email, password, firstName, lastName, phoneNum, gender);
+        setIsLoading(false);
+      }
+      catch (err) {
+        console.log(err);
+      }
+    }
+    else {
+      setError('Passwords must match.');
+    }
+  }
 
   return (
     <SafeAreaView style={styles.full}>
@@ -38,9 +61,9 @@ export const RegisterScreen = observer(function RegisterScreen() {
           <Text style={{ fontSize: 44, fontWeight: '600', alignSelf: 'center' }}>Register</Text>
           <Text style={{ color: 'red', alignSelf: 'center' }}>{error}</Text>
           <TextInput value={firstName} label={'first name'} mode={'outlined'} autoCapitalize={'none'} onChangeText={first => setFirstName(first)} style={{ marginVertical: spacing[2] }} />
-          <TextInput value={lastName} label={'last name'} mode={'outlined'} autoCapitalize={'none'} secureTextEntry={true} onChangeText={last => setLastName(last)} style={{ marginVertical: spacing[2] }} />
+          <TextInput value={lastName} label={'last name'} mode={'outlined'} autoCapitalize={'none'} onChangeText={last => setLastName(last)} style={{ marginVertical: spacing[2] }} />
           <View style={styles.row}>
-            <Text style={{alignSelf: 'center'}}>gender: </Text>
+            <Text style={{ alignSelf: 'center' }}>gender: </Text>
             <Picker
               style={styles.picker}
               selectedValue={gender}
@@ -55,15 +78,16 @@ export const RegisterScreen = observer(function RegisterScreen() {
               <Picker.Item label={'other'} value={'other'} />
             </Picker>
           </View>
+          <TextInput value={phoneNum} label={'phone number'} mode={'outlined'} autoCapitalize={'none'} keyboardType={'phone-pad'} onChangeText={number => setPhoneNum(number)} style={{ marginVertical: spacing[2] }} />
           <TextInput value={email} label={'email'} mode={'outlined'} autoCapitalize={'none'} onChangeText={text => setEmail(text)} style={{ marginVertical: spacing[2] }} />
           <TextInput value={password} label={'password'} mode={'outlined'} autoCapitalize={'none'} secureTextEntry={true} onChangeText={pass => setPassword(pass)} style={{ marginVertical: spacing[2] }} />
           <TextInput value={retypedPassword} label={'re-type password'} mode={'outlined'} autoCapitalize={'none'} secureTextEntry={true} onChangeText={pass => setRetypedPassword(pass)} style={{ marginVertical: spacing[2] }} />
           <View style={styles.buttonContainer}>
-            <Button onPress={() => Alert.alert('sign in')} style={{ marginVertical: spacing[4], borderColor: colors.text, borderWidth: 1 }} mode={'outlined'}>Sign Up</Button>
+            <Button onPress={() => onRegisterPressed()} loading={isLoading} style={{ marginVertical: spacing[4], borderColor: colors.text, borderWidth: 1 }} mode={'outlined'}>Sign Up</Button>
           </View>
           <Text style={{ alignSelf: 'center' }}>Already have an account?</Text>
           <View style={styles.buttonContainer}>
-            <Button onPress={() => Alert.alert('sign up')} mode={'text'}>Sign In</Button>
+            <Button onPress={_goBack} mode={'text'}>Sign In</Button>
           </View>
         </View>
       </Screen>

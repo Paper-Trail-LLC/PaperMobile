@@ -14,6 +14,8 @@ import { MyLibraryScreen } from "../screens/my-library-screen/my-library-screen"
 import { BookScanComponent } from "../components/book-scan-component/book-scan-component";
 import { AddBookScreen } from "../screens/add-book-screen/add-book-screen";
 import { HomeScreen } from "../screens/home-screen/home-screen";
+import { useStores } from "../models";
+import { observer } from "mobx-react-lite"
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
  * as well as what properties (if any) they might take when navigating to them.
@@ -37,21 +39,27 @@ export type PrimaryParamList = {
   create_petition: undefined
   request_book: undefined
   profile: undefined
+  login: undefined
+  register: undefined
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createStackNavigator<PrimaryParamList>()
 const Tab = createMaterialBottomTabNavigator();
 
-export function PrimaryNavigator() {
-  return (
+export const PrimaryNavigator = observer(function PrimaryNavigator() {
+  const { authStore } = useStores();
+  return authStore.isSignedIn()? (
     <Tab.Navigator labeled={false}>
       <Tab.Screen name="searchTab" component={BookSearchTab} options={{tabBarIcon:'book-search'}}></Tab.Screen>
       <Tab.Screen name="myLibraryTab" component={MyLibraryTab} options={{tabBarIcon:'library'}}></Tab.Screen>
       <Tab.Screen name="profileTab" component={ProfileScreen} options={{tabBarIcon:'account'}}></Tab.Screen>
     </Tab.Navigator>
+  ) :
+  (
+    AuthScreens()
   )
-}
+});
 
 function BookSearchTab() {
   return (
@@ -84,6 +92,20 @@ function MyLibraryTab() {
       <Stack.Screen name="my_library" component={MyLibraryScreen} />
     </Stack.Navigator>
   );
+}
+
+function AuthScreens() {
+  return (
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+          gestureEnabled: true,
+        }}
+      >
+        <Stack.Screen name="login" component={LoginScreen} />
+        <Stack.Screen name="register" component={RegisterScreen} />
+      </Stack.Navigator>
+    );
 }
 
 /**

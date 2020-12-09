@@ -12,13 +12,14 @@ import * as Location from 'expo-location'
 import MapView, { Marker, UrlTile } from "react-native-maps"
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const { colors } = useTheme();
 
 export const MeetingAgreementScreen = observer(function MeetingAgreementScreen() {
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
   // OR
   // const rootStore = useStores()
+  const { colors } = useTheme();
+
   const today = new Date();
   const originalLatDelta = 0.0922;
   today.setMonth(today.getMonth() + 1);
