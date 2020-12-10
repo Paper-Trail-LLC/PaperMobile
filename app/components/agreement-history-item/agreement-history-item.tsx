@@ -42,13 +42,13 @@ export const AgreementHistoryItem = observer(function AgreementHistoryItem(props
   // if (request.agreement.requester.email !== session.user.email) {
   //   if(instanceOfPurchaseAgreement(request)) {
   //     backgroundColor = instanceOfPurchaseAgreement(request) ? '#12a314' : '#c92ca2';
-  //     otherUser = request.agreement.requester.firstName + ' ' + request.agreement.requester.lastName;
+  //     otherUser = request.agreement.requester.firstname + ' ' + request.agreement.requester.lastname;
   //     transactionType = instanceOfPurchaseAgreement(request) ? 'sold to:' : 'lent to:';
   //   }
   // }
   // else {
   //   backgroundColor = instanceOfPurchaseAgreement(request) ? '#de8d00' : '#4600de';
-  //   otherUser = request.agreement.userBook.owner.firstName + ' ' + request.agreement.userBook.owner.lastName;
+  //   otherUser = request.agreement.userBook.owner.firstname + ' ' + request.agreement.userBook.owner.lastname;
   //   transactionType = instanceOfPurchaseAgreement(request) ? 'purchased from' : 'borrowed from';
   // }
 

@@ -3,7 +3,7 @@ import { View, StyleSheet, ViewStyle, FlatList, Image } from "react-native"
 import { observer } from "mobx-react-lite"
 import { color, spacing, typography } from "../../theme"
 import { Text, Title, TouchableRipple, useTheme, Surface } from "react-native-paper"
-import { useStores } from "../../models"
+import { BookStore } from "../../models"
 import { useNavigation } from "@react-navigation/native"
 
 
@@ -12,6 +12,7 @@ export interface CoverSideScrollProps {
    * An optional style override useful for padding & margin.
    */
   style?: ViewStyle
+  bookStore: BookStore
 }
 
 
@@ -19,13 +20,12 @@ export interface CoverSideScrollProps {
  * Describe your component here
  */
 export const CoverSideScroll = observer(function CoverSideScroll(props: CoverSideScrollProps) {
-  const { style } = props
-  const { bookStore } = useStores()
+  const { style, bookStore } = props
   const { colors, dark } = useTheme();
   const navigation = useNavigation()
 
-  if(bookStore.areSugestionsLoaded){
-    // bookStore.loadSuggestions().;
+  if(!bookStore.areSugestionsLoaded()){
+    bookStore.loadSuggestions();
   }
 
   // bookStore.clear();

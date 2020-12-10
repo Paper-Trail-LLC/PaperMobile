@@ -35,10 +35,10 @@ export const UpcomingMeetingItem = observer(function UpcomingMeetingItem(props: 
   const reqType = (instanceOfPurchaseAgreement(meeting)) ? 'purchase' : 'borrow';
   var fullName: string = '';
   if(instanceOfPurchaseAgreement(meeting)) {
-    fullName = meeting.purchaseRequest.agreement.requester.firstName + ' ' + meeting.purchaseRequest.agreement.requester.lastName;
+    fullName = meeting.purchaseRequest.agreement.requester.firstname + ' ' + meeting.purchaseRequest.agreement.requester.lastname;
   }
   else {
-    fullName = meeting.borrowRequest.agreement.requester.firstName + ' ' + meeting.borrowRequest.agreement.requester.lastName;
+    fullName = meeting.borrowRequest.agreement.requester.firstname + ' ' + meeting.borrowRequest.agreement.requester.lastname;
 
   }
 

@@ -4,6 +4,7 @@ import { GeneralActionResult, GetUserResult, TokenResult } from "../../services/
 import { UserModel } from "../user/user";
 /**
  * Model description here for TypeScript hints.
+ * TODO: Renew token with the one received on each api call
  */
 export const AuthStoreModel = types
   .model("AuthStore")

@@ -21,7 +21,7 @@ export const UserBookOverviewComponent = observer(function UserBookOverviewCompo
 
   return (
     <View style={[styles.CONTAINER, style]}>
-      <Text>{'Owner: ' + userBook.owner.firstName + ' ' + userBook.owner.lastName + ', ' + userBook.owner.gender}</Text>
+      <Text>{'Owner: ' + userBook.owner.firstname + ' ' + userBook.owner.lastname + ', ' + userBook.owner.gender}</Text>
       <Divider />
       <Subheading>Status:</Subheading>
       <Title>{userBook.status}</Title>

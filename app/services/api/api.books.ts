@@ -25,7 +25,7 @@ export class ApiBooks {
 
     private createBook(res: ApiResponse<any, any>): Book {
         const resultBook: Book = {
-            id: res.data.data.id,
+            id: res.data.data.id || '',
             title: res.data.data.title || '',
             authors: res.data.data.authors,
             isbn: res.data.data.isbn,
@@ -88,9 +88,10 @@ export class ApiBooks {
      * Gets a list of books by search query
      */
 
-    async searchBook(keyword: string, page: number = 1, limit: number = this.API_PAGE_SIZE, criteria: string): Promise<Types.GetBooksByQuery> {
+    async searchBook(keyword: string, page: number = 1, limit: number = this.API_PAGE_SIZE, criteria?: string): Promise<Types.GetBooksByQuery> {
         // make the api call
-        const response: ApiResponse<any> = await this.apisauce.get(`/books/search?keyword=${keyword}&page=${page}&limit=${limit}${criteria? '&criteria='+criteria: ''}`)
+        console.log('Searching a book...BEEP BOOP...')
+        const response: ApiResponse<any> = await this.apisauce.get(`/books/search?keywords=${keyword}&page=${1}&limit=${limit}${criteria? '&criteria='+criteria: ''}`)
         // the typical ways to die when calling an api
         if (!response.ok) {
             const problem = getGeneralApiProblem(response)
@@ -99,8 +100,9 @@ export class ApiBooks {
         // transform the data into the format we are expecting
         try {
             let books: Book[] = [];
+            console.log(response.data.data);
             response.data.data.forEach(b => {
-                books.push(this.createBook(b));
+                books.push(<Book>b);
             });
             console.log(books)
             return { kind: "ok", books: books }

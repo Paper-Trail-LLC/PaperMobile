@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite"
 import { StyleSheet, StatusBar, View } from "react-native"
 import { Screen, Text, SearchBar, CoverSideScroll } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "../../models"
+import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context"
 import { TextInput, useTheme } from 'react-native-paper';
@@ -17,7 +17,7 @@ export const HomeScreen = observer(function HomeScreen() {
   // Pull in navigation via hook
   // const navigation = useNavigation() 
   const { colors } = useTheme();
-
+  const { bookStore } = useStores()
   const styles = StyleSheet.create({
     ROOT: {
       padding: spacing[2],
@@ -30,7 +30,7 @@ export const HomeScreen = observer(function HomeScreen() {
       <SearchBar></SearchBar>
       <Screen preset="scroll">
         {/* <StatusBar barStyle={'default'} translucent={true} backgroundColor={color.palette.indigo} /> */}
-        <CoverSideScroll></CoverSideScroll>
+        <CoverSideScroll bookStore={bookStore}></CoverSideScroll>
       </Screen>
     </View>
   )

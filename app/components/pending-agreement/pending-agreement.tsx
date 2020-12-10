@@ -37,7 +37,7 @@ export const PendingAgreement = observer(function PendingAgreement(props: Pendin
   return (
     <TouchableOpacity onPress={() => { Alert.alert(reqType + ' agreement pressed') }} style={[styles.container, style]}>
       {/* <View style={{alignSelf: request.agreement.requester === session.user ? 'flex-end' : 'flex-start'}}> */}
-        <Text style={{ color: (dark && reqType === 'purchase') ? 'black' : 'white' }}>{'by: ' + request.agreement.requester.firstName + ' ' + request.agreement.requester.lastName}</Text>
+        <Text style={{ color: (dark && reqType === 'purchase') ? 'black' : 'white' }}>{'by: ' + request.agreement.requester.firstname + ' ' + request.agreement.requester.lastname}</Text>
         <Text style={{ color: (dark && reqType === 'purchase') ? 'black' : 'white' }}>{'to: ' + reqType}</Text>
       {/* </View> */}
     </TouchableOpacity>

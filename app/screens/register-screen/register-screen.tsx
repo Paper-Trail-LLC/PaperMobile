@@ -26,8 +26,8 @@ export const RegisterScreen = observer(function RegisterScreen() {
   const [password, setPassword] = React.useState('');
   const [gender, setGender] = React.useState('male');
   const [retypedPassword, setRetypedPassword] = React.useState('');
-  const [firstName, setFirstName] = React.useState('');
-  const [lastName, setLastName] = React.useState('');
+  const [firstname, setFirstName] = React.useState('');
+  const [lastname, setLastName] = React.useState('');
   const [phoneNum, setPhoneNum] = React.useState('');
   const [error, setError] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
@@ -38,7 +38,7 @@ export const RegisterScreen = observer(function RegisterScreen() {
     if (password === retypedPassword) {
       setIsLoading(true);
       try {
-        await authStore.register(email, password, firstName, lastName, phoneNum, gender);
+        await authStore.register(email, password, firstname, lastname, phoneNum, gender);
         setIsLoading(false);
       }
       catch (err) {
@@ -60,8 +60,8 @@ export const RegisterScreen = observer(function RegisterScreen() {
         <View style={styles.loginForm}>
           <Text style={{ fontSize: 44, fontWeight: '600', alignSelf: 'center' }}>Register</Text>
           <Text style={{ color: 'red', alignSelf: 'center' }}>{error}</Text>
-          <TextInput value={firstName} label={'first name'} mode={'outlined'} autoCapitalize={'none'} onChangeText={first => setFirstName(first)} style={{ marginVertical: spacing[2] }} />
-          <TextInput value={lastName} label={'last name'} mode={'outlined'} autoCapitalize={'none'} onChangeText={last => setLastName(last)} style={{ marginVertical: spacing[2] }} />
+          <TextInput value={firstname} label={'first name'} mode={'outlined'} autoCapitalize={'none'} onChangeText={first => setFirstName(first)} style={{ marginVertical: spacing[2] }} />
+          <TextInput value={lastname} label={'last name'} mode={'outlined'} autoCapitalize={'none'} onChangeText={last => setLastName(last)} style={{ marginVertical: spacing[2] }} />
           <View style={styles.row}>
             <Text style={{ alignSelf: 'center' }}>gender: </Text>
             <Picker

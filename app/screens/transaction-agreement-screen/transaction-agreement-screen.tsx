@@ -28,8 +28,8 @@ export const TransactionAgreementScreen = observer(function TransactionAgreement
   //Dummy
   var user: User = {
     id: '123',
-    firstName: 'John',
-    lastName: 'Doe',
+    firstname: 'John',
+    lastname: 'Doe',
     gender: 'male',
     email: 'johndoe@test.com',
     memberSince: new Date()

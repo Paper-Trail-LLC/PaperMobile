@@ -99,19 +99,13 @@ export const BookStoreModel = types
       const results: GetBooksByQuery[] = yield Promise.all([self.environment.api.Books.searchBook(keywords[0], 0, 10, 'genre'),
       self.environment.api.Books.searchBook(keywords[1], 0, 10, 'genre')]);
 
-      // Verify first search "Just for you"
-      if (results[0].kind === "ok") {
-        results[0].books.map((b) => { b.releaseDate = new Date(b.releaseDate) });
+      // Verify searches
+      if (results[0].kind === "ok" && results[1].kind === "ok") {
+        // results[0].books.map((b) => { b.releaseDate = new Date(b.releaseDate) });
         results[0].books.forEach((b) => {
           self.forMeBooks.push(b);
         });
-      } else {
-        __DEV__ && console.tron.log(results[0].kind);
-      }
-
-      // Verify first search "Popular in your area"
-      if (results[1].kind === "ok") {
-        results[1].books.map((b) => { b.releaseDate = new Date(b.releaseDate) });
+        // results[1].books.map((b) => { b.releaseDate = new Date(b.releaseDate) });
         results[1].books.forEach((b) =>{
           self.popularBooks.push(b);
         });
