@@ -26,13 +26,13 @@ export const HomeScreen = observer(function HomeScreen() {
 
   })
   return (
-    <View style={styles.ROOT}>
+    <SafeAreaView style={styles.ROOT}>
       <SearchBar></SearchBar>
       <Screen preset="scroll">
         {/* <StatusBar barStyle={'default'} translucent={true} backgroundColor={color.palette.indigo} /> */}
         <CoverSideScroll bookStore={bookStore}></CoverSideScroll>
       </Screen>
-    </View>
+    </SafeAreaView>
   )
 
 

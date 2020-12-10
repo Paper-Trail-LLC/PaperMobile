@@ -1,13 +1,13 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
 import { Image, SafeAreaView, StyleSheet, TouchableOpacity, View } from "react-native"
-import { NearbyListingItem, Screen, BookOverviewComponent  } from "../../components"
+import { NearbyListingItem, Screen, BookOverviewComponent } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing, typography } from "../../theme"
 import { useNavigation } from "@react-navigation/native"
 import { useStores, Book } from "../../models"
-import { Appbar, Menu, Text, Button, useTheme, Headline, Subheading} from 'react-native-paper';
+import { Appbar, Menu, Text, Button, useTheme, Headline, Subheading, Title } from 'react-native-paper';
 
 export const NearbyListingsScreen = observer(function NearbyListingsScreen() {
 
@@ -24,24 +24,29 @@ export const NearbyListingsScreen = observer(function NearbyListingsScreen() {
     navigation.navigate("create_petition");
   }
 
+  const nearbyListings = [];
+  // nearbyListings.push(
+  //   <NearbyListingItem
+  //     style={styles.ListItem}
+  //     owner={'Alexander Hamilton'}
+  //     ownerRating={1.3}
+  //     lending={true}
+  //     selling={false}
+  //     distance={4}
+  //   ></NearbyListingItem>);
+
   return (
     <View style={styles.full}>
       <Appbar.Header>
         <Appbar.BackAction onPress={_goBack} />
         <Appbar.Content title={"Nearby Listing"} />
       </Appbar.Header>
-      <Screen style={[styles.container, {backgroundColor: colors.background}]} preset="scroll" backgroundColor={colors.background}>
-        <BookOverviewComponent book={bookInfo} exclude={[2,3]}></BookOverviewComponent>
+      <Screen style={[styles.container, { backgroundColor: colors.background }]} preset="scroll" backgroundColor={colors.background}>
+        <BookOverviewComponent book={bookInfo} exclude={[2, 3]}></BookOverviewComponent>
         <Subheading>{"Don't see a good nearby listing?"}</Subheading>
         <Button onPress={moveToCreatePetition} mode={"contained"}>Create a Book Petition</Button>
-        <NearbyListingItem
-          style={styles.ListItem}
-          owner={'Alexander Hamilton'}
-          ownerRating={1.3}
-          lending={true}
-          selling={false}
-          distance={4}
-        ></NearbyListingItem>
+        {nearbyListings.length === 0 && <Title style={styles.emptyText}>No nearby listings found</Title> }
+        {nearbyListings}
       </Screen>
     </View>
   )
@@ -115,7 +120,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 1
   },
-  textIcon: {
-
+  emptyText: {
+    marginTop: spacing[6],
+    marginHorizontal: spacing[7],
+    alignSelf: 'center',
   }
 })

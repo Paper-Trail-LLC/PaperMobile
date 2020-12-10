@@ -5,52 +5,10 @@ import { MyBookItem, Screen } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
-import { FAB } from 'react-native-paper';
+import { FAB, Text, Title } from 'react-native-paper';
 import { useStores } from "../../models"
 
 export const background2 = require("../../../assets/book_stack.png")
-
-const styles = StyleSheet.create({
-  full: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    alignContent: 'space-around',
-  },
-  container: {
-    // flex: 1,
-    // flexDirection: 'row',
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    backgroundColor: color.transparent,
-    paddingHorizontal: spacing[2]
-  },
-  background: {
-    position: 'absolute',
-    right: '0%',
-    bottom: '7%',
-    zIndex: -1
-  },
-  fabAdd: {
-    position: 'absolute',
-    margin: 16,
-    right: 0,
-    bottom: 0,
-    zIndex: 1
-  },
-  bookListItem: {
-    margin: 5,
-
-    backgroundColor: color.background,
-    borderRadius: 8,
-    shadowOffset: {
-      width: 0,
-      height: 4
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 1
-  }
-})
 
 export const MyLibraryScreen = observer(function MyLibraryScreen() {
 
@@ -95,8 +53,61 @@ export const MyLibraryScreen = observer(function MyLibraryScreen() {
         onPress={() => console.log('Pressed')}
       />
       <Screen style={styles.container} preset="scroll" backgroundColor={color.transparent}>
+        {myBooks.length === 0 &&
+          <View>
+            <Title style={styles.emptyText}>It's lonely in here...</Title>
+            <Text style={styles.emptyText}>Use the button on the bottom right corner to add a book to your library.</Text>
+          </View>
+        }
         {myBooks}
       </Screen>
     </SafeAreaView>
   )
+})
+
+const styles = StyleSheet.create({
+  full: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    alignContent: 'space-around',
+  },
+  container: {
+    // flex: 1,
+    // flexDirection: 'row',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    backgroundColor: color.transparent,
+    paddingHorizontal: spacing[2]
+  },
+  background: {
+    position: 'absolute',
+    right: '0%',
+    bottom: '7%',
+    zIndex: -1
+  },
+  fabAdd: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+    zIndex: 1
+  },
+  bookListItem: {
+    margin: 5,
+
+    backgroundColor: color.background,
+    borderRadius: 8,
+    shadowOffset: {
+      width: 0,
+      height: 4
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 1
+  },
+  emptyText: {
+    marginTop: spacing[6],
+    marginHorizontal: spacing[7],
+    alignSelf: 'center',
+  }
 })

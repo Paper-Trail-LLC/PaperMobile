@@ -96,6 +96,8 @@ export const ProfileScreen = observer(function ProfileScreen() {
     }
   }
 
+  var upcomingMeetings = [];
+
   return (
     <View style={styles.full}>
       <StatusBar translucent={true} />
@@ -121,7 +123,7 @@ export const ProfileScreen = observer(function ProfileScreen() {
             <View style={styles.bookCount}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <MaterialCommunityIcons name={'star'} color={'orange'} size={20}></MaterialCommunityIcons>
-                <Title>4.3</Title>
+                <Title>-</Title>
               </View>
               <Text>Rating</Text>
             </View>
@@ -130,8 +132,12 @@ export const ProfileScreen = observer(function ProfileScreen() {
         <View style={styles.content}>
           <TabPicker isOtherUserProfile={false} selection={selection} selectionToggle={setSelection}></TabPicker>
           <View style={styles.wrapColumns}>
+            {selection === 'books' && dummyBooks.length === 0 && <Title style={styles.emptyText}>This user doesn't have books.</Title>}
             {selection === 'books' && dummyBooks}
+            {selection === 'requests' && pendingRequests.length === 0 && <Title style={styles.emptyText}>You have no pending requests.</Title>}
             {selection === 'requests' && pendingRequests}
+            {selection === 'upcoming' && upcomingMeetings.length === 0 && <Title style={styles.emptyText}>You have no upcoming meetings.</Title>}
+            {selection === 'upcoming' && upcomingMeetings}
           </View>
         </View>
       </Screen>
@@ -172,7 +178,9 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-around'
   },
-  petitionItems: {
-
-  },
+  emptyText: {
+    marginTop: spacing[6],
+    marginHorizontal: spacing[7],
+    alignSelf: 'center',
+  }
 })
