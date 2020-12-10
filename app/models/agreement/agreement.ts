@@ -10,7 +10,7 @@ export const AgreementModel = types
   .props({
     id: types.optional(types.string, ''),
     userBook: UserBookModel,
-    requester: UserModel,
+    userId: types.string,
     status: types.optional(types.string, 'available'),
     created_on: types.optional(types.Date, new Date()),
     updated_on: types.optional(types.Date, new Date())

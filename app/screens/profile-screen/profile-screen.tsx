@@ -14,7 +14,7 @@ export const ProfileScreen = observer(function ProfileScreen() {
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
   // OR
-  const { bookStore, authStore } = useStores();
+  const { bookStore, authStore, bookPetitionStore, transactionStore } = useStores();
   const bookInfo: Book = bookStore.getBook(bookStore.choice);
   // Pull in navigation via hook
   const navigation = useNavigation();
@@ -68,32 +68,14 @@ export const ProfileScreen = observer(function ProfileScreen() {
   // }
 
   //Get pending requests from appropriate store
-  var pendingRequests = []; 
-  for (let i=0; i<dummyBooks.length; i++) {
-    let agreement: Agreement = {
-      id: '123',
-      userBook: dummyBooks[i],
-      requester: user,
-      status: 'incomplete',
-      created_on: new Date(),
-      updated_on: new Date()
-    }
-    if(i%2 === 0) {
-      let request: BorrowAgreement = {
-        agreement: agreement,
-        returnDate: new Date()
-      }
-      let component = <PendingAgreement style={{backgroundColor: colors.primary, borderRadius: 10}} request={request}></PendingAgreement>
-      pendingRequests.push(component);
-    }
-    else {
-      let request: PurchaseAgreement = {
-        agreement: agreement,
-        cost: 25
-      }
-      let component = <PendingAgreement style={{backgroundColor: colors.accent, borderRadius: 10}} request={request}></PendingAgreement>
-      pendingRequests.push(component);
-    }
+  var activity = []; 
+  for (let i=0; i<bookPetitionStore.myPetitions.length; i++) {
+      let component = <PendingAgreement style={{backgroundColor: colors.primary, borderRadius: 10}} request={bookPetitionStore.myPetitions[i]}></PendingAgreement>
+      activity.push(component);
+  }
+  for(let i=0; i<transactionStore.myPurchaseAgreements.length; i++) {
+    let component = <PendingAgreement style={{backgroundColor: colors.accent, borderRadius: 10}} request={transactionStore.myPurchaseAgreements[i]}></PendingAgreement>
+      activity.push(component);
   }
 
   var upcomingMeetings = [];
@@ -134,8 +116,8 @@ export const ProfileScreen = observer(function ProfileScreen() {
           <View style={styles.wrapColumns}>
             {selection === 'books' && dummyBooks.length === 0 && <Title style={styles.emptyText}>This user doesn't have books.</Title>}
             {selection === 'books' && dummyBooks}
-            {selection === 'requests' && pendingRequests.length === 0 && <Title style={styles.emptyText}>You have no pending requests.</Title>}
-            {selection === 'requests' && pendingRequests}
+            {selection === 'requests' && activity.length === 0 && <Title style={styles.emptyText}>You have no pending requests.</Title>}
+            {selection === 'requests' && activity}
             {selection === 'upcoming' && upcomingMeetings.length === 0 && <Title style={styles.emptyText}>You have no upcoming meetings.</Title>}
             {selection === 'upcoming' && upcomingMeetings}
           </View>

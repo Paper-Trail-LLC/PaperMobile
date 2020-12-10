@@ -2,7 +2,7 @@ import React from "react"
 import { observer } from "mobx-react-lite"
 import { View, Image, StyleSheet, SafeAreaView } from "react-native"
 import { Screen, BookListItem, SearchBar } from "../../components"
-import { useStores } from "../../models"
+import { Book, useStores } from "../../models"
 import { color, spacing } from "../../theme"
 import { Text, Title, useTheme } from "react-native-paper"
 // import { useNavigation } from "@react-navigation/native"
@@ -20,6 +20,15 @@ export const SearchScreen = observer(function SearchScreen() {
 
   // bookStore.clear();
 
+  const book: Book = {
+    id:"123",
+    coverURI: "https://kbimages1-a.akamaihd.net/d47f06aa-0e2c-4d49-9e32-85e4901a6d8f/1200/1200/False/artemis-fowl-and-the-time-paradox.jpg",
+    title: "Artemis Fowl, The Time Paradox",
+    authors: ["Eoin Colfer"],
+    isbn13: '1234567',
+    releaseDate: new Date()
+  };
+
   const bookList = [];
   for (let i = 0; i < bookStore.searchResults.length; i++) {
     bookList.push(
@@ -30,6 +39,11 @@ export const SearchScreen = observer(function SearchScreen() {
       ></BookListItem>
     )
   }
+  bookList.push(<BookListItem
+    key={book.id}
+    book={book}
+    style={styles.bookListItem}
+    ></BookListItem>);
 
   return (
     <SafeAreaView style={styles.full}>

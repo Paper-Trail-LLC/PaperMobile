@@ -41,6 +41,7 @@ export type PrimaryParamList = {
   profile: undefined
   login: undefined
   register: undefined
+  view_petition: undefined
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
@@ -53,7 +54,7 @@ export const PrimaryNavigator = observer(function PrimaryNavigator() {
     <Tab.Navigator labeled={false}>
       <Tab.Screen name="searchTab" component={BookSearchTab} options={{tabBarIcon:'book-search'}}></Tab.Screen>
       <Tab.Screen name="myLibraryTab" component={MyLibraryTab} options={{tabBarIcon:'library'}}></Tab.Screen>
-      <Tab.Screen name="profileTab" component={ProfileScreen} options={{tabBarIcon:'account'}}></Tab.Screen>
+      <Tab.Screen name="profileTab" component={ProfileScreens} options={{tabBarIcon:'account'}}></Tab.Screen>
     </Tab.Navigator>
   ) :
   (
@@ -106,6 +107,21 @@ function AuthScreens() {
         <Stack.Screen name="register" component={RegisterScreen} />
       </Stack.Navigator>
     );
+}
+
+function ProfileScreens() {
+  return(
+    <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+          gestureEnabled: true,
+        }}
+      >
+      <Stack.Screen name="profile" component={BookPetitionScreen} />
+      <Stack.Screen name="view_petition" component={BookPetitionScreen} />
+    </Stack.Navigator>
+  )
+  
 }
 
 /**

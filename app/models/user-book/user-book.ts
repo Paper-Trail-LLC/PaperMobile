@@ -13,7 +13,7 @@ export const UserBookModel = types
     status: types.optional(types.string, "available"),
     selling: types.optional(types.boolean, false),
     lending: types.optional(types.boolean, false),
-    location: types.optional(types.array(types.number), []),
+    location: types.optional(types.array(types.number), [18.220833, -66.590149]),
     images: types.optional(types.array(types.string), [])
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars

@@ -25,15 +25,15 @@ export const NearbyListingsScreen = observer(function NearbyListingsScreen() {
   }
 
   const nearbyListings = [];
-  // nearbyListings.push(
-  //   <NearbyListingItem
-  //     style={styles.ListItem}
-  //     owner={'Alexander Hamilton'}
-  //     ownerRating={1.3}
-  //     lending={true}
-  //     selling={false}
-  //     distance={4}
-  //   ></NearbyListingItem>);
+  nearbyListings.push(
+    <NearbyListingItem
+      style={styles.ListItem}
+      owner={'Alexander Hamilton'}
+      ownerRating={1.3}
+      lending={true}
+      selling={false}
+      distance={4}
+    ></NearbyListingItem>);
 
   return (
     <View style={styles.full}>

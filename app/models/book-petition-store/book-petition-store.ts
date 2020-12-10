@@ -1,25 +1,28 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
-import { BookPetition, BookPetitionModel } from "../book-petition/book-petition"
-import {  Book } from "../book/book"
+import { BookPetitionModel } from "../book-petition/book-petition"
+
 /**
  * Model description here for TypeScript hints.
  */
 export const BookPetitionStoreModel = types
   .model("BookPetitionStore")
   .props({
-    petitions: types.optional(types.array(BookPetitionModel), []),
-    choice: types.optional(types.string, "")
+    myPetitions: types.optional(types.array(BookPetitionModel), []),
+    selection: types.maybeNull(types.number)
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
-    addPetition: (p: BookPetition) => {
-      self.petitions.push(p);
+    addPetition: (newPetition) => {
+      self.myPetitions.push(newPetition);
     },
-    setChoice: (id: string) => {
-      self.choice = id;
+    setSelection: (id: string) => {
+      for(var i=0; i<self.myPetitions.length; i++) {
+        if(self.myPetitions[i].id === id) {
+          self.selection = i;
+          return;
+        }
+      }
     }
- 
-
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
   /**
