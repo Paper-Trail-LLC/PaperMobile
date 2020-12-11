@@ -12,7 +12,7 @@ export const BookPetitionModel = types
     description: types.optional(types.string, ''),
     buying: types.optional(types.boolean, false),
     borrowing: types.optional(types.boolean, false),
-    location: types.optional(types.array(types.number), [18.220833,-66.590149]), //Not sure!
+    location: types.optional(types.array(types.number), [0,0]), //Not sure!
     maxRadius: types.optional(types.number, 0),
     expirationDate: types.optional(types.Date, new Date())
   })

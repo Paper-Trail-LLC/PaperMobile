@@ -8,13 +8,13 @@ import { color, spacing } from "../../theme"
 import { useNavigation } from "@react-navigation/native"
 import { Appbar, Divider, Subheading, useTheme, TextInput, Button, Title } from "react-native-paper"
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Agreement, Book, PurchaseAgreement, UserBook, useStores } from "../../models"
+import { Book, User, UserBook, useStores } from "../../models"
 
 export const TransactionAgreementScreen = observer(function TransactionAgreementScreen() {
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
   // OR
-  const { bookStore, authStore, transactionStore } = useStores();
+  const bookStore = useStores().bookStore;
   const { colors } = useTheme();
 
   const isbn13: string = bookStore.choice;
@@ -25,24 +25,22 @@ export const TransactionAgreementScreen = observer(function TransactionAgreement
   const [returnDate, setReturnDate] = React.useState(today);
   const [price, setPrice] = React.useState(0);
 
+  //Dummy
+  var user: User = {
+    id: '123',
+    firstname: 'John',
+    lastname: 'Doe',
+    gender: 'male',
+    email: 'johndoe@test.com',
+    memberSince: new Date()
+  }
   var userBook: UserBook = {
     id: '1234',
-    ownerId: authStore.user.id,
+    owner: user,
     book: bookInfo,
     status: 'available',
     selling: false,
     lending: true,
-  }
-
-  var transaction: Agreement = {
-    id: '123',
-    userBook: userBook,
-    userId: authStore.user.id
-  }
-
-  var purchaseAgreement: PurchaseAgreement = {
-    agreement: transaction,
-    cost: price
   }
 
   const [requestType, setRequestType] = React.useState(userBook.lending ? 'borrow' : 'purchase');
@@ -50,14 +48,6 @@ export const TransactionAgreementScreen = observer(function TransactionAgreement
   // Pull in navigation via hook
   const navigation = useNavigation();
   const _goBack = () => navigation.goBack();
-
-  const requestBook = () => {
-    if(requestType === 'purchase') {
-      transactionStore.addPurchaseAgreement(purchaseAgreement);
-      -_goBack();
-    }
-  }
-
   return (
     <View style={styles.full}>
       <StatusBar translucent={true} />
@@ -102,7 +92,7 @@ export const TransactionAgreementScreen = observer(function TransactionAgreement
           onChange={(event, selectedDate) => setReturnDate(selectedDate)}
         />}
         <Divider />
-        <Button mode={'contained'} onPress={() => requestBook()}>request book</Button>
+        <Button mode={'contained'} onPress={() => {Alert.alert('Request Book pressed!')}}>request book</Button>
       </Screen>
     </View >
   )

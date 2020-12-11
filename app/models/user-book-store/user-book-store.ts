@@ -32,9 +32,6 @@ export const UserBookStoreModel = types
   .actions(self => ({
     getMyLibrary: () =>{
       
-    },
-    addToLibrary: (newBook) => {
-      self.myLibraryBooks.push(newBook);
     }
 
   }))

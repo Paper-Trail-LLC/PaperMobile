@@ -38,21 +38,6 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
   // Pull in navigation via hook
   const navigation = useNavigation()
   const _goBack = () => navigation.goBack()
-
-  var authorCopy = [];
-  for(var i=0; i<bookInfo.authors.length; i++) {
-    authorCopy.push(bookInfo.authors[i]);
-  }
-
-  const bookCopy: Book = {
-    id: bookInfo.id,
-    coverURI: bookInfo.coverURI,
-    title: bookInfo.title,
-    authors: authorCopy,
-    isbn13: bookInfo.isbn13,
-    releaseDate: bookInfo.releaseDate
-  }
-
   /*
   For refernce, below URL is for OpenStreetMap:
   var tileUrl = "http://c.tile.openstreetmap.org/{z}/{x}/{y}.png";
@@ -64,21 +49,6 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
-
-  var bookPetition: BookPetition = {
-    id: '123',
-    book: bookCopy,
-    buying: buying,
-    borrowing: borrowing,
-    location: [region.latitude, region.longitude],
-    maxRadius: maxRadius,
-    expirationDate: expdate
-  }
-  
-  const createPetition = () => {
-    bookPetitionStore.addPetition(bookPetition);
-    _goBack();
-  }
 
   async function getLocation() {
     console.log('test');
@@ -194,7 +164,7 @@ export const BookPetitionScreen = observer(function BookPetitionScreen() {
           label={'Write it here!'}
           focusable={true}
         />
-        <Button onPress={() => createPetition()} style={[styles.blueButton, { marginBottom: spacing[4] }]} color={'white'}>create a book petition</Button>
+        <Button onPress={() => {Alert.alert('Create book petition pressed!')}} style={[styles.blueButton, { marginBottom: spacing[4] }]} color={'white'}>create a book petition</Button>
       </Screen>
     </View>
   )

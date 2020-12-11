@@ -12,7 +12,7 @@ export const background2 = require("../../../assets/book_stack.png")
 
 export const MyLibraryScreen = observer(function MyLibraryScreen() {
 
-  const { userBookStore } = useStores();
+  // const myBookStore = useStores().myBookStore;
 
   // myBookStore.addToLibrary({
   //   id: "123",
@@ -26,17 +26,17 @@ export const MyLibraryScreen = observer(function MyLibraryScreen() {
   // });
 
   const myBooks = [];
-  for (let i = 0; i < userBookStore.myLibraryBooks.length; i++) {
-    myBooks.push(
-      <MyBookItem
-        style={styles.bookListItem}
-        id={userBookStore.myLibraryBooks[i].id}
-        bookImage={userBookStore.myLibraryBooks[i].book.coverURI}
-        title={userBookStore.myLibraryBooks[i].book.title}
-        status={userBookStore.myLibraryBooks[i].status}
-      ></MyBookItem>
-    )
-  }
+  // for (let i = 0; i < myBookStore.myBooks.length; i++) {
+  //   myBooks.push(
+  //     <MyBookItem
+  //       style={styles.bookListItem}
+  //       id={myBookStore.myBooks[i].id}
+  //       bookImage={myBookStore.myBooks[i].bookImage}
+  //       title={myBookStore.myBooks[i].title}
+  //       status={myBookStore.myBooks[i].status}
+  //     ></MyBookItem>
+  //   )
+  // }
 
   return (
     <SafeAreaView style={styles.full}>
