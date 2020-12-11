@@ -7,13 +7,45 @@ import { TouchableOpacity } from "react-native-gesture-handler"
 import { useNavigation } from "@react-navigation/native"
 import { useStores } from "../../models"
 
+/**
+ * Describe your component here
+ */
+export function BookListItem(props: BookListItemProps) {
+
+  const { bookStore } = useStores();
+  const navigation = useNavigation()
+  const nextScreen = () => {
+    bookStore.setChoice(props.book.isbn13);
+    navigation.navigate("detail");
+  }
+
+  return (
+    <TouchableOpacity
+      onPress={nextScreen}>
+      <View style={[styles.container, props.style]}>
+        <View style={styles.imageColumn}>
+          <Image
+            source={{ uri: props.book.coverURI }}
+            style={{    width: '100%', flex:1, resizeMode: "contain" }} />
+        </View>
+        <View style={styles.infoColumn}>
+          <Text style={styles.titleText}>{props.book.title}</Text>
+          <Text style={styles.regText}>Author :{props.book.authors}</Text>
+          <Text style={styles.regText}>Release date: {props.book.releaseDate.toLocaleDateString()}</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  )
+}
+
 const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
-    alignItems: "flex-start"
+    alignItems: "flex-start",
+    padding: 5
   },
   regText: {
     fontFamily: typography.primary,
@@ -30,47 +62,12 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   imageColumn: {
-    width: "25%",
+    flex: 0.25,
     alignItems: 'center',
+    justifyContent: 'center',
     padding: 5
   },
   infoColumn: {
-    width: "75%",
-    padding: 10
+    flex: 0.75,
   }
 })
-
-/**
- * Describe your component here
- */
-export function BookListItem(props: BookListItemProps) {
-
-  const author: string = "Author: " + props.author;
-  const releaseDate: string = "Release Date: " + props.releaseDate;
-
-  const { bookStore } = useStores();
-
-  const navigation = useNavigation()
-  const nextScreen = () => {
-    bookStore.setChoice(props.id);
-    navigation.navigate("detail");
-  }
-
-  return (
-    <TouchableOpacity
-      onPress={nextScreen}>
-      <View style={[styles.container, props.style]}>
-        <View style={styles.imageColumn}>
-          <Image
-            source={{ uri: props.bookImage }}
-            style={{ height: "100%", resizeMode: "contain" }} />
-        </View>
-        <View style={styles.imageColumn}>
-          <Text style={styles.titleText}>{props.title}</Text>
-          <Text style={styles.regText}>{author}</Text>
-          <Text style={styles.regText}>{releaseDate}</Text>
-        </View>
-      </View>
-    </TouchableOpacity>
-  )
-}

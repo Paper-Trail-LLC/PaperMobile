@@ -9,9 +9,13 @@ import { createStackNavigator } from "@react-navigation/stack"
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs"
 // import { WelcomeScreen, DemoScreen } from "../screens"
 import { SearchScreen } from "../screens/search-screen/search-screen"
-import { BookDetailScreen } from "../screens"
+import { BookDetailScreen, BookPetitionScreen, LoginScreen, ProfileScreen, NearbyListingsScreen, RegisterScreen, TransactionAgreementScreen } from "../screens"
 import { MyLibraryScreen } from "../screens/my-library-screen/my-library-screen"
-import { color } from "../theme";
+import { BookScanComponent } from "../components/book-scan-component/book-scan-component";
+import { AddBookScreen } from "../screens/add-book-screen/add-book-screen";
+import { HomeScreen } from "../screens/home-screen/home-screen";
+import { useStores } from "../models";
+import { observer } from "mobx-react-lite"
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
  * as well as what properties (if any) they might take when navigating to them.
@@ -25,28 +29,37 @@ import { color } from "../theme";
  *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
  */
 export type PrimaryParamList = {
+  home: undefined
   search: undefined
   detail: undefined
   my_library: undefined
+  scan: undefined
+  add_book: undefined
+  nearby_listings: undefined
+  create_petition: undefined
+  request_book: undefined
+  profile: undefined
+  login: undefined
+  register: undefined
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createStackNavigator<PrimaryParamList>()
 const Tab = createMaterialBottomTabNavigator();
 
-export function PrimaryNavigator() {
-  return (
-    <Tab.Navigator
-      labeled={false}
-      style={{
-        backgroundColor: color.primaryBlue
-      }}
-    >
+export const PrimaryNavigator = observer(function PrimaryNavigator() {
+  const { authStore } = useStores();
+  return authStore.isSignedIn()? (
+    <Tab.Navigator labeled={false}>
       <Tab.Screen name="searchTab" component={BookSearchTab} options={{tabBarIcon:'book-search'}}></Tab.Screen>
       <Tab.Screen name="myLibraryTab" component={MyLibraryTab} options={{tabBarIcon:'library'}}></Tab.Screen>
+      <Tab.Screen name="profileTab" component={ProfileScreen} options={{tabBarIcon:'account'}}></Tab.Screen>
     </Tab.Navigator>
+  ) :
+  (
+    AuthScreens()
   )
-}
+});
 
 function BookSearchTab() {
   return (
@@ -56,8 +69,14 @@ function BookSearchTab() {
         gestureEnabled: true,
       }}
     >
+      <Stack.Screen name="home" component={HomeScreen} />
       <Stack.Screen name="search" component={SearchScreen} />
       <Stack.Screen name="detail" component={BookDetailScreen} />
+      <Stack.Screen name="scan" component={BookScanComponent} />
+      <Stack.Screen name="add_book" component={AddBookScreen} />
+      <Stack.Screen name="nearby_listings" component={NearbyListingsScreen} />
+      <Stack.Screen name="request_book" component={TransactionAgreementScreen} />
+      <Stack.Screen name="create_petition" component={BookPetitionScreen} />
     </Stack.Navigator>
   );
 }
@@ -75,6 +94,20 @@ function MyLibraryTab() {
   );
 }
 
+function AuthScreens() {
+  return (
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+          gestureEnabled: true,
+        }}
+      >
+        <Stack.Screen name="login" component={LoginScreen} />
+        <Stack.Screen name="register" component={RegisterScreen} />
+      </Stack.Navigator>
+    );
+}
+
 /**
  * A list of routes from which we're allowed to leave the app when
  * the user presses the back button on Android.
@@ -84,5 +117,5 @@ function MyLibraryTab() {
  *
  * `canExit` is used in ./app/app.tsx in the `useBackButtonHandler` hook.
  */
-const exitRoutes = ["welcome"]
+const exitRoutes = ["home"]
 export const canExit = (routeName: string) => exitRoutes.includes(routeName)

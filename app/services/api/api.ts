@@ -1,8 +1,11 @@
-import { ApisauceInstance, create, ApiResponse } from "apisauce"
-import { getGeneralApiProblem } from "./api-problem"
-import { ApiConfig, DEFAULT_API_CONFIG } from "./api-config"
-import * as Types from "./api.types"
-
+import { ApisauceInstance, create, ApiResponse, CancelToken } from "apisauce";
+import { getGeneralApiProblem } from "./api-problem";
+import { ApiConfig, DEFAULT_API_CONFIG } from "./api-config";
+import * as Types from "./api.types";
+import { ApiBooks } from "./api.books";
+import { ApiAuth } from "./api.auth";
+import { ApiUser } from "./api.user";
+import { useStores } from "../../models"
 /**
  * Manages all requests to the API.
  */
@@ -17,6 +20,12 @@ export class Api {
    */
   config: ApiConfig
 
+  /**
+   * Routes.
+   */
+  Books: ApiBooks
+  Auth: ApiAuth
+  UserApi: ApiUser
   /**
    * Creates the api.
    *
@@ -34,6 +43,7 @@ export class Api {
    * Be as quick as possible in here.
    */
   setup() {
+    console.log(this.config.url);
     // construct the apisauce instance
     this.apisauce = create({
       baseURL: this.config.url,
@@ -41,7 +51,11 @@ export class Api {
       headers: {
         Accept: "application/json",
       },
-    })
+    });
+    this.Books = new ApiBooks(this.apisauce);
+    this.Auth = new ApiAuth(this.apisauce);
+    this.UserApi= new ApiUser(this.apisauce);
+    
   }
 
   /**

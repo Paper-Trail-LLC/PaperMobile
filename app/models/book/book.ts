@@ -6,11 +6,15 @@ import { Instance, SnapshotOut, types } from "mobx-state-tree"
 export const BookModel = types
   .model("Book")
   .props({ 
-    id: types.string,
-    bookImage: types.string,
+    id: types.optional(types.string,''),
+    coverURI: types.optional(types.string, ''),
     title: types.string,
-    author: types.string,
-    releaseDate: types.string
+    authors: types.array(types.string),
+    releaseDate: types.Date,
+    isbn: types.optional(types.string, ''),
+    isbn13: types.string,
+    edition: types.optional(types.string, ''),
+    synopsis: types.optional(types.string, '')
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars

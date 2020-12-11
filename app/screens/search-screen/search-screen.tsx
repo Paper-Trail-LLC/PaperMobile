@@ -1,39 +1,70 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { View, Image, Alert, StyleSheet, Keyboard } from "react-native"
-import { Screen, BookListItem } from "../../components"
-// import { useNavigation } from "@react-navigation/native"
+import { View, Image, StyleSheet, SafeAreaView } from "react-native"
+import { Screen, BookListItem, SearchBar } from "../../components"
 import { useStores } from "../../models"
 import { color, spacing } from "../../theme"
-// import { TextInput } from "react-native-gesture-handler"
-import { TextInput } from 'react-native-paper';
+import { Text, Title, useTheme } from "react-native-paper"
+// import { useNavigation } from "@react-navigation/native"
 
 export const background = require("../../../assets/book_stack.png")
-export const blueMagnifying = require("./blue_magnifying.png")
-export const scan = require("./scan.png")
 
-let searchQuery = '';
-let setSearchQuery = function (query:string)  {
-  Alert.alert(query);
-}
-const onChangeSearch = query => setSearchQuery(query);
+export const SearchScreen = observer(function SearchScreen() {
+  // Pull in one of our MST stores
+  const { bookStore } = useStores()
+  const { colors } = useTheme();
+  // or
+  // const bookStore = useStores().bookStore;
+  // Pull in navigation via hook
+  // const navigation = useNavigation()
+
+  // bookStore.clear();
+
+  const bookList = [];
+  for (let i = 0; i < bookStore.searchResults.length; i++) {
+    bookList.push(
+      <BookListItem
+      key={bookStore.searchResults[i].id}
+      book={bookStore.searchResults[i]}
+      style={styles.bookListItem}
+      ></BookListItem>
+    )
+  }
+
+  return (
+    <SafeAreaView style={styles.full}>
+      <Image
+        style={styles.background}
+        source={background} />
+      <SearchBar></SearchBar>
+      <Screen style={styles.containerList} preset="scroll" backgroundColor={color.transparent}>
+      {bookList.length === 0 &&
+          <View>
+            <Title style={styles.emptyText}>No results found.</Title>
+            <Text style={styles.emptyText}>Try searching for something else</Text>
+          </View>
+        }
+        {bookList}
+      </Screen>
+    </SafeAreaView>
+  )
+})
+
 const styles = StyleSheet.create({
   full: {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-around',
-    alignContent:'space-around',
-    paddingTop: spacing[6]
+    alignContent: 'space-around',
   },
   container: {
     flexDirection: 'row',
     // justifyContent: 'space-around',
     // alignItems: 'stretch',
-    padding: 8
   },
   search: {
-    flex:1,
-    backgroundColor: color.transparent,
+    flex: 1,
+    // backgroundColor: color.transparent,
     color: color.primaryBlue
   },
   containerList: {
@@ -46,26 +77,12 @@ const styles = StyleSheet.create({
     bottom: '7%',
     zIndex: -1
   },
-  textField: {
-    flex: 1,
-    textAlign: 'center',
-    padding: 8,
-    fontSize: 18,
-    paddingLeft: 50,
-    paddingRight: 50,
-    borderColor: color.primaryBlue,
-    borderWidth: 2,
-    borderRadius: 100,
-    backgroundColor: color.background,
-    zIndex: -1,
-    alignSelf: 'center'
-  },
   bookListItem: {
     margin: 5,
 
     backgroundColor: color.background,
     borderRadius: 8,
-  
+
     shadowColor: color.primaryBlue,
     shadowOffset: {
       width: 0,
@@ -74,73 +91,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 1
   },
-  textIcon: {
-
+  emptyText: {
+    marginTop: spacing[6],
+    marginHorizontal: spacing[7],
+    alignSelf: 'center',
   }
 });
-
-export const SearchScreen = observer(function SearchScreen() {
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
-  // OR
-  // const rootStore = useStores()
-  const bookStore  = useStores().bookStore;
-  // Pull in navigation via hook
-  // const navigation = useNavigation()
-
-  // bookStore.clear();
-  // bookStore.addBook({
-  //   id:"123",
-  //   bookImage: "https://kbimages1-a.akamaihd.net/d47f06aa-0e2c-4d49-9e32-85e4901a6d8f/1200/1200/False/artemis-fowl-and-the-time-paradox.jpg",
-  //   title: "Artemis Fowl, The Time Paradox",
-  //   author: "Eoin Colfer",
-  //   releaseDate: "July 2008"
-  // });
-  // bookStore.addBook({
-  //   id:"124",
-  //   bookImage: "https://kbimages1-a.akamaihd.net/d47f06aa-0e2c-4d49-9e32-85e4901a6d8f/1200/1200/False/artemis-fowl-and-the-time-paradox.jpg",
-  //   title: "Artemis Fowl, The Time Paradox 2",
-  //   author: "Eoin Colfer",
-  //   releaseDate: "July 2009"
-  // });
-
-  const bookList = [];
-  for (let i = 0; i < bookStore.books.length; i++) {
-    bookList.push(
-      <BookListItem
-        style={styles.bookListItem}
-        id={bookStore.books[i].id}
-        bookImage={bookStore.books[i].bookImage}
-        title={bookStore.books[i].title}
-        releaseDate={bookStore.books[i].releaseDate}
-      ></BookListItem>
-    )
-  }
-
-  return (
-    <View style={styles.full}>
-      <Image
-        style={styles.background}
-        source={background} />
-      <View style={styles.container}>
-      <TextInput
-      left={<TextInput.Icon name="magnify" color={color.primaryBlue}/>}
-      right={<TextInput.Icon name="barcode-scan" color={color.primaryBlue}
-        onPress={() => {
-          console.log('Pressed');
-          Keyboard.dismiss();
-        }}/>}
-      label="Search Book"
-      // value={searchQuery}
-      // onChangeText={onChangeSearch}
-      mode="outlined"
-      showSoftInputOnFocus={true}
-      focusable={true}
-      style={styles.search}/>
-      </View>
-      <Screen style={styles.containerList} preset="scroll" backgroundColor={color.transparent}>
-        {bookList}
-      </Screen>
-    </View>
-  )
-})
